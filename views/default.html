@@ -1,0 +1,131 @@
+<!--Главный шаблон для роута default -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title><?=Config::get('site_name')?></title>
+    <link rel="stylesheet" href="webroot/css/style.css">
+    <!--link rel="stylesheet" href="webroot/css/bootstrap.min.css"><!--Кастомизированный bootstrapю Не помогло-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <script src="https://code.jquery.com/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+
+    h1{
+    color: #0000ff;
+    font: 150px Georgia;
+        text-align: center;
+        vertical-align: middle;
+        font-size:120px;
+        margin-top: 0px;
+    }
+    h2{
+        color: white;
+        -webkit-text-stroke: 1px black;
+        font: 50px Arial;
+        margin-top: 0px;
+    }
+    h4{
+             color:  #00004f;//#b33b42;
+             font: 25px Times New Roman;
+             text-align: center;
+             vertical-align: middle;
+
+         }
+    h3{
+        color: #ff16c1;/*#ff16c1;*/
+        -webkit-text-stroke: 1px blue;
+        text-align: center;
+        vertical-align: middle;
+
+    }
+    .navbar{
+        margin-bottom: 10px;
+    }
+
+    }
+    </style>
+</head>
+<body>
+<!------------------------------//////////////////////////////------------------->
+<nav class="navbar navbar-inverse ">
+
+    <div class="container-fluid">
+        <div>
+            <span class="glyphicon glyphicon-phone-alt" aria-hidden="true" style="color: white;"> 063-494-48-02</span><!--PHOHE-->
+             ..........................................................................................................................................
+            <span class="header-user-pre-title"style="color: white;" >Здравствуйте,</span>
+            <span class="glyphicon glyphicon-user" aria-hidden="true" style="color: white;">
+                <a href="/" name="signin" class="header-user-link sprite-side whitelink xhr"
+                   style="color: white;" >войдите в личный кабинет</a>
+            </span><!--USER-->
+        </div>
+        <a href="/"><img src="webroot/img/zenit_4.jpg" align="left" alt="Логотип"></a>
+        <!--<a class="navbar-brand" href="#">Brand</a>-->
+
+        <div id="navbar" class="collapse navbar-collapse">
+            <!--<a class="navbar-brand" href="#">Brand</a>-->
+            <!--<<a href="/"><img src="webroot/img/zenit_4.jpg" align="left" alt="Логотип"></a>-->
+            <ul class="nav navbar-nav"   hspace="70">
+                <!--<li><a <?php if ( App::getRouter()->getController() == '/pages' ) {?>class="/active/"<?php } ?> href="/pages"><?=__('lng.about_as', '!')?></a></li>-->
+                <li><a <?php if ( App::getRouter()->getController() == 'archive' ) {?>class="/active/"<?php } ?> href="archive"><?=__('lng.payment', '!')?></a></li>
+                <li><a <?php if ( App::getRouter()->getController() == 'exit' ) {?>class="/active/"<?php } ?> href="exit"><?=__('lng.guarantee', '!')?></a></li>
+                <li><a <?php if ( App::getRouter()->getController() == 'contacts' ) {?>class="/active/"<?php } ?> href="contacts"><?=__('lng.contacts', '!')?></a></li>
+                <li><a <?php if ( App::getRouter()->getController() == 'contacts' ) {?>class="/active/"<?php } ?> href="contacts"><?=__('lng.sell', '!')?></a></li>
+            </ul>
+<!-- Окно поиска пор тегам -->
+            <form class="navbar-form navbar-left">
+                <div class="input-group" >
+                    <input type="text" class="form-control" placeholder="<?=__('lng.search', '!')?>">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+<!-- Кнопка корзины -->
+            <button type="button" class="btn btn-default btn-sm navbar-btn" title="Корзина">
+                    <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true" style="color: black;">
+            </button>
+        </div>
+    </div>
+</nav>
+<!-------------------------//////////////////////////------------------------------------>
+<!------------------Вывод контента-Центральной части страницы--------------->
+            <div class="starter-template">
+
+                <?php if( Session::hasFlash() ) { ?>
+                <div class="alert alert-info" role="alert">
+                    <?php Session::flash(); ?>
+                    !!!!!!!!!!!!!!!!!!
+                </div>
+                <?php } ?>
+                <?=$data['content']?>
+            </div>
+
+
+
+<!-------------------------//////////////////////////------------------------------------>
+<br/><!-- Левая вставка!!!!!!!!!!!!------>
+<?=__('lng.test', '!')?><!-- Левая вставка!!!!!!!!!!!!------>
+<br/><!-- Левая вставка!!!!!!!!!!!!------>
+<!--
+<?php
+    $test  = App::$db->query('select * from categories');
+    echo "<pre>";
+    print_r($test);
+?>
+
+<?php
+    $test  = App::$db->query('select * from pages');
+    echo "<pre>";
+    print_r($test);
+?>
+-->
+Электрозенит
+electrosenite.com.ua
+</body>
+
+</html>

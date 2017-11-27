@@ -1,0 +1,617 @@
+<!--Представление  index
+pages!
+
+-->
+<?php header('Content-type: text/html; charset = utf-8'); ?>
+<!-- ---------------------------------------------------------------------------  -->
+<!--Карусель. Взята отсюда: http://www.webmasters.by/articles/web-programming/3427    -->
+<style>
+.carousel
+{
+    margin-top: 1px;
+    width: 700px;
+    height: 330px ;
+}
+.carousel-inner img
+{
+    height: 330px !important;
+    width: 700px;
+}
+.row {
+    margin-top: 0px;
+}
+</style>
+<style>
+/* Нижний слайдер */
+/* Задаем сброс обтекания */
+.clear {
+    margin-top: -1px;
+    height: 1px;
+    clear:both;
+    zoom: 1;
+}
+/* Slider */
+.slider {
+    /* Ширина контейнера */
+    width: 900px;
+    /* Внешние тступы сверху и снизу */
+    margin: 50px auto;
+    /* Внутренние отступы для ссылок navy */
+    padding: 0 30px;
+    /* Позиционирование */
+    position: relative;
+}
+/* Двойной клик по кнопкам вперед/назад вызывает выделение всех элементов слайдера,
+поэтому предотвращаем это */
+.slider::-moz-selection { background: transparent; color: #fff; text-shadow: none; }
+.slider::selection { background: transparent; color: #fff; text-shadow: none; }
+
+.slide-list {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    /* Скроем то что выходит за границы */
+    overflow: hidden;
+}
+.slide-wrap {
+    position: relative;
+    left: 0px;
+    top: 0;
+    /* максимально возможная ширина обертки слайдера */
+    width: 10000000px;
+}
+.slide-item {
+    /* Ширина слайда */
+    width: 280px;
+    /* Внутренние отступы */
+    padding: 10px;
+    /* Обтекание */
+    float: left;
+}
+.slide-title {
+    /* Шрифт */
+    font: bold 16px monospace;
+    /* Указываем, что элемент блочный */
+    display: block;
+}
+/*----------------------------------------------------------*/
+/* навигация вперед/назад */
+.navy {
+    /* абсолютное позиционирование */
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    height: 100%;
+    /* ширина элементов */
+    width: 30px;
+    cursor: pointer;
+}
+.prev-slide {
+    left: 0;
+    background: #dbdbdb url(bg/left-arrow.png) 11px 40% no-repeat;
+}
+.next-slide {
+    right: 0;
+    background: #dbdbdb url(bg/right-arrow.png) 13px 40% no-repeat;
+}
+.navy.disable {
+    background: #dbdbdb;
+}
+/* навигация старт/пауза */
+.auto {
+    width: 7px;
+    height: 11px;
+    cursor: pointer;
+    margin: 10px auto;
+}
+.play {
+    background: url(bg/play.png) center no-repeat;
+}
+.pause {
+    background: url(bg/pause.png) center no-repeat;
+}
+</style>
+
+
+<div class="container">
+    <div class="row">
+<!-- ----------------- -->
+<!-- Главный каталог  -->
+        <div class="col-sm-3 ">
+            <div class="btn-group-vertical " role="group" aria-label="...">
+                <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                    <div class="btn-group" role="group">
+                        <a  target="_blank" class="btn btn-primary btn-block" href="???">Каталог товаров</a>
+                    </div>
+                        <?php
+                            $i_id=0;
+                            foreach($data['directory'] as $cell)
+                            {
+                                if ($cell['id_catalog'])//Проверка наличия директории
+                                {
+                                    if (!$cell['id_directory'])//Проверка наличия поддиректории
+                                    {
+                                        $i_id++;
+                                         if ($i_id < 9)
+                                        { ?>
+                                            <button type="button" class="btn btn-default" href="/"><?=$cell['name_directory']?></button>
+                                        <?php
+                                        }
+                                        if ($i_id == 9)
+                                        { ?>
+                                            <div class="dropdown">
+                                                <button type="button" class="btn btn-default dropdown-toggle btn-block" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">ЕЩЁ<span class="caret"></span></button>
+                                                <ul class="dropdown-menu btn-block" aria-labelledby="dropdownMenu1">
+                                         <?php
+                                        }
+                                         if ($i_id >= 9)
+                                        { ?>
+                                                    <li><a href="#" align="center"><?=$cell['name_directory']?></a></li>
+
+                                        <?php
+                                        }
+
+                                    }
+                                }
+                            }
+                             if ($i_id >= 9)
+                            { ?>
+                                                </ul>
+                                            </div>
+                            <?php
+                            }
+                        ?>
+                </div>
+            </div>
+<!--Конец главного каталога    -->
+<!-- ----------------- -->
+        </div>
+        <!-- ----------------- -->
+        <!--Верхний слайдер    -->
+        <div class="col-sm-9">
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                <!-- Кнопочки -->
+                <ol class="carousel-indicators">
+                    <?php
+                       $i_stok=0;
+                       foreach($data['stock'] as $stock)
+                       {
+                           if ($stock['id_shares'])//Проверка наличия акции
+                           {
+                               $data_save=$stock['expiration_date'];
+                               $date_stop = new DateTime("$data_save");
+                               $date_now = new DateTime(date("Y-m-d"));
+                               if ( $date_now < $date_stop)//Проверка даты окончания показа
+                               { ?>
+                    <li data-target="#carousel-example-generic" data-slide-to="<?=$i_stok?>"
+                    <?php if ($i_stok==0)//Проверка первой позиции в активность
+                                   { ?> class="active" <?php } ?> > </li>
+                    <?php
+                               $i_stok++;
+                               }
+                           }
+                       }?>
+                </ol>
+                <!-- Сама карусель (slider wrap)-->
+                <div class="carousel-inner" >
+                    <?php
+                       $i_stok=0;
+                       foreach($data['stock'] as $stock)
+                       {
+                           if ($stock['id_shares'])//Проверка наличия акции
+                           {
+                               $data_save=$stock['expiration_date'];
+                               $date_stop = new DateTime("$data_save");
+                               $date_now = new DateTime(date("Y-m-d"));
+                               if ( $date_now < $date_stop)//Проверка даты окончания показа
+                               { ?>
+                                    <div class="item
+                                           <?php if ($i_stok==0)//Проверка первой позиции в активность
+                                               { ?> active <?php } ?> ></li> ">
+                                        <img src="<?=$stock["imege_shares"]?>" alt="Foto_shares_<?=$stock["id_shares"]?>" > <!-- ????????    -->
+                                    <div class="carousel-caption">
+                                        <?php
+                                            if ($stock['id_product']!=0)
+                                            { ?>
+                                                <a href="pages/product/<?=$stock['id_product']?>" color="white"><h2><?=$stock['alias']?></h2><h3><?=$stock['body']?></h3></a>
+                                            <?php
+                                             }
+                                             else
+                                             { ?>
+                                                <h2><?=$stock['alias']?></h2><h3><?=$stock['body']?></h3>
+                                            <?php
+                                            } ?>
+                                    </div>
+                    </div>
+                    <?php
+                                   $i_stok++;
+                               }
+                           }
+                       } ?>
+                </div>
+                <!-- Окончание самой карусели -->
+                <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </a>
+                <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </a>
+            </div>
+        </div>
+        <!-- Окончание самой карусели (slider end)-->
+    </div>
+<!-- ---------------------------------------------------------------------------  -->
+<!-- ---------------------------------------------------------------------------  -->
+    <div class="slider">
+        <div class="slide-list">
+            <div class="slide-wrap">
+
+                <!--Разметка нижнего слайдера slide-item-->
+
+                <!------------------------------------------------------------------------->
+                <div>
+                    <?php
+                         $thing = array_reverse($data['product']);//?????????????? ???? ?????????
+                         $i=0;
+                         foreach($thing as $thing_data)
+                         {
+                             if ($i < 10)
+                             {
+                                 if ($thing_data['imege'])
+                                 { ?>
+                                     <div class="slide-item">
+                                         <img src="<?=$thing_data['imege']?>" alt="" href="/"/>
+                                         <span class="slide-title"><?=$thing_data['name_product']?></span>
+                                     </div>
+                                 <?php
+                                 $i++;
+                                 }
+                             }
+                         }
+                     ?>
+                </div>
+<!------------------------------------------------------------------------->
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div name="prev" class="navy prev-slide"></div>
+        <div name="next" class="navy next-slide"></div>
+        <div class="auto play"></div>
+    </div>
+<!-----------------Скрипт нижнего слайдера------------------------------------>
+    <script type="text/javascript">
+        jQuery(document).ready(function(){
+            function htmSlider(){
+                /* Зададим следующие параметры */
+                /* обертка слайдера */
+                var slideWrap = jQuery('.slide-wrap');
+                /* кнопки вперед/назад и старт/пауза */
+                var nextLink = jQuery('.next-slide');
+                var prevLink = jQuery('.prev-slide');
+                var playLink = jQuery('.auto');
+                /* Проверка на анимацию */
+                var is_animate = false;
+                /* ширина слайда с отступами */
+                var slideWidth = jQuery('.slide-item').outerWidth();
+                /* смещение слайдера */
+                var scrollSlider = slideWrap.position().left - slideWidth;
+
+                /* Клик по ссылке на следующий слайд */
+                nextLink.click(function(){
+                    if(!slideWrap.is(':animated')) {
+                        slideWrap.animate({left: scrollSlider}, 500, function(){
+                            slideWrap
+                                .find('.slide-item:first')
+                                .appendTo(slideWrap)
+                                .parent()
+                                .css({'left': 0});
+                        });
+                    }
+                });
+
+                /* Клик по ссылке на предыдующий слайд */
+                prevLink.click(function(){
+                    if(!slideWrap.is(':animated')) {
+                        slideWrap
+                            .css({'left': scrollSlider})
+                            .find('.slide-item:last')
+                            .prependTo(slideWrap)
+                            .parent()
+                            .animate({left: 0}, 500);
+                    }
+                });
+
+                /* Функция автоматической прокрутки слайдера */
+                function autoplay(){
+                    if(!is_animate){
+                        is_animate = true;
+                        slideWrap.animate({left: scrollSlider}, 500, function(){
+                            slideWrap
+                                .find('.slide-item:first')
+                                .appendTo(slideWrap)
+                                .parent()
+                                .css({'left': 0});
+                            is_animate = false;
+                        });
+                    }
+                }
+
+                /* Клики по ссылкам старт/пауза */
+                playLink.click(function(){
+                    if(playLink.hasClass('play')){
+                        /* Изменяем клас у кнопки на клас паузы */
+                        playLink.removeClass('play').addClass('pause');
+                        /* Добавляем кнопкам вперед/назад клас который их скрывает */
+                        jQuery('.navy').addClass('disable');
+                        /* Инициализируем функцию autoplay() через переменную
+                         чтобы потом можно было ее отключить
+                         */
+                        timer = setInterval(autoplay, 1000);
+                    } else {
+                        playLink.removeClass('pause').addClass('play');
+                        /* показываем кнопки вперед/назад */
+                        jQuery('.navy').removeClass('disable');
+                        /* Отключаем функцию autoplay() */
+                        clearInterval(timer);
+                    }
+                });
+
+            }
+            /* иницилизируем функцию слайдера */
+            htmSlider();
+        });
+    </script>
+</div>
+<!-- ---------------------------------------------------------------------------  -->
+<div>
+    Убрать всех.
+</div>
+
+
+
+<!-- ---------------------------------------------------------------------------  -->
+<!-- -------------Убрать!!!!!!!!!!!!!!!!---------------------------  -->
+<div>
+    <?php $reversed = array_reverse($data['pages']); ?>
+    <br>
+    <br>
+
+    <a href="pages/news_list/policy/1"><?=__('lng.policy', '!')?></a>
+
+    <br>
+    ----------
+    <div>
+        <?php
+
+        $i=0;
+         foreach($reversed as $page_data)
+         {
+             if ($i < 5)
+             {
+                 if ($page_data['category']=='policy')
+                 {
+                     echo ($page_data['alias']);
+                     echo ('<br/>');
+                     $i++;
+                 }
+             }
+         }
+        ?>
+    </div>
+</div>
+<div>
+
+    <?php $reversed = array_reverse($data['pages']); ?>
+    <br>
+    <br>
+    <a href="pages/news_list/business/1"><?=__('lng.business', '!')?></a>
+    <br>
+    ----------
+    <div>
+        <?php
+
+        $i=0;
+         foreach($reversed as $page_data)
+         {
+             if ($i < 5)
+             {
+                 if ($page_data['category']=='business')
+                 {
+                     echo ($page_data['alias']);
+                     echo ('<br/>');
+                     $i++;
+                 }
+             }
+         }
+        ?>
+    </div>
+</div>
+<div>
+    <?php $reversed = array_reverse($data['pages']); ?>
+    <br>
+    <br>
+    <a href="pages/news_list/sport/1"><?=__('lng.sport', '!')?></a>
+    <br>
+    ----------
+    <div>
+        <?php
+
+        $i=0;
+         foreach($reversed as $page_data)
+         {
+             if ($i < 5)
+             {
+                 if ($page_data['category']=='sport')
+                 {
+                     echo ($page_data['alias']);
+                     echo ('<br/>');
+                     $i++;
+                 }
+             }
+         }
+        ?>
+    </div>
+</div>
+<div>
+    <?php $reversed = array_reverse($data['pages']); ?>
+    <br>
+    <br>
+    <a href="pages/news_list/show_bus/1"><?=__('lng.show_bus', '!')?></a>
+    <br>
+    ----------
+    <div>
+        <?php
+
+        $i=0;
+         foreach($reversed as $page_data)
+         {
+             if ($i < 5)
+             {
+                 if ($page_data['category']=='show_bus')
+                 {
+                     echo ($page_data['alias']);
+                     echo ('<br/>');
+        $i++;
+                 }
+             }
+        }
+        ?>
+    </div>
+</div>
+<div>
+    <?php $reversed = array_reverse($data['pages']); ?>
+    <br>
+    <br>
+    <a href="pages/news_list/medicine/1"><?=__('lng.medicine', '!')?></a>
+    <br>
+    ----------
+    <div>
+        <?php
+
+        $i=0;
+         foreach($reversed as $page_data)
+         {
+             if ($i < 5)
+             {
+                 if ($page_data['category']=='medicine')
+                 {
+                     echo ($page_data['alias']);
+                     echo ('<br/>');
+        $i++;
+                  }
+             }
+        }
+        ?>
+    </div>
+</div>
+<div>
+    <?php $reversed = array_reverse($data['pages']); ?>
+    <br>
+    <br>
+    <a href="pages/news_list/equipment/1"><?=__('lng.equipment', '!')?></a>
+    <br>
+    ----------
+    <div>
+        <?php
+
+        $i=0;
+         foreach($reversed as $page_data)
+         {
+             if ($i < 5)
+             {
+                 if ($page_data['category']=='equipment')
+                 {
+                     echo ($page_data['alias']);
+                     echo ('<br/>');
+        $i++;
+                 }
+             }
+        }
+        ?>
+    </div>
+</div>
+<div>
+    <?php $reversed = array_reverse($data['pages']); ?>
+    <br>
+    <br>
+    <a href="pages/news_list/developments/1"><?=__('lng.developments', '!')?></a>
+    <br>
+    ----------
+    <div>
+        <?php
+
+        $i=0;
+         foreach($reversed as $page_data)
+         {
+             if ($i < 5)
+             {
+                 if ($page_data['category']=='developments')
+                 {
+                     echo ($page_data['alias']);
+                     echo ('<br/>');
+                    $i++;
+                 }
+             }
+        }
+        ?>
+    </div>
+</div>
+<div>
+    <?php $reversed = array_reverse($data['pages']); ?>
+    <br>
+    <br>
+    <a href="pages/news_list/analytics/1"><?=__('lng.analytics', '!')?></a>
+    <br>
+    ----------
+    <div>
+        <?php
+
+        $i=0;
+         foreach($reversed as $page_data)
+         {
+             if ($i < 5)
+             {
+                 if ($page_data['analytics']=='1')
+                 {
+                     echo ($page_data['alias']);
+                     echo ('<br/>');
+                     $i++;
+                 }
+             }
+        }
+        ?>
+    </div>
+
+</div>
+
+<!--
+
+<div>
+
+    <?=$id5Max[4]["id"]?>
+    -
+    <?php print_r($id5Max);?>
+</div>
+
+-->
+<div>
+    <?php
+    foreach($data['stock'] as $stock)
+    {
+        if ($stock['id_shares'])//???????? ??????? ?????
+        {
+            $data_save=$stock['expiration_date'];
+            $date_stop = new DateTime("$data_save");
+            $date_now = new DateTime(date("Y-m-d"));
+            if ( $date_now < $date_stop)//???????? ????????? ??????? ?????
+            { ?>
+
+    ?????:
+    <?=date("Y-m-d")?>
+
+    <?php
+            }
+        }
+    } ?>
+</div>
+------------------------------------------------

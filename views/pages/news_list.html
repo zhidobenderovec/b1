@@ -1,0 +1,132 @@
+<?php $newss=$data['categories'] ?>
+<?php $page_namber = $data['page_namber'] ?>
+<h3 align="center"> Новости раздела <?=$newss['alias']?> </h3><br/>
+
+<?php $reversed = array_reverse($data['pages']); ?>
+
+<div>
+    <?php
+
+         $number=0;//индекс цикла
+         foreach($reversed as $page_data)
+         {
+
+                if ($newss['category']=='analytics')
+                {
+                    if ($page_data['analytics']=='1')
+                     {
+                        if (($number < (5*$page_namber[0]))&&($number >= (5*($page_namber[0]-1))))//Проверка на диапазон страниц
+                        { ?>
+                            <a href="/pages/news_page/<?=$page_data['id']?>"><?=$page_data['alias']?></a>
+                            <?php
+                            echo ('<br/>');
+                        }
+                    $number++;
+                    }
+
+                }
+
+                    if ($page_data['category']== $newss['category'])
+                    {
+                        if (($number < (5*$page_namber[0]))&&($number >= (5*($page_namber[0]-1))))//Проверка на диапазон страниц
+                        { ?>
+                            <a href="/pages/news_page/<?=$page_data['id']?>"><?=$page_data['alias']?></a>
+                            <?php
+                             echo ('<br/>');
+                        }
+                        $number++;
+                    }
+
+
+         }
+    ?>
+    <!-- ------------------------------------ ------>
+    <!-- Постраничная навигация!!!!!Пагинация!!------>
+
+
+    <!-- ------------------------------------ ------>
+</div>
+<div align="center">
+
+    <ul class="pagination">
+        <?php if ($page_namber[0] < $number)
+            {
+            $page_next = $page_namber[0]+1;
+            }
+            else
+            {
+            $page_next = $number;
+            }
+
+        //Отработка уменьшения страницы
+         if ($page_namber[0] > 1)
+        {
+        $page_previous = $page_namber[0]-1;
+        }
+        else
+        {
+        $page_previous = 1;
+        }
+        ?>
+        <li><a href="/pages/news_list/<?=$newss['category']?>/<?=$page_previous?>">&laquo;</a></li>
+        <li><a href="/pages/news_list/<?=$newss['category']?>/1"><?=1?></a></li>
+        <?php //Определения максимальноя страницы
+                if ( $number % 5)
+                {
+                    $number = ($number-($number % 5)) / 5 + 1;
+                }
+                else
+                {
+                    $number = ($number / 5);
+                }
+                ?>
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">...</a>
+            <ul class="dropdown-menu">
+                <?php //Цикл выпадающено списка
+                for ( $j = 1 ; $j <= $number ; $j++)
+                { ?>
+                    <li><a href="/pages/news_list/<?=$newss['category']?>/<?=$j?>"><?=$j?></a></li>
+                <?php
+                } ?>
+
+            </ul>
+        </li>
+        <li><a href="/pages/news_list/<?=$newss['category']?>/<?=$number?>"><?=$number?></a></li>
+            <?php //Отработка увеличения страницы
+            if ($page_namber[0] < $number)
+            {
+            $page_next = $page_namber[0]+1;
+            }
+            else
+            {
+            $page_next = $number;
+            }
+            ?>
+
+        <li><a href="/pages/news_list/<?=$newss['category']?>/<?=$page_next?>">&raquo;</a></li>
+    </ul>
+
+    <?php
+    echo "<pre>";
+    print_r ($page_next);
+    echo "<pre>";
+    echo "$i";
+        echo "<pre>";
+    print_r("$page_namber[0]");//===========================
+    echo "<pre>";
+    $router = new Router($_SERVER ['REQUEST_URI']);
+
+    echo "<pre>";
+    //------------Моё, начало--------
+    //print_r('Catalog: '.$router->getCatalog().PHP_EOL);
+    //------------Моё, окончание-----
+    print_r('Route: '.$router->getRoute().PHP_EOL);
+    print_r('Language: '.$router->getLanguage().PHP_EOL);
+    print_r('Controller: '.$router->getController().PHP_EOL);
+    print_r('Action to be called: '.$router->getMethodPrefix().$router->getAction().PHP_EOL);
+    echo "Params: ";
+    print_r($router->getParams());++++++++++++++++++++++++++++++++++++++++
+
+    ?>
+</div>

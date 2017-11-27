@@ -1,0 +1,61 @@
+This is a project for creating a stock site.
+
+Its structure:
+
+Home page
+|
+|-Main Catalog
+|  |
+|  |-Subdirectory
+|  |  |
+|  |  |-Type
+|  |  |  |-Product
+|  |  |  |-Product
+|  |  |
+|  |  |-Type
+|  | ... |-Product
+|  |     |-Product
+|  |     ...
+|  |-Subdirectory
+| ... |
+|     |-Type
+|     |  |-Product
+|     |  |-Product
+|     |
+|     |-Type
+|    ... |-Product
+|        |-Product
+|        ...
+|
+|-Sheets
+|  |
+|  |-About us
+|  |-Questions and answers
+|  |-Shipping and payment
+|  |-Guarantee
+|  |-Contacts
+|  |-Sell ​​with us
+|
+|-Users
+   |
+   |-User
+   |  |
+   |  |-Personal Area
+   |  |-Basket
+   |
+   |-Manager
+   |  |
+   |  |-View orders
+   |  |-Editing a product
+   |  |-View Messages
+   |
+   |-Admin
+      |
+      |-Editing a product
+      |-Editing directories
+      |-Editing messages
+      |-Viewing orders
+      |-Viewing statistics
+      |-Editing contacts
+      |-Editing users
+

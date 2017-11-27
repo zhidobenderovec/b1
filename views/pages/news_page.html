@@ -1,0 +1,116 @@
+<style>
+
+</style>
+
+<h2 align="center">"<?=$data['page']['alias']?>"</h2><br/>
+<div>
+    <div class="img">
+        <img src="<?=$data['page']['img']?>" width= "600"  alt="Foto_news" >
+    </div>
+
+    <?=$data['page']['body']?>
+
+</div>
+<!-- Счётчик посещений-->
+<?php
+    foreach($data['visits'] as $statistics)
+    {
+       // print_r($statistics);
+
+        if ($statistics['id_pages']==$data['page']['id'])
+        {?>
+            <div class="alert alert-info" align="center" >
+                Сейчас страницу смотрят: <?=$statistics['views']?><br>
+                Всего страницу посмотрело: <?=$statistics['total']?>
+            </div>
+        <?php }
+    }
+?>
+____________________
+
+
+
+<script type="text/javascript">
+function timer(){
+var obj=document.getElementById('timer_inp');
+obj.innerHTML--;
+if(obj.innerHTML==0){alert('Hello');setTimeout(function(){},1000);}
+else{setTimeout(timer,1000);}
+}
+setTimeout(timer,1000);
+</script>
+<div id="timer_inp">20</div>
+
+
+
+
+
+_________________
+<?php
+    echo "<pre>";
+
+echo "<pre>";
+
+        echo "<pre>";
+
+    echo "<pre>";
+    $router = new Router($_SERVER ['REQUEST_URI']);
+
+    echo "<pre>";
+    //------------Моё, начало--------
+    //print_r('Catalog: '.$router->getCatalog().PHP_EOL);
+    //------------Моё, окончание-----
+    print_r('Route: '.$router->getRoute().PHP_EOL);
+    print_r('Language: '.$router->getLanguage().PHP_EOL);
+    print_r('Controller: '.$router->getController().PHP_EOL);
+    print_r('Action to be called: '.$router->getMethodPrefix().$router->getAction().PHP_EOL);
+    echo "Params: ";
+    print_r($router->getParams());
+
+    ?>
+
+
+
+---------------------------------------!!!
+
+<div id="qoo-counter">
+
+    <a href="http://qoo.by/" title="Сервис коротких ссылок">
+
+        <img src="http://qoo.by/counter/standard/009.png" alt="Укоротить ссылку">
+
+        <div id="qoo-counter-visits"></div>
+
+        <div id="qoo-counter-views"></div>
+
+    </a>
+
+</div>
+-----------------------------
+<script type="text/javascript" src="http://qoo.by/counter.js"></script>
+
+<div id="qoo-counter">
+
+    <a style="display:none;" href="http://qoo.by/">
+
+        <img src="http://qoo.by/counter/standard/009.png" alt="Укоротить ссылку"></a>
+
+    Визиты: <div id="qoo-counter-visits">12</div>
+
+    Просмотры: <div id="qoo-counter-views">22</div>
+
+</div>
+
+<script type="text/javascript" src="http://qoo.by/counter.js"></script>
+-------------------------------------
+<div id="qooi-counter">
+    <a style="display:none;" href="http://qooi.ru/" title="Бесплатный счетчик посещений на сайт">
+        <img src="http://qooi.ru/counter/standard/009.png" alt="Счетчик посещаемости и статистика сайта">
+    </a>
+    Сейчас на странице: <div id="qooi-counter-visits"></div>
+    Всего смотрело страницу: <div id="qooi-counter-views"></div>
+</div>
+<script type="text/javascript" src="http://qooi.ru/counter.js"></script>
+
+
+

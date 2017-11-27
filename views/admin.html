@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><?=Config::get('site_name')?></title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="/webroot/js/admin.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <script src="https://code.jquery.com/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/"><?=Config::get('site_name')?> - <?=__('lng.admin', 'Admin Section')?></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <?php if (Session::get('login') ) { ?>
+            <ul class="nav navbar-nav">
+                <li><a <?php if ( App::getRouter()->getController() == 'pages' ) {?>class="active"<?php } ?> href="/admin/pages/">Pages</a></li>
+                <li><a <?php if ( App::getRouter()->getController() == 'contacts' ) {?>class="active"<?php } ?> href="/admin/contacts/">Contact Us</a></li>
+                <li><a href="/admin/users/logout">Logout</a> </li>
+            </ul>
+            <?php } ?>
+        </div>
+    </div>
+</nav>
+
+<!-- Начало. Моё добавление, для опуска из под шапки--------->
+<br/>
+<br/>
+<!-- Окончание. Моё добавление, для опуска из под шапки------>
+
+<div class="container">
+
+    <div class="starter-template">
+
+        <?php if( Session::hasFlash() ) { ?>
+        <div class="alert alert-info" role="alert">
+            <?php Session::flash(); ?>
+        </div>
+
+
+        <?php } ?>
+
+        <?=$data['content']?>
+    </div>
+
+</div>
+
+</body>
+</html>
