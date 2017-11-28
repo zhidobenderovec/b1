@@ -18,7 +18,7 @@ pages!
     width: 700px;
 }
 .row {
-   margin-top: 0px;
+   margin-top: -10px;
 }
 </style>
 <style>
@@ -148,7 +148,7 @@ pages!
             <div class="btn-group-vertical " role="group" aria-label="...">
                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
                     <div class="btn-group" role="group">
-                        <a  target="_blank" class="btn btn-primary btn-block" href="???">Каталог товаров</a>
+                        <a  target="_blank" class="btn btn-primary btn-block" href="???!">Каталог товаров</a>
                     </div>
                         <?php
                             $i_id=0;
@@ -161,7 +161,7 @@ pages!
                                         $i_id++;
                                          if ($i_id < 9)
                                         { ?>
-                                            <button type="button" class="btn btn-default" href="/"><?=$cell['name_directory']?></button>
+                                            <a type="button" class="btn btn-default" href="/pages/catalog/<?=$cell['id_catalog']?>"><?=$cell['name_directory']?></a>
                                         <?php
                                         }
                                         if ($i_id == 9)

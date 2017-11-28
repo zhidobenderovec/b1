@@ -133,6 +133,30 @@ class PagesController extends Controller
         $this->data['visits'] = $this->model->getListStat();
 
     }
+    public function catalog()
+    {
+
+        //Установка сатегории страницы для просмотра
+        $params_catalog = App::getRouter()->getParams();
+
+        if (isset($params_catalog[0]))
+        {
+            $category_id = strtolower($params_catalog[0]);
+            $this->data['catalog'] = $this->model->getByCatalogId($category_id);
+        }
+/*
+        //Установка  страницы для просмотра
+        $params = App::getRouter()->getParams();
+
+        if (isset($params[0]))
+        {
+            $this->data['page'] = $this->model->getById($this->params[0]);//error!!!!!!!!!
+        }
+        */
+        $this->data['directory'] = $this->model->getCatalog();
+        $this->data['product'] = $this->model->getProduct();
+
+    }
 }
 
 ?>

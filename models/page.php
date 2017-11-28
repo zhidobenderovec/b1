@@ -140,7 +140,14 @@ class Page extends Model
 
         return $this->db->query($sql);
     }
-
+    //--- Работа с базой product по id ----- Товары id
+    public function getByCatalogId($category_id)
+    {
+        $id = (int)$category_id;
+        $sql = "select * from catalog where id_catalog = '{$id}' limit 1";
+        $result = $this->db->query($sql);
+        return isset($result[0]) ? $result[0] : null;
+    }
 
 }
 ?>

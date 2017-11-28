@@ -7,6 +7,7 @@ return array('lng.site_name' => 'Электрозенит',
             'lng.contacts' => 'Контакты',
             'lng.conditions' => 'Условия использования сайта',
             'lng.sell' => 'Продавать с нами',
+            'lng.questions' => 'Есть вопросы?',
 
             'lng.search' => 'Поиск товара',
             'lng.basket' => 'Корзина',
