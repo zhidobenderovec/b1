@@ -18,7 +18,7 @@ pages!
     width: 700px;
 }
 .row {
-    margin-top: 0px;
+   margin-top: 0px;
 }
 </style>
 <style>
@@ -30,14 +30,26 @@ pages!
     clear:both;
     zoom: 1;
 }
+/*"slider"  "slide-list"  "slide-wrap"*/
+.slide-wrap img
+{
+    height: 180px !important;
+    width: 168px;
+}
+
+
+
+
 /* Slider */
 .slider {
     /* Ширина контейнера */
-    width: 900px;
+    width: 940px;
+    /* Высота контейнера */
+    height: 230px;
     /* Внешние тступы сверху и снизу */
-    margin: 50px auto;
+    margin: 5px auto;
     /* Внутренние отступы для ссылок navy */
-    padding: 0 30px;
+    padding: 0 50px;
     /* Позиционирование */
     position: relative;
 }
@@ -47,6 +59,7 @@ pages!
 .slider::selection { background: transparent; color: #fff; text-shadow: none; }
 
 .slide-list {
+    /*height: 190px; временно заглушено */
     position: relative;
     margin: 0;
     padding: 0;
@@ -62,7 +75,10 @@ pages!
 }
 .slide-item {
     /* Ширина слайда */
-    width: 280px;
+    width: 210px;/* Было 280px 168px*/
+    /* Высота слайда */
+    height: 250px;/* Я добавил */
+
     /* Внутренние отступы */
     padding: 10px;
     /* Обтекание */
@@ -70,7 +86,7 @@ pages!
 }
 .slide-title {
     /* Шрифт */
-    font: bold 16px monospace;
+    font: bold 12px monospace;
     /* Указываем, что элемент блочный */
     display: block;
 }
@@ -109,6 +125,17 @@ pages!
 }
 .pause {
     background: url(bg/pause.png) center no-repeat;
+}
+
+.glyphicon-step-backward{
+    margin-top: 100px;
+    margin-left: 10px;
+    color: #337ab7;
+}
+.glyphicon-step-forward{
+    margin-top: 100px;
+    margin-left: 9px;
+    color: #337ab7;
 }
 </style>
 
@@ -229,7 +256,7 @@ pages!
                            }
                        } ?>
                 </div>
-                <!-- Окончание самой карусели -->
+                <!-- Кнопки с боков -->
                 <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
                     <span class="glyphicon glyphicon-chevron-left"></span>
                 </a>
@@ -243,9 +270,11 @@ pages!
 <!-- ---------------------------------------------------------------------------  -->
 <!-- ---------------------------------------------------------------------------  -->
     <div class="slider">
+        <div class="carousel-caption">
+            <h1>ПОПУЛЯРНЫЕ ТОВАРЫ</h1></div>
         <div class="slide-list">
-            <div class="slide-wrap">
 
+            <div class="slide-wrap">
                 <!--Разметка нижнего слайдера slide-item-->
 
                 <!------------------------------------------------------------------------->
@@ -274,8 +303,8 @@ pages!
             </div>
             <div class="clear"></div>
         </div>
-        <div name="prev" class="navy prev-slide"></div>
-        <div name="next" class="navy next-slide"></div>
+        <div name="prev" class="navy prev-slide"><span class="glyphicon glyphicon-step-backward"></span></div>
+        <div name="next" class="navy next-slide"><span class="glyphicon glyphicon-step-forward"></div>
         <div class="auto play"></div>
     </div>
 <!-----------------Скрипт нижнего слайдера------------------------------------>
@@ -336,25 +365,15 @@ pages!
                     }
                 }
 
-                /* Клики по ссылкам старт/пауза */
-                playLink.click(function(){
-                    if(playLink.hasClass('play')){
-                        /* Изменяем клас у кнопки на клас паузы */
-                        playLink.removeClass('play').addClass('pause');
-                        /* Добавляем кнопкам вперед/назад клас который их скрывает */
-                        jQuery('.navy').addClass('disable');
-                        /* Инициализируем функцию autoplay() через переменную
-                         чтобы потом можно было ее отключить
-                         */
-                        timer = setInterval(autoplay, 1000);
-                    } else {
-                        playLink.removeClass('pause').addClass('play');
-                        /* показываем кнопки вперед/назад */
-                        jQuery('.navy').removeClass('disable');
-                        /* Отключаем функцию autoplay() */
-                        clearInterval(timer);
-                    }
-                });
+
+                /* Инициализируем функцию autoplay() через переменную
+                чтобы потом можно было ее отключить
+                */
+                timer = setInterval(autoplay, 4000);/* Время в мс */
+
+
+                /* Отключаем функцию autoplay()
+                clearInterval(timer);    */
 
             }
             /* иницилизируем функцию слайдера */
