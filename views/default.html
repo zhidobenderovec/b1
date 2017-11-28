@@ -11,7 +11,6 @@
     <script src="https://code.jquery.com/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style>
-
     h1{
     color: white; /*#0000ff;*/
     -webkit-text-stroke: 1px black;
@@ -104,28 +103,52 @@
                 <?php } ?>
                 <?=$data['content']?>
             </div>
-
-
-
 <!-------------------------//////////////////////////------------------------------------>
-<br/><!-- Левая вставка!!!!!!!!!!!!------>
-<?=__('lng.test', '!')?><!-- Левая вставка!!!!!!!!!!!!------>
-<br/><!-- Левая вставка!!!!!!!!!!!!------>
-<!--
-<?php
-    $test  = App::$db->query('select * from categories');
-    echo "<pre>";
-    print_r($test);
-?>
+<!------------------------Нижнее меню---------------------------------->
+<footer>
+    <nav class="navbar navbar-inverse ">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <ul class="nav navbar-nav" hspace="70">
+                    <li><a>График работы Call-центра: </a></li>
+                    <li><a>Будние дни с 9.00 до 17.00 </a></li>
+                    <li><a>063-494-48-02 </a></li>
+                </ul>
+            </div>
+            <div class="col-sm-4">
+                <ul class="nav navbar-nav" hspace="70">
+                    <li><a <?php if ( App::getRouter()->getController() == 'archive' ) {?>class="/active/"<?php } ?> href="archive"><?=__('lng.about_as', '!')?></a></li>
+                    <li><a <?php if ( App::getRouter()->getController() == 'exit' ) {?>class="/active/"<?php } ?> href="exit"><?=__('lng.contacts', '!')?></a></li>
+                    <li><a <?php if ( App::getRouter()->getController() == 'contacts' ) {?>class="/active/"<?php } ?> href="contacts"><?=__('lng.returns', '!')?></a></li>
+                    <li><a <?php if ( App::getRouter()->getController() == 'contacts' ) {?>class="/active/"<?php } ?> href="contacts"><?=__('lng.conditions', '!')?></a></li>
+                    <li><a <?php if ( App::getRouter()->getController() == 'contacts' ) {?>class="/active/"<?php } ?> href="contacts"><?=__('lng.sell', '!')?></a></li>
+                </ul>
+            </div>
+            <div class="col-sm-4">
+                <ul class="nav navbar-nav" hspace="70">
+                    <li><a>&copy; Стоковый интернет-магазин "Электрозенит" electrosenite.com.ua 2017 </a></li>
+                    <li><a>ТМ используется на основании лицензии ФОП Елинский </a></li>
+                </ul>
+            </div>
 
-<?php
-    $test  = App::$db->query('select * from pages');
-    echo "<pre>";
-    print_r($test);
-?>
--->
-Электрозенит
-electrosenite.com.ua
+        </div>
+        <hr>
+        <!--LiveInternet counter--><script type="text/javascript">
+        document.write("<a href='//www.liveinternet.ru/click' "+
+            "target=_blank><img src='//counter.yadro.ru/hit?t25.5;r"+
+            escape(document.referrer)+((typeof(screen)=="undefined")?"":
+                ";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+                    screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+            ";"+Math.random()+
+            "' alt='' title='LiveInternet: показано число посетителей за"+
+            " сегодня' "+
+            "border='0' width='88' height='15'><\/a>")
+    </script>
+    </div>
+    </nav>
+</footer>
+
 </body>
 
 </html>
