@@ -382,4 +382,255 @@ pages!
     </script>
 </div>
 <!-- ---------------------------------------------------------------------------  -->
+<div>
+    Убрать всех.
+</div>
 
+
+
+<!-- ---------------------------------------------------------------------------  -->
+<!-- -------------Убрать!!!!!!!!!!!!!!!!---------------------------  -->
+<div>
+    <?php $reversed = array_reverse($data['pages']); ?>
+    <br>
+    <br>
+
+    <a href="pages/news_list/policy/1"><?=__('lng.policy', '!')?></a>
+
+    <br>
+    ----------
+    <div>
+        <?php
+
+        $i=0;
+         foreach($reversed as $page_data)
+         {
+             if ($i < 5)
+             {
+                 if ($page_data['category']=='policy')
+                 {
+                     echo ($page_data['alias']);
+                     echo ('<br/>');
+                     $i++;
+                 }
+             }
+         }
+        ?>
+    </div>
+</div>
+<div>
+
+    <?php $reversed = array_reverse($data['pages']); ?>
+    <br>
+    <br>
+    <a href="pages/news_list/business/1"><?=__('lng.business', '!')?></a>
+    <br>
+    ----------
+    <div>
+        <?php
+
+        $i=0;
+         foreach($reversed as $page_data)
+         {
+             if ($i < 5)
+             {
+                 if ($page_data['category']=='business')
+                 {
+                     echo ($page_data['alias']);
+                     echo ('<br/>');
+                     $i++;
+                 }
+             }
+         }
+        ?>
+    </div>
+</div>
+<div>
+    <?php $reversed = array_reverse($data['pages']); ?>
+    <br>
+    <br>
+    <a href="pages/news_list/sport/1"><?=__('lng.sport', '!')?></a>
+    <br>
+    ----------
+    <div>
+        <?php
+
+        $i=0;
+         foreach($reversed as $page_data)
+         {
+             if ($i < 5)
+             {
+                 if ($page_data['category']=='sport')
+                 {
+                     echo ($page_data['alias']);
+                     echo ('<br/>');
+                     $i++;
+                 }
+             }
+         }
+        ?>
+    </div>
+</div>
+<div>
+    <?php $reversed = array_reverse($data['pages']); ?>
+    <br>
+    <br>
+    <a href="pages/news_list/show_bus/1"><?=__('lng.show_bus', '!')?></a>
+    <br>
+    ----------
+    <div>
+        <?php
+
+        $i=0;
+         foreach($reversed as $page_data)
+         {
+             if ($i < 5)
+             {
+                 if ($page_data['category']=='show_bus')
+                 {
+                     echo ($page_data['alias']);
+                     echo ('<br/>');
+        $i++;
+                 }
+             }
+        }
+        ?>
+    </div>
+</div>
+<div>
+    <?php $reversed = array_reverse($data['pages']); ?>
+    <br>
+    <br>
+    <a href="pages/news_list/medicine/1"><?=__('lng.medicine', '!')?></a>
+    <br>
+    ----------
+    <div>
+        <?php
+
+        $i=0;
+         foreach($reversed as $page_data)
+         {
+             if ($i < 5)
+             {
+                 if ($page_data['category']=='medicine')
+                 {
+                     echo ($page_data['alias']);
+                     echo ('<br/>');
+        $i++;
+                  }
+             }
+        }
+        ?>
+    </div>
+</div>
+<div>
+    <?php $reversed = array_reverse($data['pages']); ?>
+    <br>
+    <br>
+    <a href="pages/news_list/equipment/1"><?=__('lng.equipment', '!')?></a>
+    <br>
+    ----------
+    <div>
+        <?php
+
+        $i=0;
+         foreach($reversed as $page_data)
+         {
+             if ($i < 5)
+             {
+                 if ($page_data['category']=='equipment')
+                 {
+                     echo ($page_data['alias']);
+                     echo ('<br/>');
+        $i++;
+                 }
+             }
+        }
+        ?>
+    </div>
+</div>
+<div>
+    <?php $reversed = array_reverse($data['pages']); ?>
+    <br>
+    <br>
+    <a href="pages/news_list/developments/1"><?=__('lng.developments', '!')?></a>
+    <br>
+    ----------
+    <div>
+        <?php
+
+        $i=0;
+         foreach($reversed as $page_data)
+         {
+             if ($i < 5)
+             {
+                 if ($page_data['category']=='developments')
+                 {
+                     echo ($page_data['alias']);
+                     echo ('<br/>');
+                    $i++;
+                 }
+             }
+        }
+        ?>
+    </div>
+</div>
+<div>
+    <?php $reversed = array_reverse($data['pages']); ?>
+    <br>
+    <br>
+    <a href="pages/news_list/analytics/1"><?=__('lng.analytics', '!')?></a>
+    <br>
+    ----------
+    <div>
+        <?php
+
+        $i=0;
+         foreach($reversed as $page_data)
+         {
+             if ($i < 5)
+             {
+                 if ($page_data['analytics']=='1')
+                 {
+                     echo ($page_data['alias']);
+                     echo ('<br/>');
+                     $i++;
+                 }
+             }
+        }
+        ?>
+    </div>
+
+</div>
+
+<!--
+
+<div>
+
+    <?=$id5Max[4]["id"]?>
+    -
+    <?php print_r($id5Max);?>
+</div>
+
+-->
+<div>
+    <?php
+    foreach($data['stock'] as $stock)
+    {
+        if ($stock['id_shares'])//???????? ??????? ?????
+        {
+            $data_save=$stock['expiration_date'];
+            $date_stop = new DateTime("$data_save");
+            $date_now = new DateTime(date("Y-m-d"));
+            if ( $date_now < $date_stop)//???????? ????????? ??????? ?????
+            { ?>
+
+    ?????:
+    <?=date("Y-m-d")?>
+
+    <?php
+            }
+        }
+    } ?>
+</div>
+------------------------------------------------

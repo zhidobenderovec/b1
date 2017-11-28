@@ -1,9 +1,11 @@
 <?php
 return array('lng.site_name' => 'Электрозенит',
             'lng.about_as' => 'О нас',
+            'lng.returns' => 'Возврат товара',
             'lng.payment' => 'Доставка и оплата',
             'lng.guarantee' => 'Гарантия',
             'lng.contacts' => 'Контакты',
+            'lng.conditions' => 'Условия использования сайта',
             'lng.sell' => 'Продавать с нами',
 
             'lng.search' => 'Поиск товара',
