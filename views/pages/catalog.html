@@ -6,15 +6,20 @@
     .thumbnail
     {
         cursor: pointer;
+        /*height: 25vh;*/
     }
     .thumbnail img
     {
         height: 170px !important;
-        width: 272px;
+       /* width: 272px; */
     }
     h5{
         text-align: center;
         /*color: red;*/
+    }
+    .my_class_product
+    {
+        height: 65vh;
     }
 </style>
 <!------------------------------------------------------------->
@@ -70,8 +75,7 @@
             <!--Конец главного каталога    -->
             <!-- ----------------- -->
         </div>
-        <!--Верхний слайдер    -->
-        <div class="container">
+<!--- Отображение категорий --------------------------------------------->
         <div class="col-sm-9" >
             <div class="row" >
             <?php
@@ -109,19 +113,21 @@
                         if ($product['id_subdirectory'] == $cell['id_catalog'])//Проверка наличия директории
                         {
                         ?>
-                            <div class="row">
-                                <div class="col-sm-6 col-md-4">
+
+                                <div class="col-md-4 col-sm-4">
+                                    <div class="my_class_product">
                                     <div class="thumbnail">
                                         <img src="<?=$product['imege']?>" alt="...">
                                         <div class="caption">
-                                            <h5 color="red"><?=$product['name_product']?></h5>
+                                            <h5 ><?=$product['name_product']?></h5>
                                             <p>На складе:&nbsp<?=$product['quantity']?>&nbsp шт.</p>
                                             <p>Цена:&nbsp<?=$product['price']?>&nbsp грн.</p>
-                                            <p><a href="#" class="btn btn-primary" role="button">Посмотреть товар.</a> <a href="#" class="btn btn-default" role="button">В корзину</a></p>
+                                            <p><a href="#" class="btn btn-primary" role="button">Посмотреть товар.</a> <a href="##" class="btn btn-default" role="button">В корзину</a></p>
                                         </div>
                                     </div>
+                                    </div>
                                 </div>
-                            </div>
+
 
                         <?php
                         }
@@ -131,24 +137,6 @@
             ?>
             </div>
         </div>
-        </div>
-        <!-- Окончание самой карусели (slider end)-->
     </div>
 </div>
-<div class="row">
-    <div class="col-sm-6 col-md-4">
-        <div class="thumbnail">
-            <img src="..." alt="...">
-            <div class="caption">
-                <h3>Thumbnail label</h3>
-                <p>...</p>
-                <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
 <!------------------------------------------------------------->
