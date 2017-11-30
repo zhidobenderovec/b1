@@ -1,17 +1,31 @@
-<h3>Messages</h3><br/>
+<h3>Сообщения</h3><br/>
 <table class="table table-striped" style="width: 100%">
     <tr>
         <td style="width: 5%;">#</td>
-        <td style="width: 10%;">Name</td>
-        <td style="width: 25%;">Email</td>
-        <td style="width: 50%;">Message</td>
+        <td style="width: 10%;">Имя</td>
+        <td style="width: 10%;">Email</td>
+        <td style="width: 29%;">Сообщение</td>
+        <td style="width: 12%;">Дата</td>
+        <td style="width: 3%;">Прос- мотр</td>
+        <td style="width: 3%;">Был ответ</td>
+        <td style="width: 29%;">Ответ</td>
+        <td style="width: 3%;">Публи- кация</td>
     </tr>
-    <?php foreach($data as $item) { ?>
+    <?php
+        $revers_data = array_reverse($data); //Реверс последовательности сообщений
+        foreach($revers_data as $item) { ?>
     <tr>
-        <td><?=$item['id']?></td>
+        <td><a><button href="/admin/contacts/<?=$item['id']?>"><?=$item['id']?></button></a></td>
         <td><?=$item['name']?></td>
         <td><?=$item['email']?></td>
-        <td><?=$item['messages']?></td>
+        <?php $rest = substr($item['messages'], 0, 300) ?><!--Ограничение вывода знаков сообщения: 300 -->
+            <td><?=$rest?></td>
+        <td><?=$item['date']?>...</td>
+        <td><input type="checkbox"  <?php if($item['viewed']) {?>checked="checked" <?php } ?> /></td>
+        <td><input type="checkbox"  <?php if($item['answered']) {?>checked="checked" <?php } ?> /></td>
+        <?php $rest = substr($item['answer'], 0, 300) ?><!--Ограничение вывода знаков сообщения: 300 -->
+            <td><?=$rest?>...</td>
+        <td><input type="checkbox"  <?php if($item['is_active']) {?>checked="checked" <?php } ?> /></td>
     </tr>
     <?php } ?>
 </table>
