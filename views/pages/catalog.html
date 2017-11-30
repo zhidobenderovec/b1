@@ -3,11 +3,11 @@
     .row {
         margin-top: 0px;
     }
-    .thumbnail
+    /*.thumbnail
     {
         cursor: pointer;
-        /*height: 25vh;*/
-    }
+        /*height: 25vh;
+    }*/
     .thumbnail img
     {
         height: 170px !important;
@@ -17,6 +17,10 @@
         text-align: center;
         /*color: red;*/
     }
+    .my_class_catalog
+    {
+        cursor: pointer;
+    }
     .my_class_product
     {
         height: 65vh;
@@ -25,8 +29,7 @@
 <!------------------------------------------------------------->
 <div class="container">
     <div class="row">
-        <!-- ----------------- -->
-        <!-- Главный каталог  -->
+<!--- Главный каталог --------------------------------------------->
         <div class="col-sm-3 ">
             <div class="btn-group-vertical " role="group" aria-label="...">
                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
@@ -34,61 +37,68 @@
                         <a  target="_blank" class="btn btn-primary btn-block" href="???!">Каталог товаров</a>
                     </div>
                     <?php
-                         $i_id=0;
-                         foreach($data['directory'] as $cell)
-                         {
-                             if ($cell['id_catalog'])//Проверка наличия директории
-                             {
-                                 if (!$cell['id_directory'])//Проверка наличия поддиректории
-                                 {
-                                     $i_id++;
-                                      if ($i_id < 9)
-                                     { ?>
-                                         <a type="button" class="btn btn-default" href="/pages/catalog/<?=$cell['id_catalog']?>"><?=$cell['name_directory']?></a>
-                                         <?php
-                                     }
-                                     if ($i_id == 9)
-                                     { ?>
-                                         <div class="dropdown">
-                                         <button type="button" class="btn btn-default dropdown-toggle btn-block" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">ЕЩЁ<span class="caret"></span></button>
-                                         <ul class="dropdown-menu btn-block" aria-labelledby="dropdownMenu1">
-                                     <?php
-                                     }
-                                      if ($i_id >= 9)
-                                     { ?>
-                                      <li><a href="#" align="center"><?=$cell['name_directory']?></a></li>
+                        $i_id=0;
+                        foreach($data['directory'] as $cell)
+                        {
+                            if ($cell['id_catalog'])//Проверка наличия директории
+                            {
+                                if (!$cell['id_directory'])//Проверка наличия поддиректории
+                                {
+                                    $i_id++;
+                                     if ($i_id < 9)
+                                    { ?>
+                                        <a type="button" class="btn btn-default" href="/pages/catalog/<?=$cell['id_catalog']?>"><?=$cell['name_directory']?></a>
+                                        <?php
+                                    }
+                                    if ($i_id == 9)
+                                    { ?>
+                                        <div class="dropdown">
+                                           <button type="button" class="btn btn-default dropdown-toggle btn-block" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">ЕЩЁ<span class="caret"></span></button>
+                                           <ul class="dropdown-menu btn-block" aria-labelledby="dropdownMenu1">
+                                    <?php //Начало Песец код!!!
+                                    }
+                                     if ($i_id >= 9)
+                                    { ?>
+                                     <li><a href="#" align="center"><?=$cell['name_directory']?></a></li>
 
-                                     <?php
-                                     }
-                                 }
-                             }
-                         }
-                          if ($i_id >= 9)
-                          { ?>
-                        </ul>
-                    </div>
-                    <?php
+                                    <?php
+                                    }
                                 }
-                            ?>
+                            }
+                        }
+                        if ($i_id >= 9)
+                        { ?>
+                                           </ul>
+                                        </div>
+                        <?php
+                        } //Окончание. Песец код!!! Нужен, чтоб отобразить дополнительный список, если категорий больше 8-ми!
+                        ?>
                 </div>
             </div>
-            <!--Конец главного каталога    -->
-            <!-- ----------------- -->
         </div>
 <!--- Отображение категорий --------------------------------------------->
         <div class="col-sm-9" >
+
+            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                <div class="btn-group" role="group">
+                    <a  target="_blank" class="btn btn-primary btn-block" href="???!">
+                        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true" style="color: white;">&nbsp В корзине: товар(ов) на сумму:</a>
+                </div>
+            </div>
+
             <div class="row" >
             <?php
-            $catalog_info = $data['catalog'];
+            $catalog_info = $data['catalog'];//Имя страницы
             ?>
                 <h3><?=$catalog_info['name_directory']?></h3>
             <?php
             foreach($data['directory'] as $cell)
             {
-               if ($cell['id_directory'] == $catalog_info['id_catalog'])//Проверка наличия директории
-               {
+                if ($cell['id_directory'] == $catalog_info['id_catalog'])//Проверка наличия директории
+                {
                     ?>
                         <div class="col-sm-6 col-md-6" >
+                            <div class="my_class_catalog">
                             <a href="/pages/catalog/<?=$cell['id_catalog']?>">
                                 <div class="thumbnail">
                                     <img src="<?=$cell['img_catalog']?>" alt="...">
@@ -97,6 +107,7 @@
                                     </div>
                                 </div>
                             </a>
+                            </div>
                         </div>
                     <?php
                 }
@@ -113,26 +124,23 @@
                         if ($product['id_subdirectory'] == $cell['id_catalog'])//Проверка наличия директории
                         {
                         ?>
-
-                                <div class="col-md-4 col-sm-4">
-                                    <div class="my_class_product">
+                            <div class="col-md-4 col-sm-4">
+                                <div class="my_class_product">
                                     <div class="thumbnail">
-                                        <img src="<?=$product['imege']?>" alt="...">
+                                        <a href="/pages/product/<?=$product['id_product']?>"><img src="<?=$product['imege']?>" alt="..."></a>
                                         <div class="caption">
-                                            <h5 ><?=$product['name_product']?></h5>
+                                            <h5 ><a href="/pages/catalog/<?=$cell['id_catalog']?>"><?=$product['name_product']?></a></h5>
                                             <p>На складе:&nbsp<?=$product['quantity']?>&nbsp шт.</p>
                                             <p>Цена:&nbsp<?=$product['price']?>&nbsp грн.</p>
                                             <p><a href="#" class="btn btn-primary" role="button">Посмотреть товар.</a> <a href="##" class="btn btn-default" role="button">В корзину</a></p>
                                         </div>
                                     </div>
-                                    </div>
                                 </div>
-
-
+                            </div>
                         <?php
                         }
                     }
-               }
+                }
             }
             ?>
             </div>

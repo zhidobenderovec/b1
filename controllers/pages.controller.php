@@ -121,6 +121,7 @@ class PagesController extends Controller
             $this->data['page_namber'] = strtolower($params_list[1]);
         }
     }
+
     public function news_page()
     {
         //Установка  страницы для просмотра
@@ -133,10 +134,10 @@ class PagesController extends Controller
         $this->data['visits'] = $this->model->getListStat();
 
     }
+
     public function catalog()
     {
-
-        //Установка сатегории страницы для просмотра
+        //Установка страницы категории для просмотра
         $params_catalog = App::getRouter()->getParams();
 
         if (isset($params_catalog[0]))
@@ -144,18 +145,22 @@ class PagesController extends Controller
             $category_id = strtolower($params_catalog[0]);
             $this->data['catalog'] = $this->model->getByCatalogId($category_id);
         }
-/*
-        //Установка  страницы для просмотра
-        $params = App::getRouter()->getParams();
-
-        if (isset($params[0]))
-        {
-            $this->data['page'] = $this->model->getById($this->params[0]);//error!!!!!!!!!
-        }
-        */
         $this->data['directory'] = $this->model->getCatalog();
         $this->data['product'] = $this->model->getProduct();
+    }
 
+    public function product()
+    {
+        //Установка страницы товара для просмотра
+        $params_product = App::getRouter()->getParams();
+
+        if (isset($params_product[0]))
+        {
+            $product_id = strtolower($params_product[0]);
+            $this->data['exemplar'] = $this->model->getByProductId($product_id);
+        }
+        $this->data['directory'] = $this->model->getCatalog();
+        $this->data['product'] = $this->model->getProduct();
     }
 }
 

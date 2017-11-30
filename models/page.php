@@ -140,7 +140,7 @@ class Page extends Model
 
         return $this->db->query($sql);
     }
-    //--- Работа с базой product по id ----- Товары id
+    //--- Работа с базой catalog по id ----- Для Товаров id
     public function getByCatalogId($category_id)
     {
         $id = (int)$category_id;
@@ -148,6 +148,13 @@ class Page extends Model
         $result = $this->db->query($sql);
         return isset($result[0]) ? $result[0] : null;
     }
-
+    //--- Работа с базой product по id ----- Для страницы товара
+    public function getByProductId($product_id)
+    {
+        $id = (int)$product_id;
+        $sql = "select * from product where id_product = '{$id}' limit 1";
+        $result = $this->db->query($sql);
+        return isset($result[0]) ? $result[0] : null;
+    }
 }
 ?>
