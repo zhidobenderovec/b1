@@ -39,7 +39,6 @@
         -webkit-text-stroke: 1px blue;
         text-align: center;
         vertical-align: middle;
-
     }
     .navbar{
         margin-bottom: 10px;
@@ -60,7 +59,7 @@
                    style="color: white;" >войдите в личный кабинет</a>
             </span><!--USER-->
         </div>
-        <a href="/"><img src="webroot/img/zenit_4.jpg" align="left" alt="Логотип"></a>
+        <a href="/"><img src="/webroot/img/zenit_4.jpg" align="left" alt="Логотип"></a>
         <!--<a class="navbar-brand" href="#">Brand</a>-->
 
         <div id="navbar" class="collapse navbar-collapse">
@@ -123,6 +122,7 @@
                     <li><a <?php if ( App::getRouter()->getController() == 'contacts' ) {?>class="/active/"<?php } ?> href="contacts"><?=__('lng.returns', '!')?></a></li>
                     <li><a <?php if ( App::getRouter()->getController() == 'contacts' ) {?>class="/active/"<?php } ?> href="contacts"><?=__('lng.conditions', '!')?></a></li>
                     <li><a <?php if ( App::getRouter()->getController() == 'contacts' ) {?>class="/active/"<?php } ?> href="contacts"><?=__('lng.sell', '!')?></a></li>
+                    <li><a <?php if ( App::getRouter()->getController() == 'contacts' ) {?>class="/active/"<?php } ?> href="contacts"><?=__('lng.questions', '!')?></a></li>
                 </ul>
             </div>
             <div class="col-sm-4">

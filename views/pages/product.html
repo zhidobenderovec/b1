@@ -1,0 +1,106 @@
+<!-- Отображение поддиректорий -->
+<style>
+    .row {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+    .btn-group:hover > .dropdown-menu/*равкрывающиеся меню */
+    {
+        display: block;
+    }
+    .thumbnail img
+    {
+        height: 250px !important;
+        /* width: 272px; */
+    }
+    h5{
+        text-align: center;
+        /*color: red;*/
+    }
+    .my_class_catalog
+    {
+        cursor: pointer;
+    }
+    .my_class_product
+    {
+        height: 65vh;
+    }
+</style>
+<!------------------------------------------------------------->
+<div class="container">
+    <div class="row">
+        <!--- Главный каталог --------------------------------------------->
+        <div class="col-sm-3 ">
+            <div class="btn-group-vertical " role="group" aria-label="...">
+                <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                    <div class="btn-group" role="group">
+                        <a  target="_blank" class="btn btn-primary  dropdown-toggle btn-block" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Каталог товаров</a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <?php
+                        foreach($data['directory'] as $cell)
+                        {
+                            if ($cell['id_catalog'])//Проверка наличия директории
+                            {
+                                if (!$cell['id_directory'])//Проверка наличия поддиректории
+                                { ?>
+                                    <li><a type="button" class="btn btn-default" align="center" href="/pages/catalog/<?=$cell['id_catalog']?>"><?=$cell['name_directory']?></a></li>
+                                <?php
+                                }
+                            }
+                        }
+                                 ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--- Отображение Корзины --------------------------------------------->
+        <div class="col-sm-9" >
+
+            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                <div class="btn-group" role="group">
+                    <a  target="_blank" class="btn btn-primary btn-block" href="???!">
+                        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true" style="color: white;">&nbsp В корзине: товар(ов) на сумму:</a>
+                </div>
+            </div>
+        </div>
+    </div>
+        <!--- Отображение Товара --------------------------------------------->
+    <div>
+        <div class="row" >
+            <?php
+                $exemplar = $data['exemplar'];//Имя страницы (товара)
+                $turn = $exemplar['id_subdirectory'] - 1;
+                $to_turn=$data['directory'][$turn];//Находим строчку директории
+            ?>
+            <h4><?=$exemplar['name_product']?></h4>
+            <h5>(Вернуться в категорию <a href="/pages/catalog/<?=$exemplar['id_subdirectory']?>" ><?=$to_turn['name_directory']?> </a> ) </h5>
+            <div class="container">
+                <div class="row">
+                    <!--- Главный каталог --------------------------------------------->
+                    <div class="col-sm-6 ">
+                        <div class="thumbnail">
+                            <img src="<?=$exemplar['imege']?>" alt="...">
+                        </div>
+                    </div>
+                    <div class="col-sm-6" >
+                        <p>Производитель:&nbsp<?=$exemplar['id_brend']?>&nbsp</p>
+                        <p>Код товара:&nbsp<?=$exemplar['code']?>&nbsp</p>
+                        <p>На складе:&nbsp<?=$exemplar['quantity']?>&nbsp шт.</p>
+                        <h4><?=$exemplar['price']?>&nbsp грн.</h4>
+                        <p>Количество товара в корзину:</p>
+                        <input type="text" class="form-control" name="email" placeholder="" /><br/>
+                        <p><a href="##" class="btn btn-default btn-block" role="button">В корзину</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12" >
+                <div class="thumbnail">
+                    <p>&nbspОписание товара:<br/></p>
+                    <p>&nbsp<?=$exemplar['description']?></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!------------------------------------------------------------->
