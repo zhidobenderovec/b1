@@ -14,7 +14,7 @@ class ContactsController extends Controller
         {
             if ($this->model->save($_POST))
             {
-                Session::setFlash('Thank you! You message was sent successfully!');
+                Session::setFlash(__('lng.thanks'));
             }
         }
     }
@@ -22,6 +22,12 @@ class ContactsController extends Controller
     public function admin_index()
     {
         $this->data =$this->model->getList();
+
+        $params_list = App::getRouter()->getParams();
+        if (isset($params_list[0]))
+        {
+            $this->data['page_namber'] = strtolower($params_list[0]);
+        }
     }
     }
 

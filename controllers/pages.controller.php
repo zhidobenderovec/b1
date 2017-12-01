@@ -39,6 +39,7 @@ class PagesController extends Controller
     public function admin_index()
     {
         $this->data['pages'] = $this->model->getList();
+
     }
 
     public function admin_add()
@@ -139,11 +140,17 @@ class PagesController extends Controller
     {
         //Установка страницы категории для просмотра
         $params_catalog = App::getRouter()->getParams();
-
+        //directory/subdirectory
         if (isset($params_catalog[0]))
         {
             $category_id = strtolower($params_catalog[0]);
             $this->data['catalog'] = $this->model->getByCatalogId($category_id);
+        }
+        //page number of the page being viewed Установка номера страницы для пагинации
+        if (isset($params_catalog[1]))
+        {
+
+            $this->data['catalog_num'] = strtolower($params_catalog[1]);
         }
         $this->data['directory'] = $this->model->getCatalog();
         $this->data['product'] = $this->model->getProduct();
