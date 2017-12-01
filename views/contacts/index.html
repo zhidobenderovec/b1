@@ -1,7 +1,20 @@
-<h3>Contact us:</h3>
+<h4>Напишите нам:</h4>
 <form action="" method="post">
-    <input type="text" class="form-control" name="name" placeholder="Yoyr Name" /><br/>
-    <input type="text" class="form-control" name="email" placeholder="Yoyr Email" /><br/>
-    <textarea name="message" class="form-control" placeholder="Your Message"></textarea><br/>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Send</button>
+    <!-- Ввод имени - автоматически, если пользователь зарегистрирован. -->
+    <input type="text" class="form-control" name="name" placeholder="Ваше имя"
+    <?php if (Session::get('login') ) { ?>
+        value="<?=(Session::get('name') )?>"
+    <?php } ?>
+    />
+    <br/>
+    <!-- Ввод Email - автоматически, если пользователь зарегистрирован. -->
+    <input type="text" class="form-control" name="email" placeholder="Ваш Email"
+    <?php if (Session::get('login') ) { ?>
+    value="<?=(Session::get('login') )?>"
+    <?php } ?>
+    />
+    <br/>
+    <!-- Ввод Сообщения ----------------------------------------------- -->
+    <textarea name="message" class="form-control" placeholder="Ваш вопрос или сообщение"></textarea><br/>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Отправить сообщение</button>
 </form>

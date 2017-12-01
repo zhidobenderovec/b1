@@ -78,7 +78,6 @@
         </div>
 <!--- Отображение категорий --------------------------------------------->
         <div class="col-sm-9" >
-
             <div class="btn-group btn-group-justified" role="group" aria-label="...">
                 <div class="btn-group" role="group">
                     <a  target="_blank" class="btn btn-primary btn-block" href="???!">
@@ -90,7 +89,7 @@
             <?php
             $catalog_info = $data['catalog'];//Имя страницы
             ?>
-                <h3><?=$catalog_info['name_directory']?></h3>
+                <h3><?=$catalog_info['name_directory']?></h3><!-- Вsводим имя страницы -->
             <?php
             foreach($data['directory'] as $cell)
             {
@@ -99,7 +98,7 @@
                     ?>
                         <div class="col-sm-6 col-md-6" >
                             <div class="my_class_catalog">
-                            <a href="/pages/catalog/<?=$cell['id_catalog']?>">
+                            <a href="/pages/catalog/<?=$cell['id_catalog']?>/1">
                                 <div class="thumbnail">
                                     <img src="<?=$cell['img_catalog']?>" alt="...">
                                     <div class="caption">
@@ -111,40 +110,123 @@
                         </div>
                     <?php
                 }
+                //--- Отображение товаров--------------------------------------------//
                 if (($cell['id_catalog'] == $catalog_info['id_catalog']) && $cell['id_directory']) //Если это подкаталог, то выводим список товаров
                 {
+                    $page_namber = $data['catalog_num']; // Номер просматриваемой страницы
                     $turn = $cell['id_directory'] - 1;
                     $to_turn=$data['directory'][$turn];//Находим строчку директории
-                ?>
-<!--- Отображение товаров--------------------------------------------->
-                    <h5>(Вернуться в категорию <a href="/pages/catalog/<?=$cell['id_directory']?>" ><?=$to_turn['name_directory']?> </a> ) </h5>
-                <?php
+                    ?>
+                        <h5>(Вернуться в категорию <a href="/pages/catalog/<?=$cell['id_directory']?>" ><?=$to_turn['name_directory']?> </a> ) </h5>
+                    <?php
+
+                    //-- Цикл с пагинацией!!------//
+                    $number=0;//индекс цикла, 6 циклов-сообщений на страницу
+                    $max_number = 3;//6 циклов-сообщений на страницу
                     foreach($data['product'] as $product)//Поиск товаров данного раздела
                     {
-                        if ($product['id_subdirectory'] == $cell['id_catalog'])//Проверка наличия директории
+                        if ($product['id_subdirectory'] == $cell['id_catalog'])//Проверка наличия нужной директории
                         {
-                        ?>
-                            <div class="col-md-4 col-sm-4">
-                                <div class="my_class_product">
-                                    <div class="thumbnail">
-                                        <a href="/pages/product/<?=$product['id_product']?>"><img src="<?=$product['imege']?>" alt="..."></a>
-                                        <div class="caption">
-                                            <h5 ><a href="/pages/catalog/<?=$cell['id_catalog']?>"><?=$product['name_product']?></a></h5>
-                                            <p>На складе:&nbsp<?=$product['quantity']?>&nbsp шт.</p>
-                                            <p>Цена:&nbsp<?=$product['price']?>&nbsp грн.</p>
-                                            <p><a href="#" class="btn btn-primary" role="button">Посмотреть товар.</a> <a href="##" class="btn btn-default" role="button">В корзину</a></p>
+                            if (($number < ($max_number * $page_namber[0]))&&($number >= ($max_number *($page_namber[0]-1))))//Проверка на диапазон страниц
+                            {
+                            ?>
+                                <div class="col-md-4 col-sm-4">
+                                    <div class="my_class_product">
+                                        <div class="thumbnail">
+                                            <a href="/pages/product/<?=$product['id_product']?>"><img src="<?=$product['imege']?>" alt="..."></a>
+                                            <div class="caption">
+                                                <h5 ><a href="/pages/catalog/<?=$cell['id_catalog']?>"><?=$product['name_product']?></a></h5>
+                                                <p>На складе:&nbsp<?=$product['quantity']?>&nbsp шт.</p>
+                                                <p>Цена:&nbsp<?=$product['price']?>&nbsp грн.</p>
+                                                <p><a href="#" class="btn btn-primary" role="button">Посмотреть товар.</a> <a href="##" class="btn btn-default" role="button">В корзину</a></p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        <?php
+                            <?php
+                            }
+                            $number++;
                         }
                     }
+                    ?>
+            </div>
+                    <!-- Постраничная навигация!!!!!Пагинация!!------>
+                    <div align="center">
+                        <ul class="pagination">
+                        <?php
+                            if ($page_namber[0] < $number)
+                            {
+                                $page_next = $page_namber[0]+1;
+                            }
+                            else
+                            {
+                                $page_next = $number;
+                            }
+                            //Отработка уменьшения страницы
+                            if ($page_namber[0] > 1)
+                            {
+                            $page_previous = $page_namber[0]-1;
+                            }
+                            else
+                            {
+                                $page_previous = 1;
+                            }
+                            if ($page_namber[0] != 1)
+                            {
+                        ?>
+                            <li><a href="/pages/catalog/<?=$cell['id_catalog']?>/<?=$page_previous?>">&laquo;</a></li>
+                            <li><a href="/pages/catalog/<?=$cell['id_catalog']?>/1"><?=1?></a></li>
+                        <?php
+                            }
+                            //Определения максимальноя страницы
+                            if ( $number % $max_number)
+                            {
+                                $number = ($number-($number % $max_number)) / $max_number + 1;
+                            }
+                            else
+                            {
+                                $number = ($number / $max_number);
+                            }
+                        ?>
+                            <!--Текущая страница -->
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><u><?=$page_namber[0]?></u></a>
+                            <ul class="dropdown-menu">
+                        <?php //Цикл выпадающено списка
+                            for ( $j = 1 ; $j <= $number ; $j++)
+                            { ?>
+                                <li><a href="/pages/catalog/<?=$cell['id_catalog']?>/<?=$j?>"><?=$j?></a></li>
+                            <?php
+                            }
+                        ?>
+                            </ul>
+                            </li>
+                        <?php
+                            if ($page_namber[0] != $number)
+                            {
+                        ?>
+                            <li><a href="/pages/catalog/<?=$cell['id_catalog']?>/<?=$number?>"><?=$number?></a></li>
+                        <?php //Отработка увеличения страницы
+                            if ($page_namber[0] < $number)
+                            {
+                                $page_next = $page_namber[0]+1;
+                            }
+                            else
+                            {
+                                $page_next = $number;
+                            }
+                        ?>
+                            <li><a href="/pages/catalog/<?=$cell['id_catalog']?>/<?=$page_next?>">&raquo;</a></li>
+                        <?php
+                            }
+                        ?>
+                        </ul>
+                    </div>
+                <?php
                 }
             }
             ?>
-            </div>
+
         </div>
     </div>
 </div>
-<!------------------------------------------------------------->

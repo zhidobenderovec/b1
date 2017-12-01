@@ -13,6 +13,8 @@ class Message extends Model
         $name = $this->db->escape($data['name']);
         $email = $this->db->escape($data['email']);
         $message = $this->db->escape($data['message']);
+        $date = date('Y-m-d');
+
 
         if ( !$id )
         {
@@ -21,7 +23,8 @@ class Message extends Model
               insert into messages
                 set name = '{$name}',
                   email = '{$email}',
-                  messages = '{$message}'
+                  messages = '{$message}',
+                  datem = '{$date}'
             ";
         } else
         {
@@ -30,7 +33,8 @@ class Message extends Model
               update messages
                 set name = '{$name}',
                   email = '{$email}',
-                  messages = '{$message}'
+                  messages = '{$message}',
+                  datem = '{$date}'
                 where id = ($id)
             ";
         }

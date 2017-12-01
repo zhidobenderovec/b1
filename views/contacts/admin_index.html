@@ -1,17 +1,139 @@
-<h3>Messages</h3><br/>
+<h3>Сообщения</h3><br/>
+<!--<?= $data['page_namber'] ?>                 !!надо отредакттровать!!
+<?php $page_namber = $data['page_namber'] ?><!-- Номер просматриваемой страницы -->
 <table class="table table-striped" style="width: 100%">
     <tr>
         <td style="width: 5%;">#</td>
-        <td style="width: 10%;">Name</td>
-        <td style="width: 25%;">Email</td>
-        <td style="width: 50%;">Message</td>
+        <td style="width: 10%;">Имя</td>
+        <td style="width: 10%;">Email</td>
+        <td style="width: 29%;">Сообщение</td>
+        <td style="width: 12%;">Дата</td>
+        <td style="width: 3%;">Прос- мотр</td>
+        <td style="width: 3%;">Был ответ</td>
+        <td style="width: 29%;">Ответ</td>
+        <td style="width: 3%;">Публи- кация</td>
     </tr>
-    <?php foreach($data as $item) { ?>
+
+
+    <!-- Временное решение!!!!Нужна пагинация!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!------>
+    <?php
+    $revers_data = array_reverse($data); //Реверс последовательности сообщений
+    foreach($revers_data as $item)//Перебор сообщений
+    {
+    ?>
     <tr>
-        <td><?=$item['id']?></td>
+        <td><a><button href="/admin/contacts/<?=$item['id']?>"><?=$item['id']?></button></a></td>
         <td><?=$item['name']?></td>
         <td><?=$item['email']?></td>
-        <td><?=$item['messages']?></td>
+        <?php $rest = substr($item['messages'], 0, 300) ?><!--Ограничение вывода знаков сообщения: 300 -->
+        <td><?=$rest?></td>
+        <td><?=$item['datem']?>...</td>
+        <td><input type="checkbox"  <?php if($item['viewed']) {?>checked="checked" <?php } ?> /></td>
+        <td><input type="checkbox"  <?php if($item['answered']) {?>checked="checked" <?php } ?> /></td>
+        <?php $rest = substr($item['answer'], 0, 300) ?><!--Ограничение вывода знаков сообщения: 300 -->
+        <td><?=$rest?>...</td>
+        <td><input type="checkbox"  <?php if($item['is_active']) {?>checked="checked" <?php } ?> /></td>
     </tr>
-    <?php } ?>
+
+    <?php
+
+     }
+     ?>
+
+
+    <!-- Нужно править!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!------>
+<!-- Цикл с пагинацией!!------>
+    <!--
+    <?php
+         $revers_data = array_reverse($data); //Реверс последовательности сообщений
+         $number=0;//индекс цикла, 5 циклов-сообщений на страницу
+         foreach($revers_data as $item)//Перебор сообщений
+         {
+              if (($number < (5*$page_namber[0]))&&($number >= (5*($page_namber[0]-1))))//Проверка на диапазон страниц
+              { ?>
+                   <tr>
+                       <td><a><button href="/admin/contacts/<?=$item['id']?>"><?=$item['id']?></button></a></td>
+                       <td><?=$item['name']?></td>
+                       <td><?=$item['email']?></td>
+                       <?php $rest = substr($item['messages'], 0, 300) ?><!--Ограничение вывода знаков сообщения: 300 -->
+    <!--                   <td><?=$rest?></td>
+                       <td><?=$item['datem']?>...</td>
+                       <td><input type="checkbox"  <?php if($item['viewed']) {?>checked="checked" <?php } ?> /></td>
+                       <td><input type="checkbox"  <?php if($item['answered']) {?>checked="checked" <?php } ?> /></td>
+                       <?php $rest = substr($item['answer'], 0, 300) ?><!--Ограничение вывода знаков сообщения: 300 -->
+     <!--                  <td><?=$rest?>...</td>
+                       <td><input type="checkbox"  <?php if($item['is_active']) {?>checked="checked" <?php } ?> /></td>
+                   </tr>
+                 <?php
+              }
+              $number++;
+         }
+    ?>
+    -->
 </table>
+<!-- Постраничная навигация!!!!!Пагинация!!------>
+    <!--
+<div align="center">
+
+    <ul class="pagination">
+        <?php if ($page_namber[0] < $number)
+            {
+            $page_next = $page_namber[0]+1;
+            }
+            else
+            {
+            $page_next = $number;
+            }
+
+        //Отработка уменьшения страницы
+         if ($page_namber[0] > 1)
+        {
+        $page_previous = $page_namber[0]-1;
+        }
+        else
+        {
+        $page_previous = 1;
+        }
+        ?>
+        <li><a href="/admin/contacts/<?=$number?>?>/<?=$page_previous?>">&laquo;</a></li>
+        <li><a href="/admin/contacts/<?=$number?>/1"><?=1?></a></li>
+        <?php //Определения максимальноя страницы
+                if ( $number % 5)
+                {
+                    $number = ($number-($number % 5)) / 5 + 1;
+                }
+                else
+                {
+                    $number = ($number / 5);
+                }
+                ?>
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">...</a>
+            <ul class="dropdown-menu">
+                <?php //Цикл выпадающено списка
+                for ( $j = 1 ; $j <= $number ; $j++)
+                { ?>
+                <li><a href="/admin/contacts/<?=$j?>"><?=$j?></a></li>
+                <?php
+                } ?>
+
+            </ul>
+        </li>
+        <li><a href="/admin/contacts/<?=$number?>"><?=$number?></a></li>
+        <?php //Отработка увеличения страницы
+            if ($page_namber[0] < $number)
+            {
+            $page_next = $page_namber[0]+1;
+            }
+            else
+            {
+            $page_next = $number;
+            }
+            ?>
+
+        <li><a href="/admin/contacts/<?=$page_next?>">&raquo;</a></li>
+    </ul>
+
+    <!-- Окончание Нужно править!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!------>
+
+</div>
