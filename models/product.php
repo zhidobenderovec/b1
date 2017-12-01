@@ -1,6 +1,6 @@
 <?php
 //Формирование запросов со страниц
-class Page extends Model
+class Product extends Model
 {
     public function getList($only_published = false)//по умолчанию все страницы
     {
@@ -136,7 +136,7 @@ class Page extends Model
     //--- Работа с базой products ----- Товары
     public function getProduct()//по умолчанию все страницы
     {
-        $sql = "select * from product where 1";// запрос к базе данных
+        $sql = "select * from products where 1";// запрос к базе данных
 
         return $this->db->query($sql);
     }
@@ -152,7 +152,7 @@ class Page extends Model
     public function getByProductId($product_id)
     {
         $id = (int)$product_id;
-        $sql = "select * from product where id_product = '{$id}' limit 1";
+        $sql = "select * from products where id_product = '{$id}' limit 1";
         $result = $this->db->query($sql);
         return isset($result[0]) ? $result[0] : null;
     }

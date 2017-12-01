@@ -22,6 +22,8 @@
            <?php if (Session::get('login') ) { ?>
             <ul class="nav navbar-nav">
                 <li><a <?php if ( App::getRouter()->getController() == 'pages' ) {?>class="active"<?php } ?> href="/admin/pages/">Pages</a></li>
+
+                <li><a <?php if ( App::getRouter()->getController() == 'product' ) {?>class="active"<?php } ?> href="/admin/product">Contact Us</a></li>
                 <li><a <?php if ( App::getRouter()->getController() == 'contacts' ) {?>class="active"<?php } ?> href="/admin/contacts/">Contact Us</a></li>
                 <li><a href="/admin/users/logout">Logout</a> </li>
             </ul>
