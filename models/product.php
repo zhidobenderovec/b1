@@ -2,6 +2,7 @@
 //Формирование запросов со страниц
 class Product extends Model
 {
+
     public function getList($only_published = false)//по умолчанию все страницы
     {
         $sql = "select * from pages where 1";// запрос к базе данных
@@ -11,31 +12,32 @@ class Product extends Model
         }
         return $this->db->query($sql);
     }
+    /*
+       public function getByAlias($alias)
+       {
+           $alias = $this->db->escape($alias);
+           $sql = "select * from pages where alias = '{$alias}' limit 1";
+           $result = $this->db->query($sql);
+           return isset($result[0]) ? $result[0] : null;
+       }
 
-    public function getByAlias($alias)
-    {
-        $alias = $this->db->escape($alias);
-        $sql = "select * from pages where alias = '{$alias}' limit 1";
-        $result = $this->db->query($sql);
-        return isset($result[0]) ? $result[0] : null;
-    }
+       public function getById($id)
+       {
+           $id = (int)$id;
+           $sql = "select * from pages where id = '{$id}' limit 1";
+           $result = $this->db->query($sql);
+           return isset($result[0]) ? $result[0] : null;
+       }
 
-    public function getById($id)
-    {
-        $id = (int)$id;
-        $sql = "select * from pages where id = '{$id}' limit 1";
-        $result = $this->db->query($sql);
-        return isset($result[0]) ? $result[0] : null;
-    }
-    public function getByCategory($category)
-    {
-        $category = $this->db->escape($category);
-        $sql = "select * from categories where category = '{$category}' limit 1";
-        $result = $this->db->query($sql);
-        return isset($result[0]) ? $result[0] : null;
-    }
+       public function getByCategory($category)
+       {
+           $category = $this->db->escape($category);
+           $sql = "select * from categories where category = '{$category}' limit 1";
+           $result = $this->db->query($sql);
+           return isset($result[0]) ? $result[0] : null;
+       }
 
-
+   */
     public function save($data, $id = null)
     {
         if (!isset($data['alias']) || !isset($data['category']) || !isset($data['body'])) {
@@ -92,7 +94,7 @@ class Product extends Model
 
     /*
  * Определение id последней новости
- */
+
     public function getMax_5id()// страницы с или без категории
     {
 
@@ -104,7 +106,7 @@ class Product extends Model
         }
         return $this->db->query($sql);
     }
-
+*/
     //---Работа с базой visit
     public function getListStat()//по умолчанию все страницы
     {
@@ -136,7 +138,7 @@ class Product extends Model
     //--- Работа с базой products ----- Товары
     public function getProduct()//по умолчанию все страницы
     {
-        $sql = "select * from products where 1";// запрос к базе данных
+        $sql = "select * from product where 1";// запрос к базе данных
 
         return $this->db->query($sql);
     }
