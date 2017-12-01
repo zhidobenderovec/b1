@@ -1,22 +1,22 @@
 <?php
 //Контроллер страниц. Методы - по страницам
-class PagesController extends Controller
+class ProductsController extends Controller
 {
     public function __construct($data = array())
     {
         parent::__construct($data);
-        $this->model = new Page();
+        $this->model = new Product();
     }
 
 
 
     public function index()
     {
-       // echo 'Here will be a pages list';
+        // echo 'Here will be a pages list';
         //$this->data['pages'] = $this->model->getList();
         //$this->data['max5id'] = $this->model->getMax_5id();
         //$this->data['visits'] = $this->model->getListStat();
-       //!!! $this->data['card'] = $this->model->getLocation();//БД Локации
+        //!!! $this->data['card'] = $this->model->getLocation();//БД Локации
         $this->data['stock'] = $this->model->getShares();//БД Акций
         $this->data['directory'] = $this->model->getCatalog();
         $this->data['product'] = $this->model->getProduct();
@@ -39,7 +39,8 @@ class PagesController extends Controller
     public function admin_index()
     {
         $this->data['pages'] = $this->model->getList();
-
+        $this->data['directory'] = $this->model->getCatalog();
+        $this->data['product'] = $this->model->getProduct();
     }
 
     public function admin_add()

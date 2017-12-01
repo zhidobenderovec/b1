@@ -45,7 +45,7 @@
                                 if (!$cell['id_directory'])//Проверка наличия поддиректории
                                 {
                                     $i_id++;
-                                     if ($i_id < 9)
+                                     if ($i_id < 9)//Отображается не более 9 директорий. Остальные - выпадающим списком.
                                     { ?>
                                         <a type="button" class="btn btn-default" href="/pages/catalog/<?=$cell['id_catalog']?>"><?=$cell['name_directory']?></a>
                                         <?php
@@ -121,8 +121,8 @@
                     <?php
 
                     //-- Цикл с пагинацией!!------//
-                    $number=0;//индекс цикла, 6 циклов-сообщений на страницу
-                    $max_number = 3;//6 циклов-сообщений на страницу
+                    $number=0;//индекс цикла обнуляем,
+                    $max_number = 9;//9 циклов-сообщений на страницу
                     foreach($data['product'] as $product)//Поиск товаров данного раздела
                     {
                         if ($product['id_subdirectory'] == $cell['id_catalog'])//Проверка наличия нужной директории

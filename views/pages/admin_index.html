@@ -1,4 +1,67 @@
-<h3>Новостные страницы</h3><br/>
+<h3>Страница администрирования</h3><br/>
+
+<table class="table table-striped" style="width: 400px;">
+    <tr>
+        <td><b>1</b></td>
+        <td><b>Редактирование товара</b></td>
+        <td align="right">
+            <a href="/admin/products"><button class="btn btn-sm btn-primary">Открыть страницу</button></a>
+        </td>
+    </tr>
+    <tr>
+        <td><b>2</b></td>
+        <td><b>Редактирование каталога</b></td>
+        <td align="right">
+            <a href="/admin/pages/edit/<?=$page_data['id']?>"><button class="btn btn-sm btn-primary">Открыть страницу</button></a>
+        </td>
+    </tr>
+    <tr>
+        <td><b>3</b></td>
+        <td><b>Редактирование сообщений</b></td>
+        <td align="right">
+            <a href="/admin/pages/edit/<?=$page_data['id']?>"><button class="btn btn-sm btn-primary">Открыть страницу</button></a>
+        </td>
+    </tr>
+    <tr>
+        <td><b>4</b></td>
+        <td><b>Просмотр заказов</b></td>
+        <td align="right">
+            <a href="/admin/pages/edit/<?=$page_data['id']?>"><button class="btn btn-sm btn-primary">Открыть страницу</button></a>
+        </td>
+    </tr>
+    <tr>
+        <td><b>5</b></td>
+        <td><b>Статистики</b></td>
+        <td align="right">
+            <a href="/admin/pages/edit/<?=$page_data['id']?>"><button class="btn btn-sm btn-primary">Открыть страницу</button></a>
+        </td>
+    </tr>
+    <tr>
+        <td><b>6</b></td>
+        <td><b>Наша контактная информация</b></td>
+        <td align="right">
+            <a href="/admin/pages/edit/<?=$page_data['id']?>"><button class="btn btn-sm btn-primary">Открыть страницу</button></a>
+        </td>
+    </tr>
+    <tr>
+        <td><b>7</b></td>
+        <td><b>Зарегистрированные пользователи</b></td>
+        <td align="right">
+            <a href="/admin/pages/edit/<?=$page_data['id']?>"><button class="btn btn-sm btn-primary">Открыть страницу</button></a>
+        </td>
+    </tr>
+    <tr>
+        <td><b>8</b></td>
+        <td><b>Акции</b></td>
+        <td align="right">
+            <a href="/admin/pages/edit/<?=$page_data['id']?>"><button class="btn btn-sm btn-primary">Открыть страницу</button></a>
+        </td>
+    </tr>
+</table>
+<div>
+    <a href="/admin/users/logout"><button class="btn btn-sm btn-success">Выход</button></a>
+</div>
+<!-- Внизу старое  Для страниц!!! -->
 <table class="table table-striped" style="width: 400px;">
     <?php foreach($data['pages'] as $page_data)
     {?>

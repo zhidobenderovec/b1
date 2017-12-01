@@ -62,13 +62,29 @@
             <div class="btn-group" role="group">
                 <a href="/admin" name="signin" class="header-user-link sprite-side whitelink xhr"
                    style="color: white;" data-toggle="dropdown" id="dropdownMenu1">
-                    <?php if (Session::get('login') ) { ?>
+                    <?php
+                        if (Session::get('login') )
+                    { ?>
                     <?=(Session::get('name') )?>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                    <li><a type="button"  align="center" href="/pages">В корзину</a></li>
-                    <li><a type="button"  align="center" href="/pages">Оставить отзыв</a></li>
-                    <li><a type="button"  align="center" href="/admin/users/logout">Выйти из акаунта</a></li>
+                    <?php
+                        if ((Session::get('role') != 'admin')&&(Session::get('role') != 'manager'))
+                        {
+                    ?>
+                            <li><a type="button"  align="center" href="/pades/cabinet">В личный кабинет</a></li>
+                            <li><a type="button"  align="center" href="/contacts">Оставить отзыв</a></li>
+                            <li><a type="button"  align="center" href="/admin/users/logout">Выйти из акаунта</a></li>
+                    <?php
+                        }
+                        else
+                        {
+                    ?>
+                            <li><a type="button"  align="center" href="/admin">В управление</a></li>
+                            <li><a type="button"  align="center" href="/admin/users/logout">Выйти из акаунта</a></li>
+                    <?php
+                        }
+                    ?>
                 </ul>
             </div>
                     <?php
