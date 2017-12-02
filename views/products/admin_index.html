@@ -1,18 +1,59 @@
 <h3>Товары</h3><br/>
+<!--  Для страниц Товаров!!! -->
+<table class="table table-bordered table-striped" style="width: 400px;">
+    <thed>
+        <th bgcolor="#6495ed">ID</th>
+        <th bgcolor="#6495ed">Наименование</th>
+        <th bgcolor="#6495ed">Артикул</th>
+        <th bgcolor="#6495ed">Каталог</th>
+        <th bgcolor="#6495ed">Подкаталог</th>
+        <th bgcolor="#6495ed">Производитель</th>
+        <th bgcolor="#6495ed">Поставщик</th>
+        <th bgcolor="#6495ed">Цена</th>
+        <th bgcolor="#6495ed">На складе</th>
+        <th bgcolor="#6495ed">Редактировать/ Удалить</th>
+    </thed>
+    <tbody>
+        <tr>
+            <td><b> </b></td>
+            <td bgcolor="orange"><b>На сумму :</b></td>
+                <?php
+                    $amount=0;
+                    foreach($data['product'] as $page_data)
+                    {
+                        $amount+=$page_data['price'] * $page_data['quantity'];
+                    }
+                ?>
+            <td bgcolor="orange"><b><?=$amount?> грн. </b></td>
+            <td><b>Все</b></td>
+            <td><b>Все</b></td>
+            <td><b>Все</b></td>
+            <td><b>Все</b></td>
+            <td><b>Повышение</b></td>
+            <td><b> </b></td>
+            <td><b> </b></td>
+        </tr>
 
+        <?php foreach($data['product'] as $page_data)
+        {?>
+        <tr>
+            <td><b><?=$page_data['id_product']?></b></td>
+            <td><b><?=$page_data['name_product']?></b></td>
+            <td><b><?=$page_data['code']?></b></td>
+            <td><b><?=$page_data['id_directory']?></b></td>
+            <td><b><?=$page_data['id_subdirectory']?></b></td>
+            <td><b><?=$page_data['id_brend']?></b></td>
+            <td><b><?=$page_data['id_provider']?></b></td>
+            <td><b><?=$page_data['price']?></b></td>
+            <td><b><?=$page_data['quantity']?></b></td>
+            <td align="right">
+                <a href="/admin/pages/edit/<?=$page_data['id']?>"><button class="btn btn-sm btn-primary">Редактировать</button></a>
 
-<!-- Внизу старое  Для страниц!!! -->
-<table class="table table-striped" style="width: 400px;">
-    <?php foreach($data['product'] as $page_data)
-    {?>
-    <tr>
-        <td><b><?=$page_data['name_product']?></b></td>
-        <td align="right">
-            <a href="/admin/pages/edit/<?=$page_data['id']?>"><button class="btn btn-sm btn-primary">Редактировать</button></a>
-            <a href="/admin/pages/delete/<?=$page_data['id']?>" onclick="return confirmDelete();"><button class="btn btn-sm btn-warning">Удалить</button></a>
-        </td>
+                <a href="/admin/pages/delete/<?=$page_data['id']?>" onclick="return confirmDelete();"><button class="btn btn-sm btn-warning">Удалить</button></a>
+            </td>
 
-    </tr>
+        </tr>
+    </tbody>
     <?php } ?>
 </table>
 

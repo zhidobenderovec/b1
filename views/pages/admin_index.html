@@ -1,4 +1,4 @@
-<h3>Страница администрирования</h3><br/>
+<h3>Страницы администрирования</h3><br/>
 
 <table class="table table-striped" style="width: 400px;">
     <tr>
@@ -61,24 +61,3 @@
 <div>
     <a href="/admin/users/logout"><button class="btn btn-sm btn-success">Выход</button></a>
 </div>
-<!-- Внизу старое  Для страниц!!! -->
-<table class="table table-striped" style="width: 400px;">
-    <?php foreach($data['pages'] as $page_data)
-    {?>
-        <tr>
-            <td><b><?=$page_data['alias']?></b></td>
-            <td align="right">
-                <a href="/admin/pages/edit/<?=$page_data['id']?>"><button class="btn btn-sm btn-primary">Редактировать</button></a>
-                <a href="/admin/pages/delete/<?=$page_data['id']?>" onclick="return confirmDelete();"><button class="btn btn-sm btn-warning">Удалить</button></a>
-            </td>
-
-        </tr>
-    <?php } ?>
-</table>
-
-<br/>
-
-<div>
-    <a href="/admin/pages/add/"><button class="btn btn-sm btn-success">Новая страница</button></a>
-</div>
-
