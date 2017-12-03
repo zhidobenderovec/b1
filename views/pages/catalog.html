@@ -127,7 +127,7 @@
                     {
                         if ($product['id_subdirectory'] == $cell['id_catalog'])//Проверка наличия нужной директории
                         {
-                            if (($number < ($max_number * $page_namber[0]))&&($number >= ($max_number *($page_namber[0]-1))))//Проверка на диапазон страниц
+                            if (($number < ($max_number * $page_namber[0]))&&($number >= ($max_number *($page_namber[0]-1))))//Проверка на диапазон страниц - пагинация
                             {
                             ?>
                                 <div class="col-md-4 col-sm-4">
@@ -226,7 +226,6 @@
                 }
             }
             ?>
-
         </div>
     </div>
 </div>

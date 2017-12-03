@@ -1,4 +1,31 @@
-<h3>Товары</h3><br/>
+<h3>Товары</h3>
+<?php
+    $page_namber = $data['catalog_num']; // Номер просматриваемой страницы
+    $directory_number = $data['directory_num'];
+    $subdirectory_number = $data['subdirectory_num'];
+    $brend_number = $data['brend_num'];
+    $provider_number = $data['provider_num'];
+    $direction_number = $data['direction_num'];
+
+
+    echo (" page "). ($page_namber);
+    echo (" directory ").($directory_number);
+    echo (" subdirectory ").($subdirectory_number);
+    echo (" brend ").($brend_number);
+    echo (" provider ").($provider_number);
+    echo (" direction ").($direction_number);
+
+?>
+
+
+
+
+<div>
+    <a href="/admin/pages/add/"><button class="btn btn-sm btn-success" title="Загрузить Excel-файл с товаром который нужно списать из каталога">Загрузить списание товаров</button></a>
+    <a href="/admin/pages/add/"><button class="btn btn-sm btn-success"title="Нажмите чтобы добавить новый товар в каталог">Добавить новый товар</button></a>
+    <a href="/admin/pages/add/"><button class="btn btn-sm btn-success" title="Загрузить Excel-файл с товаром который нужно добавить в каталог">Загрузить новый каталог</button></a>
+    <a href="/admin/pages/add/"><button class="btn btn-sm btn-success" title="Скачать каталог товаров в виде Excel-файла">Выгрузить каталог</button></a>
+</div><br/>
 <!--  Для страниц Товаров!!! -->
 <table class="table table-bordered table-striped" style="width: 400px;">
     <thed>
@@ -16,7 +43,8 @@
     <tbody>
         <tr>
             <td><b> </b></td>
-            <td bgcolor="orange"><b>На сумму :</b></td>
+            <!--Вывод общей суммы-->
+            <td bgcolor="orange"><b>Товара на сумму :</b></td>
                 <?php
                     $amount=0;
                     foreach($data['product'] as $page_data)
@@ -25,15 +53,203 @@
                     }
                 ?>
             <td bgcolor="orange"><b><?=$amount?> грн. </b></td>
-            <td><b>Все</b></td>
-            <td><b>Все</b></td>
-            <td><b>Все</b></td>
-            <td><b>Все</b></td>
-            <td><b>Повышение</b></td>
+            <!--Выбот директории-->
+            <td><b>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <?php
+                            if($directory_number == 0)
+                            {
+                        ?>
+                                Все
+                        <?php
+                            }
+                            else
+                            {
+                                $name = $data['dir_name'];
+                        ?>
+                                <?=$name['name_directory']?>
+                        <?php
+                            }
+                        ?>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="/admin/products//1/0/0/<?=$brend_number?>/<?=$provider_number?>/<?=$direction_number?>">Все</a></li>
+                        <?php
+                        $catalog_id=0;
+                        $prod_catalog_id=0;
+                        foreach($data['directory'] as $catalog_data)
+                        {
+                            if ($catalog_data['id_directory']==$catalog_id)// равно 0 - это каталоги
+                            {
+                        ?>
+                        <li><a href="/admin/products//1/<?=$catalog_data['id_catalog']?>/0/<?=$brend_number?>/<?=$provider_number?>/<?=$direction_number?>"><?=$catalog_data['name_directory']?></a></li>
+                        <?php
+                            }
+                        }
+                    ?>
+                    </ul>
+                </div>
+                </b>
+            </td>
+            <!--Выбор поддиректории-->
+            <td><b>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <?php
+                            if($subdirectory_number == 0)
+                            {
+                        ?>
+                        Все
+                        <?php
+                            }
+                            else
+                            {
+                                $name = $data['subdir_name'];
+                        ?>
+                                <?=$name['name_directory']?>
+                        <?php
+                            }
+                        ?>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="/admin/products//1/<?=$directory_number?>/0/<?=$brend_number?>/<?=$provider_number?>/<?=$direction_number?>">Все</a></li>
+                        <?php
+
+                        foreach($data['directory'] as $catalog_data)
+                        {
+                            if ($catalog_data['id_directory']==$directory_number)// равно номеру директории - это подкаталоги
+                            {
+                        ?>
+                        <li><a href="/admin/products//1/<?=$directory_number?>/<?=$catalog_data['id_catalog']?>/<?=$brend_number?>/<?=$provider_number?>/<?=$direction_number?>"><?=$catalog_data['name_directory']?></a></li>
+                        <?php
+                            }
+                        }
+                    ?>
+                    </ul>
+                </div>
+            </b>
+            </td>
+            <!--Выбор имени Производителя-->
+            <td><b>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <?php
+                            if($brend_number == 0)
+                            {
+                        ?>
+                        Все
+                        <?php
+                            }
+                            else
+                            {
+                                $name = $data['brend_name'];
+                        ?>
+                                <?=$name['name_brend']?>
+                        <?php
+                            }
+                        ?>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="/admin/products//1/<?=$directory_number?>/<?=$subdirectory_number?>/0/<?=$provider_number?>/<?=$direction_number?>">Все</a></li>
+                        <?php
+
+                        foreach($data['brend'] as $data_brend)
+                        {
+
+                        ?>
+                        <li><a href="/admin/products//1/<?=$directory_number?>/<?=$subdirectory_number?>/<?=$data_brend['id_brend']?>/<?=$provider_number?>/<?=$direction_number?>"><?=$data_brend['name_brend']?></a></li>
+                        <?php
+
+                        }
+                    ?>
+                    </ul>
+                </div>
+            </b>
+            </td>
+            <!--Выбор имени Поставщика-->
+            <td><b>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <?php
+                            if($provider_number == 0)
+                            {
+                        ?>
+                        Все
+                        <?php
+                            }
+                            else
+                            {
+                                $name = $data['provider_name'];
+                               // print_r ($name['name_provider']);
+
+                        ?>
+                        <?=$name['name_provider']?>
+                        <?php
+                            }
+                        ?>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="/admin/products//1/<?=$directory_number?>/<?=$subdirectory_number?>/<?=$brend_number?>/0/<?=$direction_number?>">Все</a></li>
+                        <?php
+
+                        foreach($data['provider'] as $data_provider)
+                        {
+
+                        ?>
+                        <li><a href="/admin/products//1/<?=$directory_number?>/<?=$subdirectory_number?>/<?=$brend_number?>/<?=$data_provider['id_provider']?>/<?=$direction_number?>"><?=$data_provider['name_provider']?></a></li>
+                        <?php
+
+                        }
+                    ?>
+                    </ul>
+                </div>
+            </b>
+            </td>
+            <!--Выбор направлнния цен-->
+            <td><b>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <?php
+                            if($direction_number == 0)
+                            {
+                        ?>
+                                Все
+                        <?php
+                            }
+                            if($direction_number == 1)
+                            {
+                        ?>
+                                Увеличение
+                        <?php
+                            }
+                            if($direction_number == 2)
+                            {
+                        ?>
+                                Уменьшение
+                        <?php
+                            }
+                        ?>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="/admin/products//1/<?=$directory_number?>/<?=$subdirectory_number?>/<?=$brend_number?>/<?=$provider_number?>/0">Все</a></li>
+                        <li><a href="/admin/products//1/<?=$directory_number?>/<?=$subdirectory_number?>/<?=$brend_number?>/<?=$provider_number?>/1">Увеличение</a></li>
+                        <li><a href="/admin/products//1/<?=$directory_number?>/<?=$subdirectory_number?>/<?=$brend_number?>/<?=$provider_number?>/2">Уменьшение</a></li>
+
+                    </ul>
+                </div>
+                </b>
+            </td>
             <td><b> </b></td>
             <td><b> </b></td>
         </tr>
 
+<!-- Тут нужна пагинация -->
         <?php foreach($data['product'] as $page_data)
         {?>
         <tr>
@@ -57,9 +273,118 @@
     <?php } ?>
 </table>
 
-<br/>
 
-<div>
-    <a href="/admin/pages/add/"><button class="btn btn-sm btn-success">Новая страница</button></a>
+
+
+//-- Цикл с пагинацией!!------//
+$number=0;//индекс цикла обнуляем,
+$max_number = 10;//20 циклов-сообщений на страницу
+
+foreach($data['product'] as $product)//Поиск товаров данного раздела
+{
+if ($product['id_subdirectory'] == $cell['id_catalog'])//Проверка наличия нужной директории
+{
+if (($number < ($max_number * $page_namber[0]))&&($number >= ($max_number *($page_namber[0]-1))))//Проверка на диапазон страниц - пагинация
+{
+?>
+<div class="col-md-4 col-sm-4">
+    <div class="my_class_product">
+        <div class="thumbnail">
+            <a href="/pages/product/<?=$product['id_product']?>"><img src="<?=$product['imege']?>" alt="..."></a>
+            <div class="caption">
+                <h5 ><a href="/pages/catalog/<?=$cell['id_catalog']?>"><?=$product['name_product']?></a></h5>
+                <p>На складе:&nbsp<?=$product['quantity']?>&nbsp шт.</p>
+                <p>Цена:&nbsp<?=$product['price']?>&nbsp грн.</p>
+                <p><a href="#" class="btn btn-primary" role="button">Смотреть</a> <a href="##" class="btn btn-default" role="button">В корзину</a></p>
+            </div>
+        </div>
+    </div>
 </div>
+<?php
+                            }
+                            $number++;
+                        }
+                    }
+                    ?>
+</div>
+<!-- Постраничная навигация!!!!!Пагинация!!------>
+
+<div align="center">
+    <ul class="pagination">
+        <?php
+                            if ($page_namber[0] < $number)
+                            {
+                                $page_next = $page_namber[0]+1;
+                            }
+                            else
+                            {
+                                $page_next = $number;
+                            }
+                            //Отработка уменьшения страницы
+                            if ($page_namber[0] > 1)
+                            {
+                            $page_previous = $page_namber[0]-1;
+                            }
+                            else
+                            {
+                            $page_previous = 1;
+                            }
+                            if ($page_namber[0] != 1)
+                            {
+                            ?>
+                            <li><a href="/pages/catalog/<?=$cell['id_catalog']?>/<?=$page_previous?>">&laquo;</a></li>
+                            <li><a href="/pages/catalog/<?=$cell['id_catalog']?>/1"><?=1?></a></li>
+                            <?php
+                            }
+                            //Определения максимальноя страницы
+                            if ( $number % $max_number)
+                            {
+                                $number = ($number-($number % $max_number)) / $max_number + 1;
+                            }
+                            else
+                            {
+                                $number = ($number / $max_number);
+                            }
+                        ?>
+        <!--Текущая страница -->
+
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><u><?=$page_namber[0]?></u></a>
+            <ul class="dropdown-menu">
+                <?php //Цикл выпадающено списка
+                            for ( $j = 1 ; $j <= $number ; $j++)
+                            { ?>
+                <li><a href="/pages/catalog/<?=$cell['id_catalog']?>/<?=$j?>"><?=$j?></a></li>
+                <?php
+                            }
+                        ?>
+            </ul>
+        </li>
+        <?php
+                            if ($page_namber[0] != $number)
+                            {
+                        ?>
+        <li><a href="/pages/catalog/<?=$cell['id_catalog']?>/<?=$number?>"><?=$number?></a></li>
+        <?php //Отработка увеличения страницы
+                            if ($page_namber[0] < $number)
+                            {
+                                $page_next = $page_namber[0]+1;
+                            }
+                            else
+                            {
+                                $page_next = $number;
+                            }
+                        ?>
+        <li><a href="/pages/catalog/<?=$cell['id_catalog']?>/<?=$page_next?>">&raquo;</a></li>
+        <?php
+                            }
+                        ?>
+    </ul>
+</div>
+<?php
+                }
+            }
+            ?>
+</div>
+
 

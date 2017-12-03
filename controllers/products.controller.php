@@ -1,5 +1,5 @@
 <?php
-//Контроллер страниц. Методы - по страницам
+//Контроллер страниц редактирования продуктов. Методы - по страницам
 class ProductsController extends Controller
 {
     public function __construct($data = array())
@@ -8,7 +8,7 @@ class ProductsController extends Controller
         $this->model = new Product();
     }
 
-
+/*
 
     public function index()
     {
@@ -35,14 +35,68 @@ class ProductsController extends Controller
         }
 
     }
-
+*/  //*Функция обслуживания страницы таблицы списка товаров admin_index.html
     public function admin_index()
     {
+        //Возврат номера страницы пагинации по id  из URL
+        $params_products = App::getRouter()->getParams();
+        if (isset($params_products[1]))
+        {
+
+            $this->data['catalog_num'] = strtolower($params_products[1]);
+        }
+
+        //Возврат name_directory (каталога товаров) по id  из URL
+        if (isset($params_products[2]))
+        {
+
+            $this->data['directory_num'] = strtolower($params_products[2]);
+
+            $category_id = strtolower($params_products[2]);
+            $this->data['dir_name'] = $this->model->getByCatalogIdName($category_id);
+        }
+
+        //Возврат суб name_directory (подкаталога товаров) по id  из URL
+            if (isset($params_products[3]))
+        {
+            $this->data['subdirectory_num'] = strtolower($params_products[3]);
+
+            $category_id = strtolower($params_products[3]);
+            $this->data['subdir_name'] = $this->model->getByCatalogIdName($category_id);
+        }
+
+        if (isset($params_products[4]))
+        //Возврат названия производителя по id  из URL
+        {
+            $this->data['brend_num'] = strtolower($params_products[4]);
+
+            $brend_id = strtolower($params_products[4]);
+            $this->data['brend_name'] = $this->model->getByBrendIdName($brend_id);
+        }
+
+        //Возврат названия поставщика по id  из URL
+        if (isset($params_products[5]))
+        {
+            $this->data['provider_num'] = strtolower($params_products[5]);
+
+            $provider_id = strtolower($params_products[5]);
+            $this->data['provider_name'] = $this->model->getByProviderIdName($provider_id);
+        }
+
+        if (isset($params_products[6]))
+        {
+
+            $this->data['direction_num'] = strtolower($params_products[6]);
+        }
+
         $this->data['pages'] = $this->model->getList();
         $this->data['directory'] = $this->model->getCatalog();
+        $this->data['brend'] = $this->model->getBrend();
+        $this->data['provider'] = $this->model->getProvider();
         $this->data['product'] = $this->model->getProduct();
-    }
 
+    }
+/*
     public function admin_add()
     {
         if ($_POST)
@@ -178,6 +232,7 @@ class ProductsController extends Controller
         $this->data['product'] = $this->model->getProduct();
 
     }
+*/
 }
 
 ?>

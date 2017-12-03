@@ -114,6 +114,7 @@ class Product extends Model
 
         return $this->db->query($sql);
     }
+
     //--- Работа с базой location ----- Контактные данные
     public function getLocation()//по умолчанию все страницы
     {
@@ -121,6 +122,7 @@ class Product extends Model
 
         return $this->db->query($sql);
     }
+
     //--- Работа с базой shares ----- Акции
     public function getShares()//по умолчанию все страницы
     {
@@ -128,21 +130,24 @@ class Product extends Model
 
         return $this->db->query($sql);
     }
-    //--- Работа с базой catalog ----- Ячейки каталока товаров
+
+    //--- Работа с базой catalog ----- Ячейки каталока товаров +
     public function getCatalog()//по умолчанию все страницы
     {
         $sql = "select * from catalog where 1";// запрос к базе данных
 
         return $this->db->query($sql);
     }
-    //--- Работа с базой products ----- Товары
-    public function getProduct()//по умолчанию все страницы
+
+    //--- Работа с базой products ----- Товары Получение всей базы
+    public function getProduct()//по умолчанию все страницы +
     {
         $sql = "select * from product where 1";// запрос к базе данных
 
         return $this->db->query($sql);
     }
-    //--- Работа с базой catalog по id ----- Для Товаров id
+
+    //--- Работа с базой catalog по id ----- Для Товаров принимает id, возврат строки
     public function getByCatalogId($category_id)
     {
         $id = (int)$category_id;
@@ -150,11 +155,55 @@ class Product extends Model
         $result = $this->db->query($sql);
         return isset($result[0]) ? $result[0] : null;
     }
-    //--- Работа с базой products по id ----- Для страницы товара
+
+    //--- Работа с базой catalog по id ----- Для Товаров принимает id, возврат Name_catalog
+    public function getByCatalogIdName($category_id)
+    {
+        $id = (int)$category_id;
+        $sql = "select name_directory from catalog where id_catalog = '{$id}' limit 1";
+        $result = $this->db->query($sql);
+        return isset($result[0]) ? $result[0] : null;
+    }
+
+    //--- Работа с базой products по id ----- Для страницы товара принимает id, возврат строки товара
     public function getByProductId($product_id)
     {
         $id = (int)$product_id;
-        $sql = "select * from products where id_product = '{$id}' limit 1";
+        $sql = "select * from product where id_product = '{$id}' limit 1";
+        $result = $this->db->query($sql);
+        return isset($result[0]) ? $result[0] : null;
+    }
+
+    //--- Работа с базой brend ----- Производители Получение всей базы
+    public function getBrend()//по умолчанию все страницы +
+    {
+        $sql = "select * from brend where 1";// запрос к базе данных
+
+        return $this->db->query($sql);
+    }
+
+    //--- Работа с базой brend по id ----- Для Товаров принимает id, возврат Name_brend
+    public function getByBrendIdName($brend_id)
+    {
+        $id = (int)$brend_id;
+        $sql = "select name_brend from brend where id_brend = '{$id}' limit 1";
+        $result = $this->db->query($sql);
+        return isset($result[0]) ? $result[0] : null;
+    }
+
+    //--- Работа с базой provider ----- Поставщики Получение всей базы
+    public function getProvider()//по умолчанию все страницы +
+    {
+        $sql = "select * from provider where 1";// запрос к базе данных
+
+        return $this->db->query($sql);
+    }
+
+    //--- Работа с базой provider по id ----- Для Товаров принимает id, возврат Name_provider
+    public function getByProviderIdName($provider_id)
+    {
+        $id = (int)$provider_id;
+        $sql = "select name_provider from provider where id_provider = '{$id}' limit 1";
         $result = $this->db->query($sql);
         return isset($result[0]) ? $result[0] : null;
     }
