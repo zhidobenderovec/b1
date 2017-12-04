@@ -40,46 +40,58 @@ class Product extends Model
    */
     public function save($data, $id = null)
     {
-        if (!isset($data['alias']) || !isset($data['category']) || !isset($data['body'])) {
+        if (!isset($data['name']) || !isset($data['code']) || !isset($data['subdirectory'])) {
             return false;
         }
 
         $id = (int)$id;
-        $category = $this->db->escape($data['category']);
-        $alias = $this->db->escape($data['alias']);
-        $tegs = $this->db->escape($data['tegs']);
-        $dates = $this->db->escape($data['dates']);
+        $name = $this->db->escape($data['name']);
+        $code = $this->db->escape($data['code']);
+        $directory = $this->db->escape($data['directory']);
+        $subdirectory = $this->db->escape($data['subdirectory']);
+        $brend = $this->db->escape($data['brend']);
+        $provider = $this->db->escape($data['provider']);
+        $quantity = $this->db->escape($data['quantity']);
+        $price = $this->db->escape($data['price']);
         $body = $this->db->escape($data['body']);
-        $comments = $this->db->escape($data['comments']);
         $img = $this->db->escape($data['img']);
-        $analytics = isset($data['analytics']) ? 1 : 0; //$this->db->escape($data['analytics']);
+        $parameter = $this->db->escape($data['parameter']);
+        $views = $this->db->escape($data['views']);
 
         if (!$id) {
             // Add new record
             $sql = "
-              insert into pages
-                set category = '{$category}',
-                  alias = '{$alias}',
-                  tegs = '{$tegs}',
-                  dates = '{$dates}',
-                  body = '{$body}',
-                  comments = '{$comments}',
-                  img = '{$img}',
-                  analytics = '{$analytics}'
+              insert into product
+                set name_product = '{$name}',
+                  code = '{$code}',
+                  id_directory = '{$directory}',
+                  id_subdirectory = '{$subdirectory}',
+                  id_brend = '{$brend}',
+                  id_provider = '{$provider}',
+                  quantity = '{$quantity}',
+                  price = '{$price}',
+                  description = '{$body}',
+                  imege = '{$img}',
+                  parameter = '{$parameter}',
+                  views = '{$views}'
             ";
         } else {
             // Update existing record
             $sql = "
-              update pages
-                set category = '{$category}',
-                  alias = '{$alias}',
-                  tegs = '{$tegs}',
-                  dates = '{$dates}',
-                  body = '{$body}',
-                  comments = '{$comments}',
-                  img = '{$img}',
-                  analytics = '{$analytics}'
-                where id = ($id)
+              update product
+                set name_product = '{$name}',
+                  code = '{$code}',
+                  id_directory = '{$directory}',
+                  id_subdirectory = '{$subdirectory}',
+                  id_brend = '{$brend}',
+                  id_provider = '{$provider}',
+                  quantity = '{$quantity}',
+                  price = '{$price}',
+                  description = '{$body}',
+                  imege = '{$img}',
+                  parameter = '{$parameter}',
+                  views = '{$views}'
+                where id_product = ($id)
             ";
         }
         return $this->db->query($sql);
@@ -88,7 +100,7 @@ class Product extends Model
     public function delete($id)
     {
         $id = (int)$id;
-        $sql = "delete from pages where id = {$id}";
+        $sql = "delete from product where id_product = {$id}";
         return $this->db->query($sql);//команда
     }
 
@@ -147,6 +159,14 @@ class Product extends Model
         return $this->db->query($sql);
     }
 
+    //--- Работа с базой products по id ----- Для страницы товара принимает id, возврат строки товара
+    public function getByProductId($product_id)
+    {
+        $id = (int)$product_id;
+        $sql = "select * from product where id_product = '{$id}' limit 1";
+        $result = $this->db->query($sql);
+        return isset($result[0]) ? $result[0] : null;
+    }
     //--- Работа с базой catalog по id ----- Для Товаров принимает id, возврат строки
     public function getByCatalogId($category_id)
     {
@@ -165,14 +185,6 @@ class Product extends Model
         return isset($result[0]) ? $result[0] : null;
     }
 
-    //--- Работа с базой products по id ----- Для страницы товара принимает id, возврат строки товара
-    public function getByProductId($product_id)
-    {
-        $id = (int)$product_id;
-        $sql = "select * from product where id_product = '{$id}' limit 1";
-        $result = $this->db->query($sql);
-        return isset($result[0]) ? $result[0] : null;
-    }
 
     //--- Работа с базой brend ----- Производители Получение всей базы
     public function getBrend()//по умолчанию все страницы +
@@ -207,5 +219,22 @@ class Product extends Model
         $result = $this->db->query($sql);
         return isset($result[0]) ? $result[0] : null;
     }
+
+    //--- Работа с базой products ----- Товары Получение всей базы с увеличением цены
+    public function getProductIncrease()//по умолчанию все страницы +
+    {
+        $sql = "select * from product order by price asc";// запрос к базе данных
+
+        return $this->db->query($sql);
+    }
+
+    //--- Работа с базой products ----- Товары Получение всей базы с уменьшением цены
+    public function getProductReduction()//по умолчанию все страницы +
+    {
+        $sql = "select * from product order by price desc";// запрос к базе данных
+
+        return $this->db->query($sql);
+    }
+
 }
 ?>

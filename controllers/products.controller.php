@@ -94,26 +94,11 @@ class ProductsController extends Controller
         $this->data['brend'] = $this->model->getBrend();
         $this->data['provider'] = $this->model->getProvider();
         $this->data['product'] = $this->model->getProduct();
-
-    }
-/*
-    public function admin_add()
-    {
-        if ($_POST)
-        {
-            $result = $this->model->save($_POST);
-            if($result)
-            {
-                Session::setFlash('Page was sawed.');
-            }
-            else
-            {
-                Session::setFlash('Error');
-            }
-            Router::redirect('/admin/pages/');//Было Router::redirect('/users/pages/');
-        }
+        $this->data['increase'] = $this->model->getProductIncrease();
+        $this->data['reduction'] = $this->model->getProductReduction();
     }
 
+    //*Функция редактирования и записи товара
     public function admin_edit()
     {
         if ($_POST)
@@ -128,20 +113,22 @@ class ProductsController extends Controller
             {
                 Session::setFlash('Error');
             }
-            Router::redirect('/admin/pages/');//Было Router::redirect('/users/pages/');
+            Router::redirect('/admin/products//1/0/0/0/0/0');//Было Router::redirect('/users/pages/');
         }
 
         if (isset($this->params[0]))
         {
-            $this->data['page'] = $this->model->getById($this->params[0]);
+            $this->data['product'] = $this->model->getByProductId($this->params[0]);
         }
         else
         {
             Session::setFlash('Wrong page id.');
             Router::redirect('/users/pages/');
         }
+        $this->data['directory'] = $this->model->getCatalog();
+        $this->data['brend'] = $this->model->getBrend();
+        $this->data['provider'] = $this->model->getProvider();
     }
-
     public function admin_delete()
     {
         if (isset($this->params[0]))
@@ -149,15 +136,36 @@ class ProductsController extends Controller
             $result = $this->model->delete($this->params[0]);
             if ($result)
             {
-                Session::setFlash('Page was deleted.');
+                Session::setFlash('Product was deleted.');
             }
             else
             {
-                Session::setFlash('Error.');
+                Session::setFlash('Error_admin_delete.');
             }
         }
-        Router::redirect('/admin/pages/');//Было Router::redirect('/users/pages/');
+        Router::redirect('/admin/products//1/0/0/0/0/0');//Было Router::redirect('/users/pages/');
     }
+
+    public function admin_add()
+    {
+        if ($_POST)
+        {
+            $result = $this->model->save($_POST);
+            if($result)
+            {
+                Session::setFlash('Page was sawed.');
+            }
+            else
+            {
+                Session::setFlash('Error');
+            }
+            Router::redirect('/admin/products//1/0/0/0/0/0');//Было Router::redirect('/users/pages/');
+        }
+    }
+/*
+
+
+
 
     public function news_list()
     {
