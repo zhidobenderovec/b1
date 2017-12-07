@@ -30,3 +30,365 @@
 
 </body>
 </html>
+
+
+var data = { "1": "Раз", "2": "Два", "3": "Три" }; // Данные "из бд"
+
+$('<select>').appendTo('div'); // Создаём пустой select
+    $.each(data, function(key, value) { // перебираем даные и создаём option
+    $('select').append($("<option></option>").attr("value", key).text(value));
+    });
+
+///////////////////////
+    var data = {
+    <?php
+                            foreach($data['directory'] as $data_subdirectory)
+                            {
+                                if ($data_subdirectory['id_directory'] == $data_directory['id_catalog'])
+                                    {
+                                    ?>
+    "<?=$data_subdirector['id_catalog']?>": "data_subdirectory['name_directory']",
+    <?php
+                                    }
+                            }
+                        ?>
+
+    "1": "Раз", "2": "Два", "3": "Три"
+
+    }; // Данные "из бд" Цикл наполнения данными подкаталога
+
+
+
+
+    var data = <?php echo $json;?>;// Данные "из бд" Цикл наполнения данными подкаталога
+    var data = eval(".json_encode($w).");
+    var name = eval('<?php echo $json;?>');
+
+    document.getElementById('directory').value
+    /////??????????????????////////////////////////////?????????????????????????/////////////////////////
+
+    <h3>Редактирование товара</h3><br/>
+
+    <form method="post"  action="">
+        <input type="hidden" name="id" value="<?=$data['product']['id_product']?>" />
+        <div class="form-group">
+            <label for="name">Наименование</label>
+            <input type="text" id="name" name="name" value="<?=$data['product']['name_product']?>" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="code">Артикул</label>
+            <input type="text" id="code" name="code" value="<?=$data['product']['code']?>" class="form-control" />
+        </div>
+        <?php $index_directory = 0;//Объявление индекса категории для подкатегори
+    //$possible_json = array_column($data['directory'],'name_directory', 'id_catalog');
+     // $json = json_encode($possible_json);
+     $w = $data['directory'];
+    $possible = array();
+    $possible3 = array();
+    ?>
+        <!--?=print_r ($data['directory'])?-->
+        <!--?=print_r ($json)?-->
+
+        ///////////////////////////////////////////
+
+        <script>
+            function loadSubdirectory()
+            {
+            <?php
+
+                foreach($data['directory'] as $data_directory)
+                {
+                    $xx = $data_directory['id_catalog'];
+                    $possible2 = $data_directory['id_catalog'];
+                    $json2 = json_encode($possible2);
+
+                        ?>
+                    var data2 = <?php echo $json2;?>;
+                    console.log(data2);
+
+                    var aaa = '<?php echo $xx ?>';
+
+                    if (9 == aaa)
+                    {
+                        console.log(data2);
+
+                    <?php
+
+                        $data_id_catalog5 = $xx;
+                        $possible5[]=$data_id_catalog5;
+                        $json5 = json_encode($possible5);
+
+
+                        foreach($data['directory'] as $data_subdirectory)
+                        {
+                            if ($data_subdirectory['id_directory'] == $xx)
+                            {
+                                unset($json);
+                                $data_id_catalog = $data_subdirectory['id_directory'];
+
+                                $possible3[]=$data_id_catalog;
+                                $json3 = json_encode($possible3);
+                                $data_id_catalog4 = $xx;
+                                $possible4[]=$data_id_catalog4;
+                                $json4 = json_encode($possible4);
+
+                                $possible[$data_id_catalog] = $data_subdirectory['name_directory'];
+                                $json = json_encode($possible);
+                            }
+
+
+                        }
+
+
+                            ?>
+                        var data3 = <?php echo $json3;?>;
+                        var data4 = <?php echo $json4;?>;
+                        var data5 = <?php echo $json5;?>;
+                        console.log(data3);
+                        console.log(data4);
+                        console.log(data5);
+
+
+                        var data = <?php echo $json;?>;// Данные "из бд" Цикл наполнения данными подкаталога
+                        console.log(data);
+                        document.getElementById("h").innerHTML = data;
+                        $('select.subdirectory').empty();//Удаляем все "<option></option>"  подкаталогов
+
+                        $.each( data, function(id_catalog, name_directory) { // перебираем даные и создаём option (наполняем новыми подкаталогами)
+                            document.getElementById("h").innerHTML = id_catalog;
+                            $('select.subdirectory').append($("<option></option>").attr("value", id_catalog).text(name_directory));
+                        });
+
+
+                        // document.getElementById("h").innerHTML = "<?=$data_directory['id_catalog']?>";
+                        document.getElementById("h1").innerHTML = data ;
+                        document.getElementById("h3").innerHTML = data3 ;
+                        document.getElementById("h4").innerHTML = data4 ;
+
+                    };
+                <?php
+                }
+                    ?>
+            }
+
+
+        </script>
+
+        <div id="1"></div>
+        <div id="3"></div>
+        <div id="4"></div>
+        ===================
+        <div class="form-group">
+            <label>Каталог товара</label>
+            <div>
+                <!--Раскрывающийся список для Производителя-->
+                <select style="height: 30px; width: 300px;" name="directory" id='directory' onchange="loadSubdirectory()">
+                    <?php
+                    foreach($data['directory'] as $data_directory)
+                    {
+                        if ($data_directory['id_catalog'] == $data['product']['id_directory'])
+                        {
+                    ?>
+                    <option selected="selected" value="<?=$data_directory['id_catalog']?>"><?=$data_directory['name_directory']?></option>
+                    <?php
+
+                        }
+                        if ($data_directory['id_directory'] == 0) //Фильтрация только директорий
+                        {
+                    ?>
+                    <option value="<?=$data_directory['id_catalog']?>"><?=$data_directory['name_directory']?></option>
+                    <?php
+                 $index_directory = $data_directory['id_catalog'];//Индекс для подкатегории
+                        }
+                    }
+                ?>
+                </select>
+            </div>
+        </div>
+        <p id = "h"></p>
+        ======================+++++++++++++++++++++++++++++++++++
+        <div class="form-group">
+            <label>Подкаталог товара</label>
+            <div>
+                <!--Раскрывающийся список для Производителя-->
+                <select class="subdirectory" name="subdirectory" style="height: 30px; width: 300px;" name="subdirectory" id='subdirectory'>
+                    <?php
+                    foreach($data['directory'] as $data_directory)
+                    {
+                        //if($data_directory['id_catalog'] == $data['product']['id_subdirectory'])
+                        if($data_directory['id_catalog'] == $index_directory)
+
+                        {
+                    ?>
+                    <option selected="selected" value="<?=$data_directory['id_catalog']?>"><?=$data_directory['name_directory']?></option>
+                    <?php
+                        }
+                        if ($data['product']['id_directory'] == $data_directory['id_directory']) //Фильтрация толькосубдиректорий выбранной директории
+                        {
+                    ?>
+                    <option value="<?=$data_directory['id_catalog']?>"><?=$data_directory['name_directory']?></option>
+                    <?php
+                        }
+                    }
+                ?>
+                </select>
+            </div>
+        </div>
+        ////////////////////////////////////////////////
+        <div class="form-group">
+            <label>Каталог товара</label>
+            <div>
+                <!--Раскрывающийся список для Производителя-->
+                <select style="height: 30px; width: 300px;" name="directory1" >
+                    <?php
+                    foreach($data['directory'] as $data_directory)
+                    {
+                        if ($data_directory['id_catalog'] == $data['product']['id_directory'])
+                        {
+                    ?>
+                    <option selected="selected" value="<?=$data_directory['id_catalog']?>"><?=$data_directory['name_directory']?></option>
+                    <?php
+
+                        }
+                        if ($data_directory['id_directory'] == 0) //Фильтрация только директорий
+                        {
+                    ?>
+                    <option value="<?=$data_directory['id_catalog']?>"><?=$data_directory['name_directory']?></option>
+                    <?php
+                 $index_directory = $data_directory['id_catalog'];//Индекс для подкатегории
+                        }
+                    }
+                ?>
+                </select>
+            </div>
+        </div>
+        <!--
+            <div class="form-group">
+                <label for="directory">Каталог товара</label>
+                <input type="text" id="directory" name="directory" value="<?=$data['product']['id_directory']?>" class="form-control" />
+            </div>
+        -->
+        <div class="form-group">
+            <label>Подкаталог товара</label>
+            <div>
+                <!--Раскрывающийся список для Производителя-->
+                <select style="height: 30px; width: 300px;" name="subdirectory1">
+                    <?php
+                    foreach($data['directory'] as $data_directory)
+                    {
+                        //if($data_directory['id_catalog'] == $data['product']['id_subdirectory'])
+                        if($data_directory['id_catalog'] == $index_directory)
+
+                        {
+                    ?>
+                    <option selected="selected" value="<?=$data_directory['id_catalog']?>"><?=$data_directory['name_directory']?></option>
+                    <?php
+                        }
+                        if ($data['product']['id_directory'] == $data_directory['id_directory']) //Фильтрация толькосубдиректорий выбранной директории
+                        {
+                    ?>
+                    <option value="<?=$data_directory['id_catalog']?>"><?=$data_directory['name_directory']?></option>
+                    <?php
+                        }
+                    }
+                ?>
+                </select>
+            </div>
+        </div>
+        <!--
+        <div class="form-group">
+            <label for="subdirectory">Подкаталог товара</label>
+            <input type="text" id="subdirectory" name="subdirectory" value="<?=$data['product']['id_subdirectory']?>" class="form-control" />
+        </div>
+        -->
+
+        <div class="form-group">
+            <label>Производитель</label>
+            <div>
+                <!--Раскрывающийся список для Производителя-->
+                <select style="height: 30px; width: 300px;" name="brend">
+                    <?php
+                    foreach($data['brend'] as $data_brend)
+                    {
+                        if($data_brend['id_brend'] ==$data['product']['id_brend'])
+                        {
+                    ?>
+                    <option selected="selected" value="<?=$data_brend['id_brend']?>"><?=$data_brend['name_brend']?></option>
+                    <?php
+                        }
+                    ?>
+                    <option value="<?=$data_brend['id_brend']?>"><?=$data_brend['name_brend']?></option>
+                    <?php
+                    }
+                ?>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Поставщик</label>
+            <div>
+                <!--Раскрывающийся список для Поставщика-->
+                <select style="height: 30px; width: 300px;" name="provider">
+                    <?php
+                    foreach($data['provider'] as $data_provider)
+                    {
+                        if($data_provider['id_provider'] == $data['product']['id_provider'])
+                        {
+                    ?>
+                    <option selected="selected" value="<?=$data_provider['id_provider']?>"><?=$data_provider['name_provider']?></option>
+                    <?php
+                        }
+                    ?>
+                    <option value="<?=$data_provider['id_provider']?>"><?=$data_provider['name_provider']?></option>
+                    <?php
+                    }
+                ?>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="quantity">Количество на складе</label>
+            <input type="text" id="quantity" name="quantity" value="<?=$data['product']['quantity']?>" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="price">Цена в грн (разделитель копеек - точка)</label>
+            <input type="text" id="price" name="price" value="<?=$data['product']['price']?>" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="body">Описание</label>
+            <textarea name="body" id="body" class="form-control"><?=$data['product']['description']?></textarea>
+        </div>
+        <div class="form-group">
+            <label for="img">Картинка</label>
+            <input type="text" id="img" name="img" value="<?=$data['product']['imege']?>" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="parameter">Параметр (номинал в амперах (16), тип цокаля (G12) и т.д.)</label>
+            <input type="text" id="parameter" name="parameter" value="<?=$data['product']['parameter']?>" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="views">Количество просмотров</label>
+            <input type="text" id="views" name="views" value="<?=$data['product']['views']?>" class="form-control" />
+        </div>
+        <input type="submit" class="btn btn-success" />
+    </form>
+
+    /////////////////////////
+
+    /* $.post(
+    "/ajax/checkemail",
+    {
+    param1: "param1",
+    param2: 2
+    },
+    onAjaxSuccess
+    );
+
+    function onAjaxSuccess(data)
+    {
+    // Здесь мы получаем данные, отправленные сервером и выводим их на экран.
+    // alert(data);//Это выводит в месанджер
+    //document.getElementById("h1").innerHTML = data;//это выводит в окно
+    }
+    */

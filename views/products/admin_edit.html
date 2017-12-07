@@ -2,156 +2,256 @@
 
 <form method="post"  action="">
     <input type="hidden" name="id" value="<?=$data['product']['id_product']?>" />
-    <div class="form-group">
-        <label for="name">Наименование</label>
-        <input type="text" id="name" name="name" value="<?=$data['product']['name_product']?>" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label for="code">Артикул</label>
-        <input type="text" id="code" name="code" value="<?=$data['product']['code']?>" class="form-control" />
-    </div>
-    <?php $index_directory = 0; //Объявление индекса категории для подкатегори
-    ?>
-    ////////////////////////////////////////////===================
 
-    ======================+++++++++++++++++++++++++++++++++++
 
-    ////////////////////////////////////////////////
-    <div class="form-group">
-        <label>Каталог товара</label>
-        <div>
-            <!--Раскрывающийся список для Производителя-->
-            <select style="height: 30px; width: 300px;" name="directory" onchange="loadSubdirectory(this)">
-                <?php
+
+    <!--?=print_r ($data['directory'])?-->
+    <!--?=print_r ($json)?-->
+    <!-- Главный каталог  -->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-7">
+                <div class="form-group">
+                    <label for="name">Наименование</label>
+                    <input type="text" id="name" name="name" value="<?=$data['product']['name_product']?>" class="form-control" style=" width: 500px;"/>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="form-group">
+                    <label for="code">Артикул</label>
+                    <input type="text" id="code" name="code" value="<?=$data['product']['code']?>" class="form-control" style=" width: 350px;" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <script>
+                    function loadSubdirectory()
+                    {
+                        $('select.subdirectory').empty();//Удаляем все "<option></option>"  подкаталогов
+
+
+                    <?php
+
+                        foreach($data['directory'] as $data_directory)
+                        {
+                            foreach($data['directory'] as $data_subdirectory)
+                            {
+                                $data_id_sub = $data_subdirectory['id_catalog'];
+                                $json_id_sub = json_encode($data_id_sub);//json id субдиректории
+
+                                $data_id = $data_subdirectory['id_directory'];
+                                $json_id = json_encode($data_id);//json id директории
+
+                                $name = $data_subdirectory['name_directory'];
+                                $json = json_encode($name);//json имени субдиректории
+                                    ?>
+                                if (document.getElementById('directory').value ==  <?php echo $data_directory['id_catalog']?> )
+                                {
+                                    if (<?php echo $json_id ?> == <?php echo $data_directory['id_catalog'] ?>)
+                                    {
+
+                                        var id_catalog = <?php echo $json_id_sub;?>;
+                                        var name_directory = <?php echo $json;?>;
+
+                                        console.log(id_catalog );
+                                        console.log(name_directory);
+
+                                        // var data = <?php echo $json;?>;// Данные "из бд" Цикл наполнения данными подкаталога
+                                        //console.log(data);
+                                        // document.getElementById("h").innerHTML = data;
+
+                                        document.getElementById("h1").innerHTML = id_catalog;
+                                        document.getElementById("h2").innerHTML = name_directory;
+                                        $('select.subdirectory').append($("<option></option>").attr("value", id_catalog).text(name_directory));
+
+                                        // document.getElementById("h").innerHTML = "<?=$data_directory['id_catalog']?>";
+                                    };
+                                }
+                            <?php
+                            }
+                        }
+                            ?>
+                    }
+                </script>
+
+                <div id="h"></div>
+                <div id="h1"></div>
+                <div id="h2"></div>
+
+                <div class="form-group">
+                    <label>Каталог товара</label>
+                    <div>
+                        <!--Раскрывающийся список для Производителя-->
+                        <select style="height: 30px; width: 270px;" name="directory" id='directory' onchange="loadSubdirectory()">
+                            <?php
                     foreach($data['directory'] as $data_directory)
                     {
                         if ($data_directory['id_catalog'] == $data['product']['id_directory'])
                         {
                     ?>
-                <option selected="selected" value="<?=$data_directory['id_catalog']?>"><?=$data_directory['name_directory']?></option>
-                <?php
+                            <option selected="selected" value="<?=$data_directory['id_catalog']?>"><?=$data_directory['name_directory']?></option>
+                            <?php
 
                         }
-                        if ($data_directory['id_directory'] == 0) //Фильтрация только директорий
+                        if (($data_directory['id_directory'] == 0) //Фильтрация только директорий
+                        &&($data_directory['id_catalog'] != $data['product']['id_directory']))//Блокирование повторений в списке
                         {
                     ?>
-                <option value="<?=$data_directory['id_catalog']?>"><?=$data_directory['name_directory']?></option>
-                <?php
-                 $index_directory = $data_directory['id_catalog'];//Индекс для подкатегории
+                            <option value="<?=$data_directory['id_catalog']?>"><?=$data_directory['name_directory']?></option>
+                            <?php
+
                         }
                     }
                 ?>
-            </select>
-        </div>
-    </div>
-<!--
-    <div class="form-group">
-        <label for="directory">Каталог товара</label>
-        <input type="text" id="directory" name="directory" value="<?=$data['product']['id_directory']?>" class="form-control" />
-    </div>
--->
-    <div class="form-group">
-        <label>Подкаталог товара</label>
-        <div>
-            <!--Раскрывающийся список для Производителя-->
-            <select style="height: 30px; width: 300px;" name="subdirectory">
-                <?php
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Подкаталог товара</label>
+                    <div>
+                        <!--Раскрывающийся список для Производителя-->
+                        <select class="subdirectory" name="subdirectory" style="height: 30px; width: 270px;" name="subdirectory" id='subdirectory'>
+                            <?php
                     foreach($data['directory'] as $data_directory)
                     {
-                        //if($data_directory['id_catalog'] == $data['product']['id_subdirectory'])
-                        if($data_directory['id_catalog'] == $index_directory)
+                        if($data_directory['id_catalog'] == $data['product']['id_subdirectory'])
 
                         {
                     ?>
-                <option selected="selected" value="<?=$data_directory['id_catalog']?>"><?=$data_directory['name_directory']?></option>
-                <?php
+                            <option selected="selected" value="<?=$data_directory['id_catalog']?>"><?=$data_directory['name_directory']?></option>
+                            <?php
                         }
-                        if ($data['product']['id_directory'] == $data_directory['id_directory']) //Фильтрация толькосубдиректорий выбранной директории
+                        if (($data['product']['id_directory'] == $data_directory['id_directory']) //Фильтрация толькосубдиректорий выбранной директории
+                            &&($data_directory['id_catalog'] != $data['product']['id_subdirectory']))//Блокирование повторений в списке
                         {
                     ?>
-                <option value="<?=$data_directory['id_catalog']?>"><?=$data_directory['name_directory']?></option>
-                <?php
+                            <option value="<?=$data_directory['id_catalog']?>"><?=$data_directory['name_directory']?></option>
+                            <?php
                         }
                     }
                 ?>
-            </select>
-        </div>
-    </div>
-    <!--
-    <div class="form-group">
-        <label for="subdirectory">Подкаталог товара</label>
-        <input type="text" id="subdirectory" name="subdirectory" value="<?=$data['product']['id_subdirectory']?>" class="form-control" />
-    </div>
-    -->
-
-    <div class="form-group">
-        <label>Производитель</label>
-        <div>
-            <!--Раскрывающийся список для Производителя-->
-            <select style="height: 30px; width: 300px;" name="brend">
-                <?php
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 ">
+                <div class="form-group">
+                    <label>Производитель</label>
+                    <div>
+                        <!--Раскрывающийся список для Производителя-->
+                        <select style="height: 30px; width: 270px;" name="brend">
+                            <?php
                     foreach($data['brend'] as $data_brend)
                     {
                         if($data_brend['id_brend'] ==$data['product']['id_brend'])
                         {
                     ?>
-                        <option selected="selected" value="<?=$data_brend['id_brend']?>"><?=$data_brend['name_brend']?></option>
-                    <?php
+                            <option selected="selected" value="<?=$data_brend['id_brend']?>"><?=$data_brend['name_brend']?></option>
+                            <?php
                         }
+                        if($data_brend['id_brend'] !=$data['product']['id_brend'])//Блокирование повторений в списке
+                        {
                     ?>
-                        <option value="<?=$data_brend['id_brend']?>"><?=$data_brend['name_brend']?></option>
-                    <?php
+                            <option value="<?=$data_brend['id_brend']?>"><?=$data_brend['name_brend']?></option>
+                            <?php
+                        }
                     }
                 ?>
-            </select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label>Поставщик</label>
-        <div>
-            <!--Раскрывающийся список для Поставщика-->
-            <select style="height: 30px; width: 300px;" name="provider">
-                <?php
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Поставщик</label>
+                    <div>
+                        <!--Раскрывающийся список для Поставщика-->
+                        <select style="height: 30px; width: 270px;" name="provider">
+                            <?php
                     foreach($data['provider'] as $data_provider)
                     {
                         if($data_provider['id_provider'] == $data['product']['id_provider'])
                         {
                     ?>
-                        <option selected="selected" value="<?=$data_provider['id_provider']?>"><?=$data_provider['name_provider']?></option>
-                <?php
+                            <option selected="selected" value="<?=$data_provider['id_provider']?>"><?=$data_provider['name_provider']?></option>
+                            <?php
                         }
+                        if($data_provider['id_provider'] != $data['product']['id_provider'])//Блокирование повторений в списке
+                        {
                     ?>
-                        <option value="<?=$data_provider['id_provider']?>"><?=$data_provider['name_provider']?></option>
-                <?php
+                            <option value="<?=$data_provider['id_provider']?>"><?=$data_provider['name_provider']?></option>
+                            <?php
+                        }
                     }
                 ?>
-            </select>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 ">
+                <div class="form-group">
+                    <label for="quantity">Количество на складе</label>
+                    <input type="text" id="quantity" name="quantity" value="<?=$data['product']['quantity']?>" class="form-control" style="height: 30px; width: 270px;"/>
+                </div>
+                <div class="form-group">
+                    <label for="price">Цена в грн (разделитель копеек - точка)</label>
+                    <input type="text" id="price" name="price" value="<?=$data['product']['price']?>" class="form-control"  style="height: 30px; width: 270px;"/>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="form-group">
-        <label for="quantity">Количество на складе</label>
-        <input type="text" id="quantity" name="quantity" value="<?=$data['product']['quantity']?>" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label for="price">Цена в грн (разделитель копеек - точка)</label>
-        <input type="text" id="price" name="price" value="<?=$data['product']['price']?>" class="form-control" />
-    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="container">
     <div class="form-group">
         <label for="body">Описание</label>
         <textarea name="body" id="body" class="form-control"><?=$data['product']['description']?></textarea>
     </div>
     <div class="form-group">
         <label for="img">Картинка</label>
-        <input type="text" id="img" name="img" value="<?=$data['product']['imege']?>" class="form-control" />
+        <input type="text" id="img" name="img" value="<?=$data['product']['imege']?>" class="form-control" style="width: 925px;/>
     </div>
-    <div class="form-group">
-        <label for="parameter">Параметр (номинал в амперах (16), тип цокаля (G12) и т.д.)</label>
-        <input type="text" id="parameter" name="parameter" value="<?=$data['product']['parameter']?>" class="form-control" />
     </div>
-    <div class="form-group">
-        <label for="views">Количество просмотров</label>
-        <input type="text" id="views" name="views" value="<?=$data['product']['views']?>" class="form-control" />
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="parameter">Параметр (номинал в амперах (16), тип цокаля (G12) и т.д.)</label>
+                    <input type="text" id="parameter" name="parameter" value="<?=$data['product']['parameter']?>" class="form-control" style="width: 440px;"/>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="views">Количество просмотров</label>
+                    <input type="text" id="views" name="views" value="<?=$data['product']['views']?>" class="form-control" style="width: 440px;"/>
+                </div>
+            </div>
+        </div>
     </div>
+
+
+
+
+
+
+
     <input type="submit" class="btn btn-success" />
 </form>

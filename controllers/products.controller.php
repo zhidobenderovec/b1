@@ -12,6 +12,9 @@ class ProductsController extends Controller
 
     public function index()
     {
+
+
+
         // echo 'Here will be a pages list';
         //$this->data['pages'] = $this->model->getList();
         //$this->data['max5id'] = $this->model->getMax_5id();
@@ -98,9 +101,10 @@ class ProductsController extends Controller
         $this->data['reduction'] = $this->model->getProductReduction();
     }
 
-    //*Функция редактирования и записи товара
+//*Функция редактирования и записи товара
     public function admin_edit()
     {
+
         if ($_POST)
         {
             $id = isset($_POST['id']) ? $_POST['id'] : null;
@@ -128,7 +132,15 @@ class ProductsController extends Controller
         $this->data['directory'] = $this->model->getCatalog();
         $this->data['brend'] = $this->model->getBrend();
         $this->data['provider'] = $this->model->getProvider();
+/*
+        if (isset($this->params[0]))directory
+        {
+            $this->data['directory_selection'] = $this->model->getByCatalogIdDirectorySelection($directory_id);
+        }
+*/
     }
+
+//*Функция удаления товара
     public function admin_delete()
     {
         if (isset($this->params[0]))
@@ -162,6 +174,7 @@ class ProductsController extends Controller
             Router::redirect('/admin/products//1/0/0/0/0/0');//Было Router::redirect('/users/pages/');
         }
     }
+
 /*
 
 

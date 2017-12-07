@@ -27,7 +27,7 @@ class View
         }
         if (!file_exists($path))
         {
-            throw new Exception('Template file ip not found in path: '.$path);
+            throw new Exception('Файл шаблона не найден в пути - Template file is not found in path: '.$path);
         }
         $this->path = $path;
         $this->data = $data;

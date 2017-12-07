@@ -186,6 +186,9 @@ class Product extends Model
     }
 
 
+
+
+
     //--- Работа с базой brend ----- Производители Получение всей базы
     public function getBrend()//по умолчанию все страницы +
     {
