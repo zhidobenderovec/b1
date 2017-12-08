@@ -146,6 +146,7 @@ class Page extends Model
         $id = (int)$category_id;
         $sql = "select * from catalog where id_catalog = '{$id}' limit 1";
         $result = $this->db->query($sql);
+
         return isset($result[0]) ? $result[0] : null;
     }
     //--- Работа с базой products по id ----- Для страницы товара
@@ -154,7 +155,18 @@ class Page extends Model
         $id = (int)$product_id;
         $sql = "select * from product where id_product = '{$id}' limit 1";
         $result = $this->db->query($sql);
+
         return isset($result[0]) ? $result[0] : null;
+    }
+
+    /*--- Работа с базой products по views ----- Для нижней карусели
+          10 самых посещаемых товаров
+    */
+    public function getProductTop()
+    {
+        $sql = "select * from product order by views desc limit 10";
+
+        return $this->db->query($sql);
     }
 }
 ?>

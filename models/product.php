@@ -1,5 +1,5 @@
 <?php
-//Формирование запросов со страниц
+//Формирование запросов к БД со страниц связаных с продуктами
 class Product extends Model
 {
 
@@ -12,32 +12,7 @@ class Product extends Model
         }
         return $this->db->query($sql);
     }
-    /*
-       public function getByAlias($alias)
-       {
-           $alias = $this->db->escape($alias);
-           $sql = "select * from pages where alias = '{$alias}' limit 1";
-           $result = $this->db->query($sql);
-           return isset($result[0]) ? $result[0] : null;
-       }
 
-       public function getById($id)
-       {
-           $id = (int)$id;
-           $sql = "select * from pages where id = '{$id}' limit 1";
-           $result = $this->db->query($sql);
-           return isset($result[0]) ? $result[0] : null;
-       }
-
-       public function getByCategory($category)
-       {
-           $category = $this->db->escape($category);
-           $sql = "select * from categories where category = '{$category}' limit 1";
-           $result = $this->db->query($sql);
-           return isset($result[0]) ? $result[0] : null;
-       }
-
-   */
     public function save($data, $id = null)
     {
         if (!isset($data['name']) || !isset($data['code']) || !isset($data['subdirectory'])) {
@@ -104,45 +79,6 @@ class Product extends Model
         return $this->db->query($sql);//команда
     }
 
-    /*
- * Определение id последней новости
-
-    public function getMax_5id()// страницы с или без категории
-    {
-
-        if (isset($category))//если заданна категория
-        {
-            $sql = "select id from pages where category='{$category}' ORDER BY id DESC LIMIT 5";// запрос к базе данных
-        } else {
-            $sql = "select id from pages ORDER BY id DESC LIMIT 5";// запрос к базе данных
-        }
-        return $this->db->query($sql);
-    }
-*/
-    //---Работа с базой visit
-    public function getListStat()//по умолчанию все страницы
-    {
-        $sql = "select * from visit where 1";// запрос к базе данных
-
-        return $this->db->query($sql);
-    }
-
-    //--- Работа с базой location ----- Контактные данные
-    public function getLocation()//по умолчанию все страницы
-    {
-        $sql = "select * from location where 1";// запрос к базе данных
-
-        return $this->db->query($sql);
-    }
-
-    //--- Работа с базой shares ----- Акции
-    public function getShares()//по умолчанию все страницы
-    {
-        $sql = "select * from shares where 1";// запрос к базе данных
-
-        return $this->db->query($sql);
-    }
-
     //--- Работа с базой catalog ----- Ячейки каталока товаров +
     public function getCatalog()//по умолчанию все страницы
     {
@@ -184,10 +120,6 @@ class Product extends Model
         $result = $this->db->query($sql);
         return isset($result[0]) ? $result[0] : null;
     }
-
-
-
-
 
     //--- Работа с базой brend ----- Производители Получение всей базы
     public function getBrend()//по умолчанию все страницы +

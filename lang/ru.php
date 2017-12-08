@@ -13,14 +13,7 @@ return array('lng.site_name' => 'Электрозенит',
             'lng.search' => 'Поиск товара',
             'lng.basket' => 'Корзина',
 
-            'lng.business' => 'Бизнес',
-            'lng.sport' => 'Спорт',
-            'lng.show_bus' => 'Шоубизнес',//Show Business
-            'lng.medicine' => 'Медицина',
 
-            'lng.equipment' => 'Техника',
-            'lng.developments' => 'События',
-            'lng.analytics' => 'Аналитика',
 
             'lng.authorization' => 'Авторизация',
             'lng.checkin' => 'Регистрация',//check in

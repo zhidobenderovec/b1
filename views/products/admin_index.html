@@ -7,13 +7,15 @@
     $provider_number = $data['provider_num'];
     $direction_number = $data['direction_num'];
 
-
+//--------------------------------------------------------------
+//Вывод параметров url запросов. После отладки - удалить!!
     echo (" page "). ($page_number);
     echo (" directory ").($directory_number);
     echo (" subdirectory ").($subdirectory_number);
     echo (" brend ").($brend_number);
     echo (" provider ").($provider_number);
     echo (" direction ").($direction_number);
+//-----------------------------------------------------------------
 
 ?>
 <div>
@@ -39,7 +41,6 @@
     <tbody>
         <tr>
             <td bgcolor="orange"><b> </b></td>
-            <!--Вывод общей суммы-->
             <td bgcolor="orange"><b></b></td>
             <td bgcolor="orange"><b></b></td>
             <!--Выбот директории-->
@@ -95,7 +96,7 @@
                             }
                             else
                             {
-                                $name = $data['subdir_name'];
+                                $name = $data['subdir_name'];//Имя открытой директории из БД
                         ?>
                                 <?=$name['name_directory']?>
                         <?php

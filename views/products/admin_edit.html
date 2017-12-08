@@ -2,12 +2,7 @@
 
 <form method="post"  action="">
     <input type="hidden" name="id" value="<?=$data['product']['id_product']?>" />
-
-
-
-    <!--?=print_r ($data['directory'])?-->
-    <!--?=print_r ($json)?-->
-    <!-- Главный каталог  -->
+    <!-- Наполнение информацией  -->
     <div class="container">
         <div class="row">
             <div class="col-sm-7">
@@ -33,9 +28,7 @@
                     {
                         $('select.subdirectory').empty();//Удаляем все "<option></option>"  подкаталогов
 
-
                     <?php
-
                         foreach($data['directory'] as $data_directory)
                         {
                             foreach($data['directory'] as $data_subdirectory)
@@ -48,7 +41,7 @@
 
                                 $name = $data_subdirectory['name_directory'];
                                 $json = json_encode($name);//json имени субдиректории
-                                    ?>
+                            ?>
                                 if (document.getElementById('directory').value ==  <?php echo $data_directory['id_catalog']?> )
                                 {
                                     if (<?php echo $json_id ?> == <?php echo $data_directory['id_catalog'] ?>)
@@ -57,35 +50,26 @@
                                         var id_catalog = <?php echo $json_id_sub;?>;
                                         var name_directory = <?php echo $json;?>;
 
-                                        console.log(id_catalog );
-                                        console.log(name_directory);
+                                        //console.log(id_catalog );
+                                        //console.log(name_directory);
 
-                                        // var data = <?php echo $json;?>;// Данные "из бд" Цикл наполнения данными подкаталога
-                                        //console.log(data);
-                                        // document.getElementById("h").innerHTML = data;
-
-                                        document.getElementById("h1").innerHTML = id_catalog;
-                                        document.getElementById("h2").innerHTML = name_directory;
+                                        //document.getElementById("h1").innerHTML = id_catalog;
+                                        //document.getElementById("h2").innerHTML = name_directory;
                                         $('select.subdirectory').append($("<option></option>").attr("value", id_catalog).text(name_directory));
 
-                                        // document.getElementById("h").innerHTML = "<?=$data_directory['id_catalog']?>";
                                     };
                                 }
                             <?php
                             }
                         }
-                            ?>
+                    ?>
                     }
                 </script>
-
-                <div id="h"></div>
-                <div id="h1"></div>
-                <div id="h2"></div>
 
                 <div class="form-group">
                     <label>Каталог товара</label>
                     <div>
-                        <!--Раскрывающийся список для Производителя-->
+                        <!--Раскрывающийся список для Каталога товара-->
                         <select style="height: 30px; width: 270px;" name="directory" id='directory' onchange="loadSubdirectory()">
                             <?php
                     foreach($data['directory'] as $data_directory)
@@ -114,7 +98,7 @@
                 <div class="form-group">
                     <label>Подкаталог товара</label>
                     <div>
-                        <!--Раскрывающийся список для Производителя-->
+                        <!--Раскрывающийся список для Подкаталога товара-->
                         <select class="subdirectory" name="subdirectory" style="height: 30px; width: 270px;" name="subdirectory" id='subdirectory'>
                             <?php
                     foreach($data['directory'] as $data_directory)
@@ -204,30 +188,15 @@
         </div>
     </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <div class="container">
-    <div class="form-group">
-        <label for="body">Описание</label>
-        <textarea name="body" id="body" class="form-control"><?=$data['product']['description']?></textarea>
-    </div>
-    <div class="form-group">
-        <label for="img">Картинка</label>
-        <input type="text" id="img" name="img" value="<?=$data['product']['imege']?>" class="form-control" style="width: 925px;/>
-    </div>
+        <div class="form-group">
+            <label for="body">Описание</label>
+            <textarea name="body" id="body" class="form-control"><?=$data['product']['description']?></textarea>
+        </div>
+        <div class="form-group">
+            <label for="img">Картинка</label>
+            <input type="text" id="img" name="img" value="<?=$data['product']['imege']?>" class="form-control" style="width: 925px;"/>
+        </div>
     </div>
 
     <div class="container">
@@ -246,12 +215,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-
 
     <input type="submit" class="btn btn-success" />
 </form>

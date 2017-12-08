@@ -262,7 +262,7 @@
 <!-- ---------------------------------------------------------------------------  -->
 <!-- ---------------------------------------------------------------------------  -->
     <div class="slider">
-        <div class="carousel-caption">
+        <div class="carousel-caption" style="pointer-events: none;"><!-- div прозрачный для кликов -->
             <h1>ПОПУЛЯРНЫЕ ТОВАРЫ</h1></div>
         <div class="slide-list">
 
@@ -272,21 +272,16 @@
                 <!------------------------------------------------------------------------->
                 <div>
                     <?php
-                         $thing = array_reverse($data['product']);//?????????????? ???? ?????????
-                         $i=0;
-                         foreach($thing as $thing_data)
+                         //Просмотр 10 топовых товаров
+                         foreach($data['top'] as $thing_data)//data['favor']
                          {
-                             if ($i < 10)
-                             {
-                                 if ($thing_data['imege'])
-                                 { ?>
-                                     <div class="slide-item">
-                                         <img src="<?=$thing_data['imege']?>" alt="" href="/"/>
-                                         <span class="slide-title"><?=$thing_data['name_product']?></span>
-                                     </div>
-                                 <?php
-                                 $i++;
-                                 }
+                             if ($thing_data['imege'])
+                             { ?>
+                                 <div class="slide-item">
+                                     <a href="/pages/product/<?=$thing_data['id_product']?>"><img src="<?=$thing_data['imege']?>" alt="" /></a>
+                                     <span class="slide-title" href="/pages/product/<?=$thing_data['id_product']?>"><?=$thing_data['name_product']?></span>
+                                 </div>
+                             <?php
                              }
                          }
                      ?>

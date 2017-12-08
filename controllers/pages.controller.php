@@ -20,6 +20,9 @@ class PagesController extends Controller
         $this->data['stock'] = $this->model->getShares();//БД Акций
         $this->data['directory'] = $this->model->getCatalog();
         $this->data['product'] = $this->model->getProduct();
+        //10 самых посещаемых товаров (views)
+        $this->data['top'] = $this->model->getProductTop();
+
 
     }
 

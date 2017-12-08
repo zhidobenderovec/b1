@@ -5,6 +5,11 @@ function confirmDelete() {
     }
     else
     {
+        alert("Вы нажали кнопку отмена")
         return false;
     }
+}
+function alertSho() {
+    return  alert('Шо ты сцука делаешь?');
+
 }

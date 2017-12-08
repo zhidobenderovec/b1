@@ -1,0 +1,219 @@
+<h3>Каталоги и подкаталоги</h3>
+<h5>Каталоги и подкаталоги можно удалить, если они не содержат вложенные подкаталоги или товары.</h5>
+
+<?php
+
+    $directory_number = $data['directory_num'];// Запись номера каталога из URL
+
+?>
+<div>
+    <a href="/admin/catalogs/add/"><button class="btn btn-sm btn-success"title="Нажмите чтобы добавить новый каталог/подкаталог">Добавить новый каталог/подкаталог</button></a>
+</div><br/>
+<!--  Для страниц Товаров!!! -->
+<table class="table table-bordered table-striped" style="width: 400px;">
+    <thed>
+        <th bgcolor="#6495ed">ID</th>
+        <th bgcolor="#6495ed">Каталог</th>
+        <th bgcolor="#6495ed">Подкаталог</th>
+        <th bgcolor="#6495ed">Редактировать</th>
+        <th bgcolor="#6495ed">Удалить</th>
+    </thed>
+    <tbody>
+    <tr>
+        <td bgcolor="orange"><b> </b></td>
+        <!--Выбот директории-->
+        <td bgcolor="orange"><b>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <?php
+                            if($directory_number == 0)
+                            {
+                            ?>
+                                Все
+                            <?php
+                            }
+                            else
+                            {
+                                $name = $data['dir_name'];//Имя открытой директории из БД
+                    ?>
+                                <?=$name['name_directory']?>
+                                <?php
+                            }
+                        ?>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="/admin/catalogs//0">Все</a></li>
+                    <?php
+                        $catalog_id=0;
+                        $prod_catalog_id=0;
+                        foreach($data['directory'] as $catalog_data)
+                        {
+                            if ($catalog_data['id_directory']==$catalog_id)// равно 0 - это каталоги
+                            {
+                        ?>
+                    <li><a href="/admin/catalogs//<?=$catalog_data['id_catalog']?>"><?=$catalog_data['name_directory']?></a></li>
+                    <?php
+                            }
+                        }
+                    ?>
+                </ul>
+            </div>
+        </b>
+        </td>
+        <!--Выбор поддиректории-->
+        <td bgcolor="orange"><b></b></td>
+        <td bgcolor="orange"><b></b></td>
+        <td bgcolor="orange"><b></b></td>
+
+    <!-- Отображение строк таблицы  -->
+    <?php
+       //-- Цикл вывода таблицы!!------//
+        $directory_table = $data['directory'];//Вводим таблицу в начале, чтоб небыло зависание в условии
+
+        foreach($directory_table as $catalog_table)
+        {
+            if ($directory_number == 0)//Если нужно отобразить всё
+            {
+                if ($catalog_table['id_directory'] == 0)//Проверка признака каталога
+                {
+                    ?>
+    <!-- Заполнение полей таблицы -->
+                        <tr>
+                            <td><b><?=$catalog_table['id_catalog']?></b></td>
+                            <td><b style="color: darkorchid"><?=$catalog_table['name_directory']?></b></td>
+                            <td><b><?=$catalog_table['id_directory']?></b></td>
+
+                            <td align="right">
+                                <a href="/admin/catalogs/edit/<?=$catalog_table['id_catalog']?>"><button class="btn btn-sm btn-primary">Редактировать</button></a>
+                            </td>
+                            <td align="right">
+                                <!--Проверка на возможность удаления позиции -->
+                            <?php
+                                 $beacon = 0;
+                                 //Проверка на наличие подкаталогов в каталоге
+                                 foreach ($data['directory'] as $directory_exemplar)
+                                 {
+                                     if ($directory_exemplar['id_directory'] == $catalog_table['id_catalog'])
+                                     {
+                                         $beacon = 1;
+                                     }
+                                 };
+                                 //Проверка на наличие товаров п подкаталоге
+                                 foreach ($data['product'] as $product_exemplar)
+                                 {
+                                     if ($product_exemplar['id_subdirectory'] == $catalog_table['id_catalog'])
+                                     {
+                                         $beacon = 1;
+                                     }
+                                 }
+                                 if ($beacon == 0)
+                                 {
+                            ?>
+                                <a href="/admin/catalogs/delete/<?=$catalog_table['id_catalog']?>" onclick="return confirmDelete();"><button class="btn btn-sm btn-warning">Удалить</button></a>
+                            <?php
+                                }
+                            ?>
+                            </td>
+                        </tr>
+                    <?php
+                    foreach($data['directory'] as $sub_table)
+                    {
+                        if ($sub_table['id_directory'] == $catalog_table['id_catalog']) //Циклическое заполнение по директориям
+                        {
+                        ?>
+                            <tr>
+                            <td><b><?=$sub_table['id_catalog']?></b></td>
+                            <td><b style="color: darkorchid"></b></td><!-- Выделяем цветом каталоги -->
+                            <td><b><?=$sub_table['name_directory']?></b></td>
+
+                            <td align="right">
+                                <a href="/admin/catalogs/edit/<?=$sub_table['id_catalog']?>" ><button class="btn btn-sm btn-primary">Редактировать</button></a>
+                            </td>
+
+                            <td align="right">
+                                <!--Проверка на возможность удаления позиции -->
+                            <?php
+                                 $beacon = 0;
+                                 //Проверка на наличие подкаталогов в каталоге
+                                 foreach ($data['directory'] as $directory_exemplar)
+                                 {
+                                     if ($directory_exemplar['id_directory'] == $sub_table['id_catalog'])
+                                     {
+                                         $beacon = 1;
+                                     }
+                                 };
+                                 //Проверка на наличие товаров п подкаталоге
+                                 foreach ($data['product'] as $product_exemplar)
+                                 {
+                                     if ($product_exemplar['id_subdirectory'] == $sub_table['id_catalog'])
+                                     {
+                                         $beacon = 1;
+                                     }
+                                 }
+                                 if ($beacon == 0)
+                                 {
+                            ?>
+                                <a href="/admin/catalogs/delete/<?=$sub_table['id_catalog']?>" onclick="return confirmDelete();"><button class="btn btn-sm btn-warning">Удалить</button></a>
+                            <?php
+                                }
+                            ?>
+                            </td>
+
+                            </tr>
+                        <?php
+                        }
+                    }
+                }
+            }
+            if ($catalog_table['id_directory'] == $directory_number)//Отобрадение подкаталога выбраного каталога
+            {
+
+                if ($catalog_table['id_directory'] == $directory_number) //Проверка наличия нужной директории
+                {
+                ?>
+                    <tr>
+
+                        <td><b><?=$catalog_table['id_catalog']?></b></td>
+                        <td><b style="color: darkorchid"></b></td>
+                        <td><b><?=$catalog_table['name_directory']?></b></td>
+                        <td align="right">
+                            <a href="/admin/catalogs/edit/<?=$catalog_table['id_catalog']?>" ><button class="btn btn-sm btn-primary">Редактировать</button></a>
+                        </td>
+                        <td align="right">
+                        <!--Проверка на возможность удаления позиции -->
+                        <?php
+                             $beacon = 0;
+                             //Проверка на наличие подкаталогов в каталоге
+                             foreach ($data['directory'] as $directory_exemplar)
+                             {
+                                 if ($directory_exemplar['id_directory'] == $catalog_table['id_catalog'])
+                                 {
+                                     $beacon = 1;
+                                 }
+                             };
+                             //Проверка на наличие товаров п подкаталоге
+                             foreach ($data['product'] as $product_exemplar)
+                             {
+                                 if ($product_exemplar['id_subdirectory'] == $catalog_table['id_catalog'])
+                                 {
+                                     $beacon = 1;
+                                 }
+                             }
+                             if ($beacon == 0)
+                             {
+                        ?>
+                            <a href="/admin/catalogs/delete/<?=$catalog_table['id_catalog']?>" onclick="return confirmDelete();"><button class="btn btn-sm btn-warning">Удалить</button></a>
+                        <?php
+                            }
+                        ?>
+
+                        </td>
+                    </tr>
+                <?php
+                }
+            }
+        }
+    ?>
+    </tbody>
+</table>

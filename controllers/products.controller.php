@@ -9,23 +9,7 @@ class ProductsController extends Controller
     }
 
 /*
-
-    public function index()
-    {
-
-
-
-        // echo 'Here will be a pages list';
-        //$this->data['pages'] = $this->model->getList();
-        //$this->data['max5id'] = $this->model->getMax_5id();
-        //$this->data['visits'] = $this->model->getListStat();
-        //!!! $this->data['card'] = $this->model->getLocation();//БД Локации
-        $this->data['stock'] = $this->model->getShares();//БД Акций
-        $this->data['directory'] = $this->model->getCatalog();
-        $this->data['product'] = $this->model->getProduct();
-
-    }
-
+//*Функция обслуживания просмотров страницы ???
     public function view()
     {
         $params = App::getRouter()->getParams();
@@ -38,6 +22,7 @@ class ProductsController extends Controller
         }
 
     }
+
 */  //*Функция обслуживания страницы таблицы списка товаров admin_index.html
     public function admin_index()
     {
@@ -132,12 +117,6 @@ class ProductsController extends Controller
         $this->data['directory'] = $this->model->getCatalog();
         $this->data['brend'] = $this->model->getBrend();
         $this->data['provider'] = $this->model->getProvider();
-/*
-        if (isset($this->params[0]))directory
-        {
-            $this->data['directory_selection'] = $this->model->getByCatalogIdDirectorySelection($directory_id);
-        }
-*/
     }
 
 //*Функция удаления товара
@@ -173,87 +152,11 @@ class ProductsController extends Controller
             }
             Router::redirect('/admin/products//1/0/0/0/0/0');//Было Router::redirect('/users/pages/');
         }
-    }
-
-/*
-
-
-
-
-    public function news_list()
-    {
-        $this->data['pages'] = $this->model->getList();
-
-        //Установка сатегории страницы для просмотра
-        $params_list = App::getRouter()->getParams();
-
-        if (isset($params_list[0]))
-        {
-            $category = strtolower($params_list[0]);
-            $this->data['categories'] = $this->model->getByCategory($category);
-        }
-        //Установка номера страницы для пагинации
-        if (isset($params_list[1]))
-        {
-            $this->data['page_namber'] = strtolower($params_list[1]);
-        }
-    }
-
-    public function news_page()
-    {
-        //Установка  страницы для просмотра
-        $params = App::getRouter()->getParams();
-
-        if (isset($params[0]))
-        {
-            $this->data['page'] = $this->model->getById($this->params[0]);
-        }
-        $this->data['visits'] = $this->model->getListStat();
-
-    }
-
-    public function catalog()
-    {
-        //Установка страницы категории для просмотра
-        $params_catalog = App::getRouter()->getParams();
-        //directory/subdirectory
-        if (isset($params_catalog[0]))
-        {
-            $category_id = strtolower($params_catalog[0]);
-            $this->data['catalog'] = $this->model->getByCatalogId($category_id);
-        }
-        //page number of the page being viewed Установка номера страницы для пагинации
-        if (isset($params_catalog[1]))
-        {
-
-            $this->data['catalog_num'] = strtolower($params_catalog[1]);
-        }
         $this->data['directory'] = $this->model->getCatalog();
-        $this->data['product'] = $this->model->getProduct();
+        $this->data['brend'] = $this->model->getBrend();
+        $this->data['provider'] = $this->model->getProvider();
     }
 
-    public function product()
-    {
-        //Установка страницы товара для просмотра
-        $params_product = App::getRouter()->getParams();
-
-        if (isset($params_product[0]))
-        {
-            $product_id = strtolower($params_product[0]);
-            $this->data['exemplar'] = $this->model->getByProductId($product_id);
-        }
-        $this->data['directory'] = $this->model->getCatalog();
-        $this->data['product'] = $this->model->getProduct();
-    }
-
-    public function admin_product()
-    {
-
-        $this->data['directory'] = $this->model->getCatalog();
-        $this->data['product'] = $this->model->getProduct();
-
-    }
-*/
 }
 
 ?>
