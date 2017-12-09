@@ -122,7 +122,7 @@
 
                     //-- Цикл с пагинацией!!------//
                     $number=0;//индекс цикла обнуляем,
-                    $max_number = 9;//9 циклов-сообщений на страницу
+                    $max_number = 6;//9 циклов-сообщений на страницу
                     foreach($data['product'] as $product)//Поиск товаров данного раздела
                     {
                         if ($product['id_subdirectory'] == $cell['id_catalog'])//Проверка наличия нужной директории
@@ -174,9 +174,10 @@
                             if ($page_namber[0] != 1)
                             {
                         ?>
-                            <li><a href="/pages/catalog/<?=$cell['id_catalog']?>/<?=$page_previous?>">&laquo;</a></li>
                             <li><a href="/pages/catalog/<?=$cell['id_catalog']?>/1"><?=1?></a></li>
-                        <?php
+                            <li><a href="/pages/catalog/<?=$cell['id_catalog']?>/<?=$page_previous?>">&laquo;</a></li>
+
+                            <?php
                             }
                             //Определения максимальноя страницы
                             if ( $number % $max_number)
@@ -189,7 +190,7 @@
                             }
                         ?>
                             <!--Текущая страница -->
-                            <li class="dropdown">
+                            <li class="dropdown dropup">
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#"><u><?=$page_namber[0]?></u></a>
                             <ul class="dropdown-menu">
                         <?php //Цикл выпадающено списка
@@ -205,7 +206,7 @@
                             if ($page_namber[0] != $number)
                             {
                         ?>
-                            <li><a href="/pages/catalog/<?=$cell['id_catalog']?>/<?=$number?>"><?=$number?></a></li>
+
                         <?php //Отработка увеличения страницы
                             if ($page_namber[0] < $number)
                             {
@@ -217,7 +218,9 @@
                             }
                         ?>
                             <li><a href="/pages/catalog/<?=$cell['id_catalog']?>/<?=$page_next?>">&raquo;</a></li>
-                        <?php
+                            <li><a href="/pages/catalog/<?=$cell['id_catalog']?>/<?=$number?>"><?=$number?></a></li>
+
+                            <?php
                             }
                         ?>
                         </ul>

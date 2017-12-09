@@ -351,8 +351,8 @@
             if ($page_number != 1)
             {
             ?>
-            <li><a href="/admin/products//<?=$page_previous?>/<?=$directory_number?>/<?=$subdirectory_number?>/<?=$brend_number?>/<?=$provider_number?>/<?=$direction_number?>">&laquo;</a></li>
-            <li><a href="/admin/products//1/<?=$directory_number?>/<?=$subdirectory_number?>/<?=$brend_number?>/<?=$provider_number?>/<?=$direction_number?>"><?=1?></a></li>
+                <li><a href="/admin/products//1/<?=$directory_number?>/<?=$subdirectory_number?>/<?=$brend_number?>/<?=$provider_number?>/<?=$direction_number?>"><?=1?></a></li>
+                <li><a href="/admin/products//<?=$page_previous?>/<?=$directory_number?>/<?=$subdirectory_number?>/<?=$brend_number?>/<?=$provider_number?>/<?=$direction_number?>">&laquo;</a></li>
             <?php
             }
             //Определения максимальноя страницы
@@ -367,7 +367,7 @@
         ?>
         <!--Пагинация на текущей странице -->
 
-            <li class="dropdown">
+            <li class="dropdown dropup">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#"><u><?=$page_number?></u></a>
                 <ul class="dropdown-menu">
                     <?php //Цикл выпадающено списка
@@ -383,7 +383,6 @@
             if ($page_number != $number)
             {
         ?>
-            <li><a href="/admin/products//<?=$number?>/<?=$directory_number?>/<?=$subdirectory_number?>/<?=$brend_number?>/<?=$provider_number?>/<?=$direction_number?>"><?=$number?></a></li>
         <?php //Отработка увеличения страницы
                 if ($page_number < $number)
                 {
@@ -395,6 +394,8 @@
                 }
         ?>
             <li><a href="/admin/products//<?=$page_next?>/<?=$directory_number?>/<?=$subdirectory_number?>/<?=$brend_number?>/<?=$provider_number?>/<?=$direction_number?>">&raquo;</a></li>
+            <li><a href="/admin/products//<?=$number?>/<?=$directory_number?>/<?=$subdirectory_number?>/<?=$brend_number?>/<?=$provider_number?>/<?=$direction_number?>"><?=$number?></a></li>
+
         <?php
             }
         ?>

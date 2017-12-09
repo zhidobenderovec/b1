@@ -24,9 +24,9 @@ class ContactsController extends Controller
         //$this->data =$this->model->getList();
 
         $params_list = App::getRouter()->getParams();
-        if (isset($params_list[0]))
+        if (isset($params_list[1]))
         {
-            $this->data['page_namber'] = strtolower($params_list[0]);
+            $this->data['page_number'] = strtolower($params_list[1]);
         }
         $this->data['users'] = $this->model->getUsers();
         $this->data['messages'] = $this->model->getMessages();

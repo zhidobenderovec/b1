@@ -1,6 +1,6 @@
 <h3>Сообщения</h3><br/>
-<!--<?= $data['page_namber'] ?>                 !!надо отредакттровать!!
-<?php $page_namber = $data['page_namber'] ?><!-- Номер просматриваемой страницы -->
+<!--?php print_r ($data['page_number']);?-->
+<?php $page_number = $data['page_number'] ?><!-- Номер просматриваемой страницы -->
 <table class="table table-striped" style="width: 100%">
     <tr>
         <td style="width: 5%;">#</td>
@@ -11,70 +11,6 @@
         <td style="width: 5%;">Был ответ</td>
         <td style="width: 5%;">Публи- кация</td>
     </tr>
-
-
-    <!-- Временное решение!!!!Нужна пагинация!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!------>
-    <?php
-    $revers_data = array_reverse($data['messages']); //Реверс последовательности сообщений
-    foreach($revers_data as $item)//Перебор сообщений
-    {
-    ?>
-    <tr>
-        <td><a href="/admin/contacts/edit/<?=$item['id']?>"><button><?=$item['id']?></button></a></td>
-        <td><?=$item['name']?></td><!-- id -->
-
-        <?php $rest = substr($item['messages'], 0, 300) ?><!--Ограничение вывода знаков сообщения: 300 -->
-        <td><?=$rest?></td><!-- Имя -->
-
-        <td><?=$item['datem']?></td><!-- Дата -->
-
-        <td><!-- Кто смотрел -->
-            <?php
-                if($item['viewed'])
-                {
-                    foreach($data['users'] as $exemplar_users)//Перебор пользователей
-                    {
-                        if($exemplar_users['id_user'] == $item['viewed'])
-                        {
-                            $name = $exemplar_users['name'];
-                            echo "$name";
-                        }
-                    }
-                }
-            ?>
-        </td>
-        <td><!-- Если на сообщение был ответ -->
-            <?php
-                if($item['answered'])
-                {
-                    echo "Да";
-                }
-                else
-                {
-                    echo "Нет";
-                }
-            ?>
-        </td>
-        <td><!-- Публикация -->
-            <?php
-                if($item['is_active'])
-                {
-                    echo "Да";
-                }
-                else
-                {
-                    echo "Нет";
-                }
-            ?>
-        </td>
-        <!--td><input type="checkbox"  <?php if($item['is_active']) {?>checked="checked" <?php } ?> /></td-->
-    </tr>
-
-    <?php
-
-     }
-     ?>
-
 
     <!-- Нужно править!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!------>
 <!-- Цикл с пагинацией!!------>
@@ -105,7 +41,7 @@
          }
     ?>
     -->
-</table>
+<!--/table>
 <!-- Постраничная навигация!!!!!Пагинация!!------>
     <!--
 <div align="center">
@@ -171,4 +107,150 @@
 
     <!-- Окончание Нужно править!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!------>
 
+
+
+<?php
+            //-- Цикл с пагинацией!!------//
+
+    $revers_data = array_reverse($data['messages']); //Реверс последовательности сообщений
+
+    $number=0;//индекс цикла обнуляем,
+    $max_number = 10;//10 циклов-сообщений на страницу
+    foreach($revers_data as $item)//Перебор сообщений
+    {
+        if (($number < ($max_number * $page_number))&&($number >= ($max_number *($page_number-1))))//Проверка на диапазон страниц - пагинация
+        {
+    ?>
+<!-- Заполнение полей таблицы -->
+            <tr>
+                <td><a href="/admin/contacts/edit/<?=$item['id']?>"><button><?=$item['id']?></button></a></td>
+                <td><?=$item['name']?></td><!-- id -->
+
+                <?php $rest = substr($item['messages'], 0, 300) ?><!--Ограничение вывода знаков сообщения: 300 -->
+                <td><?=$rest?></td><!-- Имя -->
+
+                <td><?=$item['datem']?></td><!-- Дата -->
+
+                <td><!-- Кто смотрел -->
+                    <?php
+                            if($item['viewed'])
+                            {
+                                foreach($data['users'] as $exemplar_users)//Перебор пользователей
+                                {
+                                    if($exemplar_users['id_user'] == $item['viewed'])
+                                    {
+                                        $name = $exemplar_users['name'];
+                                        echo "$name";
+                                    }
+                                }
+                            }
+                        ?>
+                </td>
+                <td><!-- Если на сообщение был ответ -->
+                    <?php
+                            if($item['answered'])
+                            {
+                                echo "Да";
+                            }
+                            else
+                            {
+                                echo "Нет";
+                            }
+                        ?>
+                </td>
+                <td><!-- Публикация -->
+                    <?php
+                            if($item['is_active'])
+                            {
+                                echo "Да";
+                            }
+                            else
+                            {
+                                echo "Нет";
+                            }
+                        ?>
+                </td>
+                <!--td><input type="checkbox"  <?php if($item['is_active']) {?>checked="checked" <?php } ?> /></td-->
+            </tr>
+
+    <?php
+        }
+        $number++;
+    }
+?>
+</table>
+<!-- Постраничная навигация!!!!!Пагинация!!------>
+<div align="center">
+    <ul class="pagination">
+        <?php
+            if ($page_number < $number)
+            {
+                $page_next = $page_number+1;
+            }
+            else
+            {
+                $page_next = $number;
+            }
+            //Отработка уменьшения страницы
+            if ($page_number > 1)
+            {
+                $page_previous = $page_number-1;
+            }
+            else
+            {
+                $page_previous = 1;
+            }
+            if ($page_number != 1)
+            {
+        ?>
+        <li><a href="/admin/contacts//1"><?=1?></a></li>
+        <li><a href="/admin/contacts//<?=$page_previous?>">&laquo;</a></li>
+
+        <?php
+            }
+            //Определения максимальноя страницы
+            if ( $number % $max_number)
+            {
+                $number = ($number-($number % $max_number)) / $max_number + 1;
+            }
+            else
+            {
+                $number = ($number / $max_number);
+            }
+        ?>
+        <!--Пагинация на текущей странице -->
+
+        <li class="dropdown dropup">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><u><?=$page_number?></u></a>
+            <ul class="dropdown-menu">
+                <?php //Цикл выпадающено списка
+                        for ( $j = 1 ; $j <= $number ; $j++)
+                        { ?>
+                <li><a href="/admin/contacts//<?=$j?>"><?=$j?></a></li>
+                <?php
+                        }
+                    ?>
+            </ul>
+        </li>
+        <?php
+            if ($page_number != $number)
+            {
+        ?>
+
+        <?php //Отработка увеличения страницы
+                if ($page_number < $number)
+                {
+                    $page_next = $page_number+1;
+                }
+                else
+                {
+                    $page_next = $number;
+                }
+        ?>
+        <li><a href="/admin/contacts//<?=$page_next?>">&raquo;</a></li>
+        <li><a href="/admin/contacts//<?=$number?>"><?=$number?></a></li>
+        <?php
+            }
+        ?>
+    </ul>
 </div>
