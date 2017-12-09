@@ -23,7 +23,7 @@ class ProductsController extends Controller
 
     }
 
-*/  //*Функция обслуживания страницы таблицы списка товаров admin_index.html
+*/  //Функция обслуживания страницы таблицы списка товаров admin_index.html
     public function admin_index()
     {
         //Возврат номера страницы пагинации по id  из URL
@@ -86,7 +86,7 @@ class ProductsController extends Controller
         $this->data['reduction'] = $this->model->getProductReduction();
     }
 
-//*Функция редактирования и записи товара
+//Функция редактирования и записи товара
     public function admin_edit()
     {
 
@@ -119,7 +119,7 @@ class ProductsController extends Controller
         $this->data['provider'] = $this->model->getProvider();
     }
 
-//*Функция удаления товара
+//Функция удаления товара
     public function admin_delete()
     {
         if (isset($this->params[0]))
@@ -137,6 +137,7 @@ class ProductsController extends Controller
         Router::redirect('/admin/products//1/0/0/0/0/0');//Было Router::redirect('/users/pages/');
     }
 
+//Функция добавление нового товара
     public function admin_add()
     {
         if ($_POST)

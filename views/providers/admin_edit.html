@@ -1,0 +1,42 @@
+<h3>Редактирование поставщика</h3><br/>
+
+
+<form method="post"  action="">
+    <input type="hidden" name="id" value="<?=$data['speculator']['id_provider']?>" />
+    <!-- Наполнение информацией  -->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-7">
+                <div class="form-group">
+                    <label for="name">Наименование (без " ")</label>
+                    <input type="text" id="name" name="name" value="<?=$data['speculator']['name_provider']?>" class="form-control" style=" width: 500px;"/>
+                </div>
+                <div class="form-group">
+                    <label for="person">Контактное лицо</label>
+                    <input type="text" id="person" name="person" value="<?=$data['speculator']['person']?>" class="form-control" style=" width: 500px;"/>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Телефон</label>
+                    <input type="text" id="phone" name="phone" value="<?=$data['speculator']['phone_provider']?>" class="form-control" style=" width: 500px;"/>
+                </div>
+                <div class="form-group">
+                    <label for="address">Адрес физический</label>
+                    <textarea name="address" id="address" class="form-control"><?=$data['speculator']['address_provider']?></textarea>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="form-group">
+                    <label for="activity">
+                    <input type="checkbox" name="activity" id="activity" <?php if($data['speculator']['is_activity']) {?>checked="checked" <?php } ?> />
+                        Включён просмотр товаров этого поставщика (Активный)</label>
+                </div>
+                <div class="form-group">
+                    <label for="party">
+                    <input type="checkbox" name="party" id="party" <?php if($data['speculator']['third_party']) {?>checked="checked" <?php } ?> />
+                        Поставщик не партнёр "ЕК" (Сторонний)</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="submit" class="btn btn-success" />
+</form>

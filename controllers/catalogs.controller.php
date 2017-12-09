@@ -8,7 +8,7 @@ class CatalogsController extends Controller
         $this->model = new Catalog();
     }
 
-  //*Функция обслуживания страницы таблицы списка товаров admin_index.html+++
+  //*Функция обслуживания страницы таблицы каталогов admin_index.html+++
     public function admin_index()
     {
         $params_products = App::getRouter()->getParams();
@@ -27,7 +27,7 @@ class CatalogsController extends Controller
         $this->data['directory'] = $this->model->getCatalog();
     }
 
-//*Функция редактирования и записи товара
+//*Функция редактирования и записи каталогов
     public function admin_edit()
     {
 
@@ -58,7 +58,7 @@ class CatalogsController extends Controller
         $this->data['directory'] = $this->model->getCatalog();
     }
 
-//*Функция  записи товара
+//*Функция  записи каталогов
     public function admin_add()
     {
         if ($_POST)
@@ -78,7 +78,7 @@ class CatalogsController extends Controller
         $this->data['directory'] = $this->model->getCatalog();
     }
 
-//*Функция удаления товара
+//*Функция удаления каталогов
     public function admin_delete()
     {
         if (isset($this->params[0]))

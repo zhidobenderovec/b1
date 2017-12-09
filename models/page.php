@@ -27,6 +27,7 @@ class Page extends Model
         $result = $this->db->query($sql);
         return isset($result[0]) ? $result[0] : null;
     }
+
     public function getByCategory($category)
     {
         $category = $this->db->escape($category);
@@ -34,6 +35,15 @@ class Page extends Model
         $result = $this->db->query($sql);
         return isset($result[0]) ? $result[0] : null;
     }
+
+//--- Работа с базой messades ----- Ячейки каталока сообщений
+    public function getMessages()
+    {
+        $sql = "select * from messages where 1";// запрос к базе данных
+        return $this->db->query($sql);
+    }
+
+
 
 
     public function save($data, $id = null)
@@ -112,6 +122,7 @@ class Page extends Model
 
         return $this->db->query($sql);
     }
+
     //--- Работа с базой location ----- Контактные данные
     public function getLocation()//по умолчанию все страницы
     {
@@ -119,6 +130,7 @@ class Page extends Model
 
         return $this->db->query($sql);
     }
+
     //--- Работа с базой shares ----- Акции
     public function getShares()//по умолчанию все страницы
     {
@@ -126,6 +138,7 @@ class Page extends Model
 
         return $this->db->query($sql);
     }
+
     //--- Работа с базой catalog ----- Ячейки каталока товаров
     public function getCatalog()//по умолчанию все страницы
     {
@@ -133,6 +146,7 @@ class Page extends Model
 
         return $this->db->query($sql);
     }
+
     //--- Работа с базой products ----- Товары
     public function getProduct()//по умолчанию все страницы
     {
@@ -140,6 +154,7 @@ class Page extends Model
 
         return $this->db->query($sql);
     }
+
     //--- Работа с базой catalog по id ----- Для Товаров id
     public function getByCatalogId($category_id)
     {
@@ -149,6 +164,7 @@ class Page extends Model
 
         return isset($result[0]) ? $result[0] : null;
     }
+
     //--- Работа с базой products по id ----- Для страницы товара
     public function getByProductId($product_id)
     {

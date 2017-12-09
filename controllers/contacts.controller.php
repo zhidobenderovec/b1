@@ -21,14 +21,58 @@ class ContactsController extends Controller
 
     public function admin_index()
     {
-        $this->data =$this->model->getList();
+        //$this->data =$this->model->getList();
 
         $params_list = App::getRouter()->getParams();
         if (isset($params_list[0]))
         {
             $this->data['page_namber'] = strtolower($params_list[0]);
         }
+        $this->data['users'] = $this->model->getUsers();
+        $this->data['messages'] = $this->model->getMessages();
     }
+
+    //Функция редактирования сообщения
+    public function admin_edit()
+    {
+        if ($_POST)
+        {
+            $id = isset($_POST['id']) ? $_POST['id'] : null;
+            $result = $this->model->save($_POST, $id);
+            if($result)
+            {
+                Session::setFlash('Message was sawed.');
+            }
+            else
+            {
+                Session::setFlash('Error');
+            }
+            Router::redirect('/admin/contacts/');//Было Router::redirect('/users/pages/');
+        }
+        //$this->data =$this->model->getList();
+        if (isset($this->params[0]))
+        {
+            $this->data['messages_namber'] = $this->model->getByMessadeId($this->params[0]);
+        }
+        else
+        {
+            Session::setFlash('Wrong messages id.');
+            Router::redirect('/users/pages/');
+        }
+
+
+        /*
+        $params_list = App::getRouter()->getParams();
+        if (isset($params_list[0]))
+        {
+            $this->data['messages_namber'] = strtolower($params_list[0]);
+        }
+        */
+        $this->data['users'] = $this->model->getUsers();
+        $this->data['messages'] = $this->model->getMessages();
     }
+
+
+}
 
 ?>

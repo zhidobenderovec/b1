@@ -1,0 +1,86 @@
+<h3>Поставщики</h3>
+<h5>Поставщика можно удалить, если нет товаров поставляемых им.</h5>
+
+<div>
+    <a href="/admin/providers/add/"><button class="btn btn-sm btn-success"title="Нажмите чтобы добавить нового поставщика">Добавить нового поставщика</button></a>
+</div><br/>
+<!--  Для страниц Товаров!!! -->
+<table class="table table-bordered table-striped" style="width: 400px;">
+    <thed>
+        <th bgcolor="#6495ed">ID</th>
+        <th bgcolor="#6495ed">Наименование</th>
+        <th bgcolor="#6495ed">Активный (Включён)</th>
+        <th bgcolor="#6495ed">Сторонний (Не "ЕК")</th>
+        <th bgcolor="#6495ed">Редактировать</th>
+        <th bgcolor="#6495ed">Удалить</th>
+    </thed>
+    <tbody>
+    <!-- Отображение строк таблицы  -->
+    <?php
+       //-- Цикл вывода таблицы!!------//
+        $provider_table = $data['provider'];//Вводим таблицу в начале, чтоб небыло зависание в условии
+
+        foreach($provider_table as $provider_exemplar)
+        {
+        ?>
+    <!-- Заполнение полей таблицы -->
+    <tr>
+        <td><b><?=$provider_exemplar['id_provider']?></b></td>
+        <td><b style="color: darkorchid"><?=$provider_exemplar['name_provider']?></b></td>
+        <td><b>
+            <?php
+                if ($provider_exemplar['is_activity'] != 0)
+                {
+                    echo "Да";
+                }
+                else
+                {
+                    echo "Нет";
+                }
+            ?>
+            </b>
+        </td>
+        <td><b>
+            <?php
+                if ($provider_exemplar['third_party'] != 0)
+                {
+                    echo "Да";
+                }
+                else
+                {
+                    echo "Нет";
+                }
+            ?>
+            </b>
+        </td>
+
+        <td align="right">
+            <a href="/admin/providers/edit/<?=$provider_exemplar['id_provider']?>"><button class="btn btn-sm btn-primary">Редактировать</button></a>
+        </td>
+        <td align="right">
+            <!--Проверка на возможность удаления позиции -->
+            <?php
+                    $beacon = 0;//маячёк наличия продукта
+
+                    //Проверка на наличие товаров от этого поставщика
+                    foreach ($data['product'] as $product_exemplar)
+                    {
+                        if ($product_exemplar['id_provider'] == $provider_exemplar['id_provider'])
+                        {
+                            $beacon = 1;
+                        }
+                    }
+                    if ($beacon == 0)
+                    {
+                ?>
+            <a href="/admin/providers/delete/<?=$provider_exemplar['id_provider']?>" onclick="return confirmDelete();"><button class="btn btn-sm btn-warning">Удалить</button></a>
+            <?php
+                    }
+                ?>
+        </td>
+    </tr>
+    <?php
+        }
+        ?>
+    </tbody>
+</table>

@@ -22,6 +22,7 @@ class UsersController extends Controller
                 Session::set('login', $user['email']);//Наличие логина в сессие означает, что пользователь выполнил вход
                 Session::set('role', $user['role']);
                 Session::set('name', $user['name']);
+                Session::set('id', $user['id_user']);
             }
             if ($_SESSION['role'] == 'admin')//Проверка роли пользователя!!!!
             {

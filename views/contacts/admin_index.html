@@ -4,35 +4,70 @@
 <table class="table table-striped" style="width: 100%">
     <tr>
         <td style="width: 5%;">#</td>
-        <td style="width: 10%;">Имя</td>
-        <td style="width: 10%;">Email</td>
-        <td style="width: 29%;">Сообщение</td>
+        <td style="width: 15%;">Имя</td>
+        <td style="width: 43%;">Сообщение</td>
         <td style="width: 12%;">Дата</td>
-        <td style="width: 3%;">Прос- мотр</td>
-        <td style="width: 3%;">Был ответ</td>
-        <td style="width: 29%;">Ответ</td>
-        <td style="width: 3%;">Публи- кация</td>
+        <td style="width: 15%;">Кто смотрел</td>
+        <td style="width: 5%;">Был ответ</td>
+        <td style="width: 5%;">Публи- кация</td>
     </tr>
 
 
     <!-- Временное решение!!!!Нужна пагинация!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!------>
     <?php
-    $revers_data = array_reverse($data); //Реверс последовательности сообщений
+    $revers_data = array_reverse($data['messages']); //Реверс последовательности сообщений
     foreach($revers_data as $item)//Перебор сообщений
     {
     ?>
     <tr>
-        <td><a><button href="/admin/contacts/<?=$item['id']?>"><?=$item['id']?></button></a></td>
-        <td><?=$item['name']?></td>
-        <td><?=$item['email']?></td>
+        <td><a href="/admin/contacts/edit/<?=$item['id']?>"><button><?=$item['id']?></button></a></td>
+        <td><?=$item['name']?></td><!-- id -->
+
         <?php $rest = substr($item['messages'], 0, 300) ?><!--Ограничение вывода знаков сообщения: 300 -->
-        <td><?=$rest?></td>
-        <td><?=$item['datem']?>...</td>
-        <td><input type="checkbox"  <?php if($item['viewed']) {?>checked="checked" <?php } ?> /></td>
-        <td><input type="checkbox"  <?php if($item['answered']) {?>checked="checked" <?php } ?> /></td>
-        <?php $rest = substr($item['answer'], 0, 300) ?><!--Ограничение вывода знаков сообщения: 300 -->
-        <td><?=$rest?>...</td>
-        <td><input type="checkbox"  <?php if($item['is_active']) {?>checked="checked" <?php } ?> /></td>
+        <td><?=$rest?></td><!-- Имя -->
+
+        <td><?=$item['datem']?></td><!-- Дата -->
+
+        <td><!-- Кто смотрел -->
+            <?php
+                if($item['viewed'])
+                {
+                    foreach($data['users'] as $exemplar_users)//Перебор пользователей
+                    {
+                        if($exemplar_users['id_user'] == $item['viewed'])
+                        {
+                            $name = $exemplar_users['name'];
+                            echo "$name";
+                        }
+                    }
+                }
+            ?>
+        </td>
+        <td><!-- Если на сообщение был ответ -->
+            <?php
+                if($item['answered'])
+                {
+                    echo "Да";
+                }
+                else
+                {
+                    echo "Нет";
+                }
+            ?>
+        </td>
+        <td><!-- Публикация -->
+            <?php
+                if($item['is_active'])
+                {
+                    echo "Да";
+                }
+                else
+                {
+                    echo "Нет";
+                }
+            ?>
+        </td>
+        <!--td><input type="checkbox"  <?php if($item['is_active']) {?>checked="checked" <?php } ?> /></td-->
     </tr>
 
     <?php

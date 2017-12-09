@@ -15,7 +15,8 @@ class Product extends Model
 
     public function save($data, $id = null)
     {
-        if (!isset($data['name']) || !isset($data['code']) || !isset($data['subdirectory'])) {
+        if (!isset($data['name']) || !isset($data['code']) || !isset($data['subdirectory']))
+        {
             return false;
         }
 

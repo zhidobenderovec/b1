@@ -42,7 +42,8 @@ class Catalog extends Model
     //--- Работа с базой catalog по id ----- Для записи Каталогов и  Подкаталогов в БД
     public function save($data, $id = null)
     {
-        if (!isset($data['name'])) {
+        if (!isset($data['name']))
+        {
             return false;
         }
 

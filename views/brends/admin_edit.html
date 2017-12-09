@@ -1,0 +1,21 @@
+<h3>Редактирование производителя</h3><br/>
+
+<form method="post"  action="">
+    <input type="hidden" name="id" value="<?=$data['manufactory']['id_brend']?>" />
+    <!-- Наполнение информацией  -->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-7">
+                <div class="form-group">
+                    <label for="name">Наименование</label>
+                    <input type="text" id="name" name="name" value="<?=$data['manufactory']['name_brend']?>" class="form-control" style=" width: 500px;"/>
+                </div>
+            </div>
+
+            <div class="col-sm-5">
+
+            </div>
+        </div>
+    </div>
+    <input type="submit" class="btn btn-success" />
+</form>

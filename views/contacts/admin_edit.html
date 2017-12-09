@@ -1,0 +1,85 @@
+<h3>Сообщение</h3><br/>
+<!-- Для менеджера часть функций по редактированию нужнозаглушить в контроллере -->
+<form method="post"  action="">
+    <input type="hidden" name="id" value="<?=$data['messages_namber']['id']?>" />
+    <!-- Наполнение информацией  -->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-5">
+                <div class="form-group">
+                    <label for="name">Имя</label>
+                    <input type="text" id="name" name="name" value="<?=$data['messages_namber']['name']?>" class="form-control" style=" width: 350px;"/>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" id="email" name="email" value="<?=$data['messages_namber']['email']?>" class="form-control" style=" width: 270px;"/>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label for="date">Дата отправки сообщения</label>
+                    <input type="text" id="date" name="date" value="<?=$data['messages_namber']['datem']?>" class="form-control" style=" width: 200px;"/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="message">Сообщение</label>
+            <textarea name="message" id="message" class="form-control"><?=$data['messages_namber']['messages']?></textarea><br/>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <!--Показывает кто смотрел сообщение первым, иначе того, кто смотрит сейчас-->
+                <div class="form-group">
+                    <label for="viewed">Просмотренно</label>
+                    <?php
+                        $user_id = 0;
+                        $user_name = "error user";
+                        if ($data['messages_namber']['viewed'])
+                        {
+                            $user_id = $data['messages_namber']['viewed'];
+                        }
+                        else
+                        {
+                            $user_id = Session::get('id');
+                        }
+                        foreach ($data['users'] as $exemplar_users)//Перебор пользователей
+                        {
+                            if ($exemplar_users['id_user'] == $user_id)
+                            {
+                                $user_name = $exemplar_users['name'];
+                            }
+                        }
+                    ?>
+                    <input type="hidden" id="viewed" name="viewed" value="<?=$user_id?>" />
+                    <input type="text"  value="<?=$user_name?>" class="form-control" style=" width: 450px;"/>
+
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label for="answered">Ответ сделан</label></br>
+                    <!-- Галочка, если была раньше установлена или если есть тело ответа -->
+                    <td><input type="checkbox"  id="answered" name="answered"
+                        <?php if(($data['messages_namber']['answered']) || ($data['messages_namber']['answer']))
+                        {?>checked="checked" <?php } ?> /></td>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label for="active">Публикация ответа на сайте</label>
+                    <td><input type="checkbox"  id="active" name="active" <?php if($data['messages_namber']['is_active']) {?>checked="checked" <?php } ?> /></td>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="answer">Ответ</label>
+            <textarea name="answer" id="answer" class="form-control" placeholder="Ответьте на сообщение"><?=$data['messages_namber']['answer']?></textarea><br/>
+        </div>
+        <div>
+            <input type="submit" class="btn btn-success" />
+        </div>
+    </div>
+
+</form>

@@ -42,6 +42,7 @@ class PagesController extends Controller
     public function admin_index()
     {
         $this->data['pages'] = $this->model->getList();
+        $this->data['messages'] = $this->model->getMessages();
 
     }
 

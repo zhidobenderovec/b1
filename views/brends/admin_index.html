@@ -1,0 +1,58 @@
+<h3>Производители</h3>
+<h5>Производителя можно удалить, если нет товаров с таким брендом.</h5>
+
+<div>
+    <a href="/admin/brends/add/"><button class="btn btn-sm btn-success"title="Нажмите чтобы добавить нового производителя">Добавить нового производителя</button></a>
+</div><br/>
+<!--  Для страниц Товаров!!! -->
+<table class="table table-bordered table-striped" style="width: 400px;">
+    <thed>
+        <th bgcolor="#6495ed">ID</th>
+        <th bgcolor="#6495ed">Наименование</th>
+        <th bgcolor="#6495ed">Редактировать</th>
+        <th bgcolor="#6495ed">Удалить</th>
+    </thed>
+    <tbody>
+        <!-- Отображение строк таблицы  -->
+        <?php
+       //-- Цикл вывода таблицы!!------//
+        $brend_table = $data['brend'];//Вводим таблицу в начале, чтоб небыло зависание в условии
+
+        foreach($brend_table as $brend_exemplar)
+        {
+        ?>
+        <!-- Заполнение полей таблицы -->
+        <tr>
+            <td><b><?=$brend_exemplar['id_brend']?></b></td>
+            <td><b style="color: darkorchid"><?=$brend_exemplar['name_brend']?></b></td>
+
+            <td align="right">
+                <a href="/admin/brends/edit/<?=$brend_exemplar['id_brend']?>"><button class="btn btn-sm btn-primary">Редактировать</button></a>
+            </td>
+            <td align="right">
+            <!--Проверка на возможность удаления позиции -->
+                <?php
+                    $beacon = 0;//маячёк наличия продукта
+
+                    //Проверка на наличие товаров с этм брендом
+                    foreach ($data['product'] as $product_exemplar)
+                    {
+                        if ($product_exemplar['id_brend'] == $brend_exemplar['id_brend'])
+                        {
+                            $beacon = 1;
+                        }
+                    }
+                    if ($beacon == 0)
+                    {
+                ?>
+                <a href="/admin/brends/delete/<?=$brend_exemplar['id_brend']?>" onclick="return confirmDelete();"><button class="btn btn-sm btn-warning">Удалить</button></a>
+                <?php
+                    }
+                ?>
+            </td>
+        </tr>
+        <?php
+        }
+        ?>
+    </tbody>
+</table>

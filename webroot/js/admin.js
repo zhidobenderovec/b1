@@ -9,7 +9,3 @@ function confirmDelete() {
         return false;
     }
 }
-function alertSho() {
-    return  alert('Шо ты сцука делаешь?');
-
-}

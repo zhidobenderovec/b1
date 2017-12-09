@@ -1,5 +1,7 @@
 <h4>Напишите нам:</h4>
 <form action="" method="post">
+    <input type="hidden" name="answer" value="" />
+    <input type="hidden" name="viewed" value="" />
     <!-- Ввод имени - автоматически, если пользователь зарегистрирован. -->
     <input type="text" class="form-control" name="name" placeholder="Ваше имя"
     <?php if (Session::get('login') ) { ?>
