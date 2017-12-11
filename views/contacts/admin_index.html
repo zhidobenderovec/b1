@@ -115,7 +115,7 @@
     $revers_data = array_reverse($data['messages']); //Реверс последовательности сообщений
 
     $number=0;//индекс цикла обнуляем,
-    $max_number = 10;//10 циклов-сообщений на страницу
+    $max_number = 8;//8 циклов-сообщений на страницу
     foreach($revers_data as $item)//Перебор сообщений
     {
         if (($number < ($max_number * $page_number))&&($number >= ($max_number *($page_number-1))))//Проверка на диапазон страниц - пагинация
@@ -126,7 +126,7 @@
                 <td><a href="/admin/contacts/edit/<?=$item['id']?>"><button><?=$item['id']?></button></a></td>
                 <td><?=$item['name']?></td><!-- id -->
 
-                <?php $rest = substr($item['messages'], 0, 300) ?><!--Ограничение вывода знаков сообщения: 300 -->
+                <?php $rest = substr($item['messages'], 0, 200) ?><!--Ограничение вывода знаков сообщения: 300 -->
                 <td><?=$rest?></td><!-- Имя -->
 
                 <td><?=$item['datem']?></td><!-- Дата -->

@@ -123,10 +123,10 @@ class Page extends Model
         return $this->db->query($sql);
     }
 
-    //--- Работа с базой location ----- Контактные данные
+    //--- Работа с базой locations ----- Контактные данные
     public function getLocation()//по умолчанию все страницы
     {
-        $sql = "select * from location where 1";// запрос к базе данных
+        $sql = "select * from locations where 1";// запрос к базе данных
 
         return $this->db->query($sql);
     }

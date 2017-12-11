@@ -1,0 +1,34 @@
+<h3>Наши контактные данные:</h3>
+<form method="post"  action="">
+<input type="hidden" name="id" value="<?=$data['localion_number']['id_location']?>" />
+    <div class="container" style="margin-top: 15px">
+        <div class="form-group">
+            <label for="phone_1">Телефон №1:</label>
+            <input type="text" id="phone_1" name="phone_1" value="<?=$data['localion_number']['phone_1']?>" class="form-control" style=" width: 350px;"/>
+        </div>
+        <div class="form-group">
+            <label for="phone_2">Телефон №2:</label>
+            <input type="text" id="phone_2" name="phone_2" value="<?=$data['localion_number']['phone_2']?>" class="form-control" style=" width: 350px;"/>
+        </div>
+        <div class="form-group">
+            <label for="phone_3">Телефон №3:</label>
+            <input type="text" id="phone_3" name="phone_3" value="<?=$data['localion_number']['phone_3']?>" class="form-control" style=" width: 350px;"/>
+        </div>
+        <div class="form-group">
+            <label for="address">Адрес:</label>
+            <input type="text" id="address" name="address" value="<?=$data['localion_number']['address']?>" class="form-control" style=" width: 500px;"/>
+        </div>
+        <div class="form-group">
+            <label for="schedule">График работы:</label>
+            <input type="text" id="schedule" name="schedule" value="<?=$data['localion_number']['schedule']?>" class="form-control" style=" width: 500px;"/>
+        </div>
+        <!-- Нужно реализовать поиск и запись картинки в файл или через гугл -->
+        <div class="form-group">
+            <label for="imege">Мы на карте:</label>
+            <input type="text" id="imege" name="imege" value="<?=$data['localion_number']['imege']?>" class="form-control" style=" width: 500px;"/>
+        </div>
+    </div>
+    <div>
+        <input type="submit" class="btn btn-success" />
+    </div>
+</form>

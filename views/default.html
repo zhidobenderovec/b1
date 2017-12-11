@@ -115,10 +115,10 @@
             <!--<<a href="/"><img src="webroot/img/zenit_4.jpg" align="left" alt="Логотип"></a>-->
             <ul class="nav navbar-nav"   hspace="70">
                 <!--<li><a <?php if ( App::getRouter()->getController() == '/pages' ) {?>class="/active/"<?php } ?> href="/pages"><?=__('lng.about_as', '!')?></a></li>-->
-                <li><a <?php if ( App::getRouter()->getController() == 'archive' ) {?>class="/active/"<?php } ?> href="archive"><?=__('lng.payment', '!')?></a></li>
-                <li><a <?php if ( App::getRouter()->getController() == 'exit' ) {?>class="/active/"<?php } ?> href="exit"><?=__('lng.guarantee', '!')?></a></li>
-                <li><a <?php if ( App::getRouter()->getController() == 'contacts' ) {?>class="/active/"<?php } ?> href="contacts"><?=__('lng.contacts', '!')?></a></li>
-                <li><a <?php if ( App::getRouter()->getController() == 'contacts' ) {?>class="/active/"<?php } ?> href="contacts"><?=__('lng.sell', '!')?></a></li>
+                <li><a <?php if ( App::getRouter()->getController() == 'informations' ) {?>class="/active/"<?php } ?> href="/informations/payment"><?=__('lng.payment', '!')?></a></li>
+                <li><a <?php if ( App::getRouter()->getController() == 'informations' ) {?>class="/active/"<?php } ?> href="/informations/guarantee"><?=__('lng.guarantee', '!')?></a></li>
+                <li><a <?php if ( App::getRouter()->getController() == 'locations' ) {?>class="/active/"<?php } ?> href="/locations"><?=__('lng.contacts', '!')?></a></li>
+                <li><a <?php if ( App::getRouter()->getController() == 'informations' ) {?>class="/active/"<?php } ?> href="/informations/sell"><?=__('lng.sell', '!')?></a></li>
             </ul>
 <!-- Окно поиска пор тегам -->
             <form class="navbar-form navbar-left">
@@ -164,12 +164,13 @@
             </div>
             <div class="col-sm-4">
                 <ul class="nav navbar-nav" hspace="70">
-                    <li><a <?php if ( App::getRouter()->getController() == 'archive' ) {?>class="/active/"<?php } ?> href="archive"><?=__('lng.about_as', '!')?></a></li>
-                    <li><a <?php if ( App::getRouter()->getController() == 'exit' ) {?>class="/active/"<?php } ?> href="exit"><?=__('lng.contacts', '!')?></a></li>
-                    <li><a <?php if ( App::getRouter()->getController() == 'contacts' ) {?>class="/active/"<?php } ?> href="contacts"><?=__('lng.returns', '!')?></a></li>
-                    <li><a <?php if ( App::getRouter()->getController() == 'contacts' ) {?>class="/active/"<?php } ?> href="contacts"><?=__('lng.conditions', '!')?></a></li>
-                    <li><a <?php if ( App::getRouter()->getController() == 'contacts' ) {?>class="/active/"<?php } ?> href="contacts"><?=__('lng.sell', '!')?></a></li>
-                    <li><a <?php if ( App::getRouter()->getController() == 'contacts' ) {?>class="/active/"<?php } ?> href="contacts"><?=__('lng.questions', '!')?></a></li>
+                    <li><a <?php if ( App::getRouter()->getController() == 'informations' ) {?>class="/active/"<?php } ?> href="/informations/about_us"><?=__('lng.about_as', '!')?></a></li>
+                    <li><a <?php if ( App::getRouter()->getController() == 'locations' ) {?>class="/active/"<?php } ?> href="/locations"><?=__('lng.contacts', '!')?></a></li>
+
+                    <li><a <?php if ( App::getRouter()->getController() == 'informations' ) {?>class="/active/"<?php } ?> href="/informations/returns"><?=__('lng.returns', '!')?></a></li>
+                    <li><a <?php if ( App::getRouter()->getController() == 'informations' ) {?>class="/active/"<?php } ?> href="/informations/conditions"><?=__('lng.conditions', '!')?></a></li>
+                    <li><a <?php if ( App::getRouter()->getController() == 'informations' ) {?>class="/active/"<?php } ?> href="/informations/sell"><?=__('lng.sell', '!')?></a></li>
+                    <li><a <?php if ( App::getRouter()->getController() == 'contacts' ) {?>class="/active/"<?php } ?> href="/contacts"><?=__('lng.questions', '!')?></a></li>
                 </ul>
             </div>
             <div class="col-sm-4">

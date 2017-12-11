@@ -47,7 +47,7 @@ class ContactsController extends Controller
             {
                 Session::setFlash('Error');
             }
-            Router::redirect('/admin/contacts/');//Было Router::redirect('/users/pages/');
+            Router::redirect('/admin/contacts//1');//Было Router::redirect('/users/pages/');
         }
         //$this->data =$this->model->getList();
         if (isset($this->params[0]))
@@ -60,19 +60,27 @@ class ContactsController extends Controller
             Router::redirect('/users/pages/');
         }
 
-
-        /*
-        $params_list = App::getRouter()->getParams();
-        if (isset($params_list[0]))
-        {
-            $this->data['messages_namber'] = strtolower($params_list[0]);
-        }
-        */
         $this->data['users'] = $this->model->getUsers();
         $this->data['messages'] = $this->model->getMessages();
     }
 
-
+//*Функция удаления сообщения
+    public function admin_delete()
+    {
+        if (isset($this->params[0]))
+        {
+            $result = $this->model->delete($this->params[0]);
+            if ($result)
+            {
+                Session::setFlash('Messages was deleted.');
+            }
+            else
+            {
+                Session::setFlash('Error_admin_delete.');
+            }
+        }
+        Router::redirect('/admin/contacts//1');//
+    }
 }
 
 ?>

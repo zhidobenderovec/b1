@@ -1,0 +1,72 @@
+<h3>Акции</h3><br/>
+
+<?php
+foreach ($data['shares'] as $exemplar_shares)
+{
+?>
+<form method="post"  action="" style="border: 3px solid black;">
+    <input type="hidden" id="id" name="id" value="<?=$exemplar_shares['id_shares']?>" />
+    <!-- Наполнение информацией  -->
+    <div class="container" >
+        <h4><?=$exemplar_shares['id_shares']?></h4>
+        <div class="form-group">
+            <label for="name">Наименование</label>
+            <input type="text" id="name" name="name" value="<?=$exemplar_shares['alias']?>" class="form-control" style=" width: 900px;"/>
+        </div>
+        <div class="form-group">
+            <label for="body">Текст</label>
+            <textarea name="body" id="body" class="form-control" style="width: 900px;"><?=$exemplar_shares['body']?></textarea>
+        </div>
+        <div class="form-group">
+            <label for="img">Картинка</label>
+            <input type="text" id="img" name="img" value="<?=$exemplar_shares['imege_shares']?>" class="form-control" style="width: 900px;"/>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="product">Прикреплённый товар (ID товара)</label>
+                    <input type="text" id="product" name="product" value="<?=$exemplar_shares['id_product']?>" class="form-control" style="width: 250px;"/>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="date_b">Дата начала показа</label>
+                    <input type="date" class="form-control" id="date_b" name="date_b" value="<?=$exemplar_shares['beginning_date']?>" style="width: 250px;" placeholder="Дата" required>
+                </div>
+            </div>
+            <div class="col-sm-4 ">
+                <div class="form-group">
+                    <label for="date_e">Дата окончания показа</label>
+                    <input type="date" class="form-control" id="date_e" name="date_e" value="<?=$exemplar_shares['expiration_date']?>" style="width: 250px;" placeholder="Дата" required>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <input type="submit" class="btn btn-success" />
+    </div></br>
+
+</form>
+<div>
+    <a href="/admin/informations/deleteshares/<?=$exemplar_shares['id_shares']?>" onclick="return confirmDelete();"><button class="btn btn-sm btn-warning">Удалить акцию</button></a>
+</div></br>
+<?php
+}
+?>
+<div class="container" style="margin-top: 15px">
+    <div class="col-sm-3">
+    </div>
+    <div class="col-sm-4">
+        <div>
+            <a href="/admin/informations/"><button class="btn btn-sm btn-primary">Вернуться в Информационные страницы</button></a>
+        </div>
+    </div>
+    <div class="col-sm-5">
+        <div>
+            <a href="/admin/informations/addshares""><button class="btn btn-sm btn-success">Новая акция</button></a>
+        </div>
+    </div>
+</div></br>
