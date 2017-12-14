@@ -1,0 +1,241 @@
+<!-- Отображение поддиректорий -->
+<style>
+    .row {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+    .btn-group:hover > .dropdown-menu/*равкрывающиеся меню */
+    {
+        display: block;
+    }
+    .thumbnail img
+    {
+        height: auto !important;
+        /*height: 250px !important;
+        /* width: 272px; */
+    }
+    h5{
+        text-align: center;
+        /*color: red;*/
+    }
+    .my_class_catalog
+    {
+        cursor: pointer;
+    }
+    .my_class_product
+    {
+        height: 65vh;
+    }
+</style>
+<!------------------------------------------------------------->
+
+<div class="container">
+    <div class="row">
+        <!--- Главный каталог --------------------------------------------->
+        <div class="col-sm-3 ">
+            <div class="btn-group-vertical " role="group" aria-label="...">
+                <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                    <div class="btn-group" role="group">
+                        <a  target="_blank" class="btn btn-primary  dropdown-toggle btn-block" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Каталог товаров</a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <?php
+                        foreach($data['directory'] as $cell)
+                        {
+                            if ($cell['id_catalog'])//Проверка наличия директории
+                            {
+                                if (!$cell['id_directory'])//Проверка наличия поддиректории
+                                { ?>
+                            <li><a type="button" class="btn btn-default" align="center" href="/pages/catalog/<?=$cell['id_catalog']?>"><?=$cell['name_directory']?></a></li>
+                            <?php
+                                }
+                            }
+                        }
+                                 ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--- Отображение Корзины --------------------------------------------->
+        <div class="col-sm-9" >
+
+            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                <div class="btn-group" role="group">
+                    <?php
+                        if(Session::get('login'))
+                        {
+                        ?>
+
+                    <a  class="btn btn-primary btn-block" href="/admin/users/registration" title="Зарегистрировавшись у Вас появится возможность отслеживать свои заказы на сайте и не вводить каждый раз свои контактные данные!">
+
+                        <span  style="color: white;" >Войти в личный кабинет</a>
+
+                        <?php
+                        }
+                        else
+                        {
+                        ?>
+                            <a  class="btn btn-primary btn-block" href="/admin/users/registration" title="Зарегистрировавшись у Вас появится возможность отслеживать свои заказы на сайте и не вводить каждый раз свои контактные данные!">
+
+                            <span  style="color: white;" >Зарегистрироваться на сайте</a>
+
+                        <?php
+                        }
+                    ?>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--- Отображение Товаров  в корзине --------------------------------------------->
+    <table class="table table-bordered " style="width: 100%">
+        <thead>
+        <tr >
+            <th bgcolor="orange" scope="col" style="width: 15%; text-align: center" >Изображение</th>
+            <th bgcolor="orange" scope="col" style="width: 30%; text-align: center">Наименование</th>
+            <th bgcolor="orange" scope="col" style="width: 15%; text-align: center">Код товара</th>
+            <th bgcolor="orange" scope="col" style="width: 15%; text-align: center">Количество</th>
+            <th bgcolor="orange" scope="col" style="width: 10%; text-align: center">Цена, грн</th>
+            <th bgcolor="orange" scope="col" style="width: 10%; text-align: center">Всего, грн</th>
+            <th bgcolor="orange" scope="col" style="width: 5%; text-align: center">Удалить</th>
+        </tr>
+        </thead>
+        </br>
+        <tbody>
+        <?php
+                $total_quantity = 0;//количество
+                $total_cost = 0;//сумма
+                $cost = 0;
+                foreach ($data['product'] as $thing)
+                {
+                    $id_pieces = $thing['id_product'];
+                    if (isset($_COOKIE[$id_pieces]))
+                    {
+                        $quantity =  htmlspecialchars($_COOKIE[$id_pieces]);
+                        $total_quantity = $total_quantity + $quantity;
+                        $cost = $quantity * $thing['price'];
+                        $total_cost = $total_cost + $cost;
+                        ?>
+                            <tr>
+                                <td>
+                                    <a href="/pages/product/<?=$thing['id_product']?>">
+                                        <div class="thumbnail">
+                                            <img src="<?=$thing['imege']?>" alt="...">
+                                        </div>
+                                    </a>
+                                </td>
+                                <td><?=$thing['name_product']?></td>
+                                <td><?=$thing['code']?></td>
+                                <td style="text-align: center">
+
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1"><a href="/baskets/reduce/<?=$thing['id_product']?>"> < </a></span>
+                                            <output type="text" class="form-control"><?=$quantity?></output>
+                                        <span class="input-group-addon" id="basic-addon2"><a href="/baskets/enlarge/<?=$thing['id_product']?>"> > </a></span>
+                                    </div>
+                                </td>
+                                <td style="text-align: center"><?=$thing['price']?></td>
+                                <td style="text-align: center"><?=$cost?></td>
+                                <td style="text-align: center"><a href="/baskets/delete/<?=$thing['id_product']?>"><button class="btn btn-sm btn-warning"> X </button></a>
+                                </td>
+                            </tr>
+
+                        <?php
+                    }
+                }
+            ?>
+        </tbody>
+    </table>
+    <div>
+        <?php
+            if (!$total_quantity)
+            {
+            ?>
+                <h2 style="text-align: center">В корзине нет товаров.</h2>
+            <?php
+            }
+            ?>
+    </div>
+
+    <div class="col-sm-6">
+        <p><a href="/baskets/deleteall/"><button class="btn btn-warning btn-block">Очистить корзину</button></a></p>
+    </div>
+    <div class="col-sm-6" >
+        <h4  style="text-align: right;"> Всего <?=$total_quantity?> товар(ов) на сумму <?=$total_cost?> грн.</h4>
+    </div>
+
+
+
+
+</div>
+
+
+
+    <!--///////////////////////////////////////////////////-->
+
+<div class="container">
+    <form method="post"  action="">
+        <input type="hidden" name="buy" id="buy" value="1" />
+        <!--Проверка на сессию, если сессия, то данные пользователя берутся из базы-->
+        <?php
+            if(Session::get('login'))
+            {
+            ?>
+                <input type="hidden" id="id" name="id" value="<?=(Session::get('id') )?>" />
+                <input type="hidden" id="name" name="name" value="<?=(Session::get('name') )?>" />
+                <input type="hidden" id="email" name="email" value="<?=(Session::get('login') )?>" />
+                <input type="hidden" id="city" name="city" value="<?=(Session::get('city') )?>" />
+                <input type="hidden" id="phone" name="phone" value="<?=(Session::get('phone') )?>" />
+            <?php
+            }
+            else
+            {
+        ?>
+        <h3>Ваши контактные данные</h3><br/>
+        <div class="row">
+            <div class="col-sm-7">
+                <div class="form-group">
+                    <label for="name">Имя</label>
+                    <input type="text" id="name" name="name" value="" class="form-control" style=" width: 450px;"/>
+                </div>
+                <div class="form-group">
+                    <label for="city">Город</label>
+                    <input type="text" id="city" name="city" value="" class="form-control" style=" width: 450px;"/>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" id="email" name="email" value="" class="form-control" style=" width: 370px;" />
+                </div>
+                <div class="form-group">
+                    <label for="phone">Контактный телефон</label>
+                    <input type="text" id="phone" name="phone" value="" class="form-control" style=" width: 370px;"/>
+                </div>
+            </div>
+        </div>
+        <?php
+            }
+        ?>
+            <!--- Кнопки  --------------------------------------------->
+        <div class="col-sm-6 ">
+            <p><a onclick="javascript:history.back(); return false;"><button class="btn btn-primary btn-block">Вернуться назад</button></a></p>
+            <hr>
+        </div>
+        <div class="col-sm-6" >
+            <p><input  type="submit" class="btn btn btn-success btn-block" role="button" value="Отправить заявку"/></p>
+            <hr>
+        </div>
+        <hr>
+    </form>
+</div>
+
+    <!--///////////////////////////////////////////////////-->
+
+<!------------------------------------------------------------->
+
+

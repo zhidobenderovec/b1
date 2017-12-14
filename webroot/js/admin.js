@@ -5,7 +5,7 @@ function confirmDelete() {
     }
     else
     {
-        alert("Вы нажали кнопку отмена")
+        //alert("Вы нажали кнопку отмена")
         return false;
     }
 }

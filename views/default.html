@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
     <script src="https://code.jquery.com/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     <style>
     h1{
     color: white; /*#0000ff;*/
@@ -97,7 +98,7 @@
 
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                     <li><a type="button"  align="center" href="/admin">Авторизиваться</a></li>
-                    <li><a type="button"  align="center" href="/pages/catalog/<?=$cell['id_catalog']?>">Зарегистрироваться</a></li>
+                    <li><a type="button"  align="center" href="/admin/users/registration">Зарегистрироваться</a></li>
                 </ul>
             </div>
                 <!--USER-->
@@ -132,9 +133,11 @@
                 </div>
             </form>
 <!-- Кнопка корзины -->
-            <button type="button" class="btn btn-default btn-sm navbar-btn" title="Корзина">
+            <a type="button"  href="/baskets/">
+                <button type="button" class="btn btn-default btn-sm navbar-btn" title="Корзина">
                     <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true" style="color: black;"></span>
-            </button>
+                </button>
+            </a>
         </div>
     </div>
 </nav>

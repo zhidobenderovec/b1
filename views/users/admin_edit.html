@@ -1,0 +1,98 @@
+<h3>Редактирование пользователя</h3><br/>
+
+<form method="post"  action="">
+    <input type="hidden" name="id" value="<?=$data['user']['id_user']?>" />
+    <!-- Наполнение информацией  -->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="name">Имя</label>
+                    <input type="text" id="name" name="name" value="<?=$data['user']['name']?>" class="form-control" style=" width: 420px;"/>
+                </div>
+                <div class="form-group">
+                    <label for="pass">Пароль(изменить нельзя)</label>
+                    <input type="text" id="pass" name="pass" value="<?=$data['user']['password']?>" class="form-control" style=" width: 420px;"/>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" id="email" name="email" value="<?=$data['user']['email']?>" class="form-control" style=" width: 420px;"/>
+                </div>
+                <div class="form-group">
+                    <label for="city">Город</label>
+                    <input type="text" id="city" name="city" value="<?=$data['user']['city']?>" class="form-control" style=" width: 420px;"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" >
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="phone">Телефон</label>
+                    <input type="text" id="phone" name="phone" value="<?=$data['user']['phone']?>" class="form-control" style=" width: 300px;"/>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="role">Статус</label>
+                    <select size="1" name="role" id="role" style=" width: 300px; height: 32px">
+                        <option disabled>Выберите статус</option>
+                        <option <?php if($data['user']['role'] == "user") { echo ("selected");} ?> value="user">Пользователь</option>
+                        <option <?php if($data['user']['role'] == "manager") { echo ("selected");} ?>  value="manager">Менеджер</option>
+                        <option <?php if($data['user']['role'] == "admin") { echo ("selected");} ?> value="admin">Администратор</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container" >
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="visit">Посещений</label>
+                    <input type="text" id="visit" name="visit" value="<?=$data['user']['visits_user']?>" class="form-control" style=" width: 300px;"/>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="date">Последнее посещение(изменить нельзя)</label>
+                    <input type="text" id="date" name="date" value="<?=$data['user']['date_last']?>" class="form-control" style=" width: 300px;"/>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="active">Включён</label>
+                    <p><input type="checkbox" id="active" name="active" <?php if($data['user']['is_active']) {?>checked="checked"<?php } ?> />&nbsp Активный<Br></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="submit" class="btn btn-success" />
+</form>
+
+
+<div class="container" style="margin-top: 15px">
+    <div class="col-sm-4">
+
+    </div>
+    <div class="col-sm-3">
+        <div>
+            <!-- Ссылка возврата назад!!!! -->
+            <a onclick="javascript:history.back(); return false;"><button class="btn btn-sm btn-primary">Вернуться в зарегистрированные пользователи</button></a>
+        </div>
+    </div>
+    <div class="col-sm-5">
+        <div>
+
+        </div>
+    </div>
+</div>

@@ -59,8 +59,33 @@
 
             <div class="btn-group btn-group-justified" role="group" aria-label="...">
                 <div class="btn-group" role="group">
-                    <a  target="_blank" class="btn btn-primary btn-block" href="???!">
-                        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true" style="color: white;">&nbsp В корзине: товар(ов) на сумму:</a>
+                    <a class="btn btn-primary btn-block" href="/baskets/" >
+                        <?php
+                            $total_quantity = 0;//количество
+                            $total_cost = 0;//сумма
+                            /*
+                            $er = 6;
+                            $we = 2;
+                            setcookie($we,$er,-1,'/');
+                            $er = 5;
+                            $we = 3;
+
+                            setcookie($we,$er,-1,'/');
+                            */
+                            foreach ($data['product'] as $thing)
+                            {
+                                $id_pieces = $thing['id_product'];
+                                if (isset($_COOKIE[$id_pieces]))
+                                {
+                                //echo $_COOKIE[$id_pieces];//Убрать!!!
+                                    $quantity =  htmlspecialchars($_COOKIE[$id_pieces]);
+                                    $total_quantity = $total_quantity + $quantity;
+                                    $total_cost = $total_cost + $quantity * $thing['price'];
+                                }
+                            }
+                        ?>
+                        <!--?=$id_pieces?>;<!-- Убрать!!! -->
+                        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true" style="color: white;">&nbsp В корзине: <?=$total_quantity?> товар(ов) на сумму: <?=$total_cost?> грн.</a>
                 </div>
             </div>
         </div>
@@ -84,13 +109,16 @@
                         </div>
                     </div>
                     <div class="col-sm-6" >
-                        <p>Производитель:&nbsp<?=$exemplar['id_brend']?>&nbsp</p>
-                        <p>Код товара:&nbsp<?=$exemplar['code']?>&nbsp</p>
-                        <p>На складе:&nbsp<?=$exemplar['quantity']?>&nbsp шт.</p>
-                        <h4><?=$exemplar['price']?>&nbsp грн.</h4>
-                        <p>Количество товара в корзину:</p>
-                        <input type="text" class="form-control" name="email" placeholder="" /><br/>
-                        <p><a href="##" class="btn btn-default btn-block" role="button">В корзину</a></p>
+                        <form method="post"  action="">
+                            <p>Производитель:&nbsp<?=$exemplar['id_brend']?>&nbsp</p>
+                            <p>Код товара:&nbsp<?=$exemplar['code']?>&nbsp</p>
+                            <p>На складе:&nbsp<?=$exemplar['quantity']?>&nbsp шт.</p>
+                            <h4><?=$exemplar['price']?>&nbsp грн.</h4>
+                            <p>Количество товара в корзину:</p>
+                            <input type="hidden" id="id" name="id" value="<?=$exemplar['id_product']?>" />
+                            <input type="text" id="quantity" name="quantity" class="form-control" name="quantity" placeholder="" /><br/>
+                            <p><input type="submit" class="btn btn-default btn-block" role="button" value="В корзину"/></p>
+                        </form>
                     </div>
                 </div>
             </div>

@@ -79,7 +79,23 @@
         <td><b>9</b></td>
         <td><b>Зарегистрированные пользователи</b></td>
         <td align="right">
-            <a href="/admin/pages/edit/<?=$page_data['id']?>"><button class="btn btn-sm btn-primary">Открыть страницу</button></a>
+            <a href="/admin/users//1/0"><button class="btn btn-sm btn-primary">Открыть страницу</button></a>
+        </td>
+        <td>
+            <?php
+                $quantity = 0;
+                foreach ($data['users'] as $exsemplar_users)
+                {
+                    if($exsemplar_users['id_user'] && $exsemplar_users['is_active'])//Если есть пользователь и он активен
+                    {
+                        $quantity++;
+                    }
+                }
+                if($quantity != 0 )//Если есть активные пользователи
+                {
+                    echo "$quantity" . "&nbsp активных пользователей";
+                }
+            ?>
         </td>
     </tr>
     <tr>

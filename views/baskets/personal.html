@@ -1,0 +1,19 @@
+<?php
+    if(!Session::get('login'))
+    {
+        Router::redirect('/admin/users/registration');//сразу переход на регистрацию
+    }
+    else
+    {
+?>
+
+
+
+
+
+<?php
+    }
+
+
+
+?>

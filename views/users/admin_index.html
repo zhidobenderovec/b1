@@ -1,0 +1,263 @@
+<h3>Зарегистрированные пользователи</h3>
+
+<?php $page_number = $data['page_number'] ?><!--номер страницы пагинации-->
+<?php
+    $role_name = $data['role_num'];// Запись имени статуса из URL
+?>
+<div>
+    <a href="/admin/users/add/"><button class="btn btn-sm btn-success"title="Нажмите чтобы добавить нового пользователя">Добавить  нового пользователя</button></a>
+</div><br/>
+<!--  Для страниц Товаров!!! -->
+<table class="table table-bordered table-striped" style="width: 400px;">
+    <thed>
+        <th bgcolor="#6495ed">ID</th>
+        <th bgcolor="#6495ed">Имя</th>
+        <th bgcolor="#6495ed">Статус</th>
+        <th bgcolor="#6495ed">Посещений</th>
+        <th bgcolor="#6495ed">Активный</th>
+        <th bgcolor="#6495ed">Редактировать</th>
+        <th bgcolor="#6495ed">Удалить</th>
+    </thed>
+    <tbody>
+    <tr>
+        <td bgcolor="orange"><b> </b></td>
+        <td bgcolor="orange"><b> </b></td>
+        <!--Выбот статуса-->
+        <td bgcolor="orange"><b>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <?php
+                            if ($role_name == "user")
+                            {
+                                echo ( "Пользователь");
+                            }
+                            if ($role_name == "manager")
+                            {
+                                echo ("Менеджер");
+                            }
+                            if ($role_name == "admin")
+                            {
+                                echo ("Администратор");
+                            }
+                              if ($role_name == "0")
+                            {
+                                echo ("Все");
+                            }
+                    ?>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="/admin/users//1/0">Все</a></li>
+                    <li><a href="/admin/users//1/user">Пользователь</a></li>
+                    <li><a href="/admin/users//1/manager">Менеджер</a></li>
+                    <li><a href="/admin/users//1/admin">Администратор</a></li>
+                </ul>
+            </div>
+        </b>
+        </td>
+        <!--Выбор поддиректории-->
+        <td bgcolor="orange"><b></b></td>
+        <td bgcolor="orange"><b></b></td>
+        <td bgcolor="orange"><b></b></td>
+        <td bgcolor="orange"><b></b></td>
+
+    </tr>
+    <!-- Отображение строк таблицы  -->
+<?php
+            //-- Цикл с пагинацией!!------//
+
+    $number=0;//индекс цикла обнуляем,
+    $max_number = 10;//10 циклов-сообщений на страницу
+    $users_table = $data['users'];//Вводим таблицу в начале, чтоб небыло зависания в условии
+    foreach($users_table as $exemplar_users)//Перебор таблицы пользователей
+    {
+         if ($role_name == "0")//Если нужно отобразить всё
+         {
+
+            if (($number < ($max_number * $page_number))&&($number >= ($max_number *($page_number-1))))//Проверка на диапазон страниц - пагинация
+            {
+?>
+            <!-- Заполнение полей таблицы -->
+            <tr>
+                <td><b><?=$exemplar_users['id_user']?></b></td>
+                <td><b ><?=$exemplar_users['name']?></b></td>
+                <td><b>
+<?php
+                         $role = 0;
+                            if ($exemplar_users['role'] == "user")
+                            {
+                                $role = "Пользователь";
+                            }
+                            if ($exemplar_users['role'] == "manager")
+                            {
+                                $role = "Менеджер";
+                            }
+                            if ($exemplar_users['role'] == "admin")
+                            {
+                                $role = "Администратор";
+                            }
+?>
+                    <?=$role?>
+                </b></td>
+                <td><b><p align="center"><?=$exemplar_users['visits_user']?></p></b></td>
+                <?php
+                    if ($exemplar_users['is_active'] == 0)
+                    {
+                    ?>
+                        <td><b><p align="center">Нет</p></b></td>
+                    <?php
+                    }
+                    else
+                    {
+                    ?>
+                        <td><b><p align="center">Да</p></b></td>
+                    <?php
+                    }
+                ?>
+                <td align="right">
+                    <a href="/admin/users/edit/<?=$exemplar_users['id_user']?>"><button class="btn btn-sm btn-primary">Редактировать</button></a>
+                </td>
+                <td align="right">
+                    <a href="/admin/users/delete/<?=$exemplar_users['id_user']?>" onclick="return confirmDelete();"><button class="btn btn-sm btn-warning">Удалить</button></a>
+                </td>
+            </tr>
+<?php
+            }
+            $number++;
+        }
+        else//отобразить что-то конкретно из статуса
+        {
+            if ($role_name == $exemplar_users['role']) //Циклическое заполнение по директориям
+            {
+                if (($number < ($max_number * $page_number))&&($number >= ($max_number *($page_number-1))))//Проверка на диапазон страниц - пагинация
+                {
+
+?>
+            <tr>
+                <td><b><?=$exemplar_users['id_user']?></b></td>
+                <td><b style=><?=$exemplar_users['name']?></b></td>
+                <td><b>
+<?php
+                     $role = 0;
+                        if ($exemplar_users['role'] == "user")
+                        {
+                            $role = "Пользователь";
+                        }
+                        if ($exemplar_users['role'] == "manager")
+                        {
+                            $role = "Менеджер";
+                        }
+                        if ($exemplar_users['role'] == "admin")
+                        {
+                            $role = "Администратор";
+                        }
+?>
+                <?=$role?>
+                <td><b><p align="center"><?=$exemplar_users['visits_user']?></p></b></td>
+                <?php
+                    if ($exemplar_users['is_active'] == 0)
+                    {
+                    ?>
+                        <td><b><p align="center">Нет</p></b></td>
+                    <?php
+                    }
+                    else
+                    {
+                    ?>
+                        <td><b><p align="center">Да</p></b></td>
+                    <?php
+                    }
+                ?>
+                <td align="right">
+                    <a href="/admin/users/edit/<?=$exemplar_users['id_user']?>"><button class="btn btn-sm btn-primary">Редактировать</button></a>
+                </td>
+                <td align="right">
+                    <a href="/admin/users/delete/<?=$exemplar_users['id_user']?>" onclick="return confirmDelete();"><button class="btn btn-sm btn-warning">Удалить</button></a>
+                </td>
+            </tr>
+<?php
+                }
+            $number++;
+            }
+
+        }
+    }
+?>
+    </tbody>
+</table>
+
+<!-- Постраничная навигация!!!!!Пагинация!!------>
+<div align="center">
+    <ul class="pagination">
+        <?php
+            if ($page_number < $number)
+            {
+                $page_next = $page_number+1;
+            }
+            else
+            {
+                $page_next = $number;
+            }
+            //Отработка уменьшения страницы
+            if ($page_number > 1)
+        {
+        $page_previous = $page_number-1;
+        }
+        else
+        {
+        $page_previous = 1;
+        }
+        if ($page_number != 1)
+        {
+        ?>
+        <li><a href="/admin/users//1/<?=$role_name?> "><?=1?></a></li>
+        <li><a href="/admin/users//<?=$page_previous?>/<?=$role_name?>">&laquo;</a></li>
+
+        <?php
+            }
+            //Определения максимальноя страницы
+            if ( $number % $max_number)
+            {
+                $number = ($number-($number % $max_number)) / $max_number + 1;
+            }
+            else
+            {
+                $number = ($number / $max_number);
+            }
+        ?>
+        <!--Пагинация на текущей странице -->
+
+        <li class="dropdown dropup">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><u><?=$page_number?></u></a>
+            <ul class="dropdown-menu">
+                <?php //Цикл выпадающено списка
+                        for ( $j = 1 ; $j <= $number ; $j++)
+                        { ?>
+                <li><a href="/admin/users//<?=$j?>/<?=$role_name?>"><?=$j?></a></li>
+                <?php
+                        }
+                    ?>
+            </ul>
+        </li>
+        <?php
+            if ($page_number != $number)
+            {
+        ?>
+
+        <?php //Отработка увеличения страницы
+                if ($page_number < $number)
+                {
+                    $page_next = $page_number+1;
+                }
+                else
+                {
+                    $page_next = $number;
+                }
+        ?>
+        <li><a href="/admin/users//<?=$page_next?>/<?=$role_name?>">&raquo;</a></li>
+        <li><a href="/admin/users//<?=$number?>/<?=$role_name?>"><?=$number?></a></li>
+        <?php
+            }
+        ?>
+    </ul>
+</div>

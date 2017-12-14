@@ -43,7 +43,7 @@ class PagesController extends Controller
     {
         $this->data['pages'] = $this->model->getList();
         $this->data['messages'] = $this->model->getMessages();
-
+        $this->data['users'] = $this->model->getUsers();
     }
 
     public function admin_add()
@@ -142,6 +142,43 @@ class PagesController extends Controller
 
     public function catalog()
     {
+        if ($_POST)
+        {
+
+            // $id = isset($_COOKIE['id']) ? (int)($_COOKIE['id']) : 0;
+            $id = isset($_POST['id']) ? (int)($_POST['id']) : null;
+            if($id)
+            {
+                $inquiry = isset($_POST['quantity']) ? (int)($_POST['quantity']) : 0;
+                //$quantity = isset($_COOKIE['quantity']) ? (int)($_COOKIE['quantity']) : 0;
+                // unset($_POST);//Очистка _POST
+
+                $id_pieces = $id;//id товара we
+
+                $pieces = $inquiry + ($_COOKIE[$id_pieces]);// количество товара er
+
+                // проверка на превышение количества товара.//
+                $quantity = $this->model->getByProductId($id_pieces);
+                if ($pieces > $quantity['quantity'])
+                {
+                    $pieces = $quantity['quantity'];
+                }
+
+                setcookie($id_pieces,$pieces,0,'/');
+                // setcookie("1", $quantity,time()+3600*2, '/');
+
+                //if($id)
+                // {
+
+                Session::setFlash('Product in the basket.');
+                //Возврат на предыдущую страницу, с которой был запрос в корзину
+                header("Location: {$_SERVER['HTTP_REFERER']}");
+                exit;
+                //Router::redirect('/pages/product/2');//Было Router::redirect('/users/pages/');
+            }
+
+        }
+
         //Установка страницы категории для просмотра
         $params_catalog = App::getRouter()->getParams();
         //directory/subdirectory
@@ -162,6 +199,45 @@ class PagesController extends Controller
 
     public function product()
     {
+        if ($_POST)
+        {
+
+           // $id = isset($_COOKIE['id']) ? (int)($_COOKIE['id']) : 0;
+            $id = isset($_POST['id']) ? (int)($_POST['id']) : null;
+            if($id)
+            {
+            $inquiry = isset($_POST['quantity']) ? (int)($_POST['quantity']) : 0;
+            //$quantity = isset($_COOKIE['quantity']) ? (int)($_COOKIE['quantity']) : 0;
+           // unset($_POST);//Очистка _POST
+
+            $id_pieces = $id;//id товара we
+
+            $pieces = $inquiry + ($_COOKIE[$id_pieces]);// количество товара er
+
+            // проверка на превышение количества товара.//
+            $quantity = $this->model->getByProductId($id_pieces);
+            if ($pieces > $quantity['quantity'])
+            {
+                $pieces = $quantity['quantity'];
+            }
+
+            setcookie($id_pieces,$pieces,0,'/');
+               // setcookie("1", $quantity,time()+3600*2, '/');
+
+            //if($id)
+           // {
+
+                Session::setFlash('Product in the basket.');
+                //Возврат на предыдущую страницу, с которой был запрос в корзину
+                header("Location: {$_SERVER['HTTP_REFERER']}");
+                exit;
+                //Router::redirect('/pages/product/2');//Было Router::redirect('/users/pages/');
+            }
+
+        }
+
+
+
         //Установка страницы товара для просмотра
         $params_product = App::getRouter()->getParams();
 
@@ -180,6 +256,23 @@ class PagesController extends Controller
         $this->data['directory'] = $this->model->getCatalog();
         $this->data['product'] = $this->model->getProduct();
 
+    }
+
+    public function save()////////Почему save!!!!!!!!!!!!!!!!!!
+    {
+        if (isset($this->params[0]))
+        {
+            $result = $this->model->delete($this->params[0]);
+            if ($result)
+            {
+                Session::setFlash('Product was deleted.');
+            }
+            else
+            {
+                Session::setFlash('Error_admin_delete.');
+            }
+        }
+        Router::redirect('/admin/products//1/0/0/0/0/0');//Было Router::redirect('/users/pages/');
     }
 }
 
