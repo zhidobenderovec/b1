@@ -169,7 +169,18 @@ class BasketsController extends Controller
     //Функция уменьшения количества товара в корзине
     public function personal()
     {
+        $params_products = App::getRouter()->getParams();
+        if (isset($params_products[0]))
+        {
 
+            $this->data['costomer_num'] = strtolower($params_products[0]);
+        }
+
+        $this->data['product'] = $this->model->getProduct();
+        $this->data['directory'] = $this->model->getCatalog();
+
+        $id_costomer = Session::get('id');
+        $this->data['users_order'] = $this->model->getUsersOrder($id_costomer);
     }
 
 

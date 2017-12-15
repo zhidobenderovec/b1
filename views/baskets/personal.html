@@ -1,3 +1,25 @@
+<style>
+    .row {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+    .btn-group:hover > .dropdown-menu/*равкрывающиеся меню */
+    {
+        display: block;
+    }
+    .thumbnail img
+    {
+        height: auto !important;
+        /*height: 250px !important;
+        /* width: 272px; */
+    }
+    h5{
+        text-align: center;
+        /*color: red;*/
+    }
+
+</style>
+
 <?php
     if(!Session::get('login'))
     {
@@ -5,15 +27,206 @@
     }
     else
     {
+    $page_number = $data['costomer_num']; // Номер просматриваемой страницы
 ?>
+<!---->
 
+<div class="container">
+    <div class="row">
+        <!--- Главный каталог --------------------------------------------->
+        <div class="col-sm-3 ">
+            <div class="btn-group-vertical " role="group" aria-label="...">
+                <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                    <div class="btn-group" role="group">
+                        <a  target="_blank" class="btn btn-primary  dropdown-toggle btn-block" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Каталог товаров</a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <?php
+                                foreach($data['directory'] as $cell)
+                                {
+                                    if ($cell['id_catalog'])//Проверка наличия директории
+                                    {
+                                        if (!$cell['id_directory'])//Проверка наличия поддиректории
+                                        {
+                                        ?>
+                                             <li><a type="button" class="btn btn-default" align="center" href="/pages/catalog/<?=$cell['id_catalog']?>"><?=$cell['name_directory']?></a></li>
+                                        <?php
+                                        }
+                                    }
+                                }
+                            ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--- Отображение Корзины --------------------------------------------->
+        <div class="col-sm-9" >
 
+            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                <div class="btn-group" role="group">
+                    <a class="btn btn-primary btn-block" href="/baskets/" >
+                        <?php
+                            $total_quantity = 0;//количество
+                            $total_cost = 0;//сумма
 
+                            foreach ($data['product'] as $thing)
+                            {
+                                $id_pieces = $thing['id_product'];
+                                if (isset($_COOKIE[$id_pieces]))
+                                {
+                                //echo $_COOKIE[$id_pieces];//Убрать!!!
+                                    $quantity =  htmlspecialchars($_COOKIE[$id_pieces]);
+                                    $total_quantity = $total_quantity + $quantity;
+                                    $total_cost = $total_cost + $quantity * $thing['price'];
+                                }
+                            }
+                        ?>
+                        <!--?=$id_pieces?>;<!-- Убрать!!! -->
+                        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true" style="color: white;">&nbsp В корзине: <?=$total_quantity?> товар(ов) на сумму: <?=$total_cost?> грн.</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <h3>Вами были сделаны следующие заказы:</h3>
+    <!--- Отображение Заказов --------------------------------------------->
+    <!--- Извлечение из базы заказов конкретного закозчика --------------------------------------------->
 
+    <?php
+            $number=0;//индекс цикла обнуляем,
+            $max_number = 5;//5 циклов-сообщений на страницу
+
+        foreach ($data['users_order'] as $order)
+        {
+            if (($number < ($max_number * $page_number))&&($number >= ($max_number *($page_number-1))))//Проверка на диапазон страниц - пагинация
+            {
+        ?>
+                <h4>Заказ № <?=$order['id_orders']?> от  <?=$order['order_date']?>  на сумму <?=$order['amount']?> грн.</h4>
+                <table class="table table-bordered table-striped" style="width: 100%">
+                    <thed>
+                        <tr>
+                            <th bgcolor="#f0e68c" scope="col" style="width: 30%; text-align: center">Наименование</th>
+                            <th bgcolor="#f0e68c" scope="col" style="width: 25%; text-align: center">Код товара</th>
+                            <th bgcolor="#f0e68c" scope="col" style="width: 15%; text-align: center">Количество</th>
+                            <th bgcolor="#f0e68c" scope="col" style="width: 15%; text-align: center">Цена, грн</th>
+                            <th bgcolor="#f0e68c" scope="col" style="width: 15%; text-align: center">Всего, грн</th>
+                        </tr>
+                    </thed>
+                    <tbody>
+        <!--- Отображение Товара в сделаном заказе --------------------------------------------->
+        <?php
+                //цикл прогона заявки
+                $ordered = unserialize($order['ordered']);
+                foreach ($ordered as $key => $value)//
+                {
+                     foreach ($data['product'] as $exemplar_product)
+                    {
+                        if($exemplar_product['id_product'] == $key)
+                        {
+                            $total = $exemplar_product['price'] * $value;//расчет стоимости за позицию
+        ?>
+                        <tr>
+                            <td><b> <a href="/pages/product/<?=$exemplar_product['id_product']?>"><?=$exemplar_product['name_product']?></a> </b></td>
+                            <td style="text-align: center"><b> <?=$exemplar_product['code']?> </b></td>
+                            <td style="text-align: center"><b> <?=$value?> </b></td>
+                            <td style="text-align: center"><b> <?=$exemplar_product['price']?> </b></td>
+                            <td style="text-align: center"><b> <?=$total?> </b></td>
+                        </tr>
+        <?php
+                        }
+                    }
+                }
+        ?>
+                    </tbody>
+                </table>
+        <?php
+            }
+            $number++;
+        }
+        if ($number ==0){?><h2 style="text-align: center">У Вас нет сделаных заказов.</h2><?php }
+    ?>
+
+</div>
 <?php
     }
-
-
-
 ?>
+
+<!-- Постраничная навигация!!!!!Пагинация!!------>
+<div align="center">
+    </br>
+    </br>
+    </br>
+    </br>
+    <ul class="pagination">
+        <?php
+            if ($page_number < $number)
+            {
+                $page_next = $page_number+1;
+            }
+            else
+            {
+                $page_next = $number;
+            }
+            //Отработка уменьшения страницы
+            if ($page_number > 1)
+            {
+                $page_previous = $page_number-1;
+            }
+            else
+            {
+                $page_previous = 1;
+            }
+            if ($page_number != 1)
+            {
+        ?>
+                <li><a href="/baskets/personal/1"><?=1?></a></li>
+                <li><a href="/baskets/personal/<?=$page_previous?>">&laquo;</a></li>
+        <?php
+            }
+            //Определения максимальноя страницы
+            if ( $number % $max_number)
+            {
+                $number = ($number-($number % $max_number)) / $max_number + 1;
+            }
+            else
+            {
+                $number = ($number / $max_number);
+            }
+        ?>
+        <!--Пагинация на текущей странице -->
+
+        <li class="dropdown dropup">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><u><?=$page_number?></u></a>
+            <ul class="dropdown-menu">
+                <?php //Цикл выпадающено списка
+                    for ( $j = 1 ; $j <= $number ; $j++)
+                    {
+                ?>
+                     <li><a href="/baskets/personal/<?=$j?>"><?=$j?></a></li>
+                <?php
+                     }
+                 ?>
+            </ul>
+        </li>
+        <?php
+            if ($page_number != $number)
+            {
+        ?>
+        <?php //Отработка увеличения страницы
+                if ($page_number < $number)
+                {
+                    $page_next = $page_number+1;
+                }
+                else
+                {
+                    $page_next = $number;
+                }
+        ?>
+        <li><a href="/baskets/personal/<?=$page_next?>">&raquo;</a></li>
+        <li><a href="/baskets/personal/<?=$number?>"><?=$number?></a></li>
+
+        <?php
+            }
+        ?>
+    </ul>
+</div>

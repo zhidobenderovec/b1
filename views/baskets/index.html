@@ -18,14 +18,7 @@
         text-align: center;
         /*color: red;*/
     }
-    .my_class_catalog
-    {
-        cursor: pointer;
-    }
-    .my_class_product
-    {
-        height: 65vh;
-    }
+
 </style>
 <!------------------------------------------------------------->
 
@@ -66,7 +59,7 @@
                         {
                         ?>
 
-                    <a  class="btn btn-primary btn-block" href="/admin/users/registration" title="Зарегистрировавшись у Вас появится возможность отслеживать свои заказы на сайте и не вводить каждый раз свои контактные данные!">
+                    <a  class="btn btn-primary btn-block" href="/baskets/personal/1" title="Зарегистрировавшись у Вас появится возможность отслеживать свои заказы на сайте и не вводить каждый раз свои контактные данные!">
 
                         <span  style="color: white;" >Войти в личный кабинет</a>
 
@@ -83,16 +76,13 @@
                         }
                     ?>
 
-
-
-
                 </div>
             </div>
         </div>
     </div>
 
     <!--- Отображение Товаров  в корзине --------------------------------------------->
-    <table class="table table-bordered " style="width: 100%">
+    <table class="table table-bordered table-striped" style="width: 100%">
         <thead>
         <tr >
             <th bgcolor="orange" scope="col" style="width: 15%; text-align: center" >Изображение</th>

@@ -39,7 +39,7 @@ class Basket extends Model
         return isset($result[0]) ? $result[0] : null;
     }
 
-    //--- Работа с базой orders  ----- Для страницы заказа
+    //--- Работа с базой orders  ----- Запись заказа
     public function save($data, $id = null)
     {
         if (!isset($data['name']) || !isset($data['email']) || !isset($data['phone'])|| !isset($data['city']))
@@ -88,7 +88,15 @@ class Basket extends Model
         return $this->db->query($sql);
     }
 
+    //--- Работа с базой orders  ----- Извлечение заказоа usera
+    public function getUsersOrder($id_costomer)
+    {
+        $id = (int)$id_costomer;
+        $sql = "select * from orders where id_costomer = '{$id}'";
+        $result = $this->db->query($sql);
 
+        return $this->db->query($sql);
+    }
 
 
 
