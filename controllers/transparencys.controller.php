@@ -21,5 +21,29 @@ class TransparencysController extends Controller
 
     }
 
+    public function admin_yesbasket()
+    {
+
+    }
+
+    public function admin_errormanager()
+    {
+
+    }
+
+    public function admin_errorproduct()
+    {
+
+    }
+
+    public function admin_yesbasketedit()
+    {
+
+    }
+
+    public function admin_errorproductedit()
+    {
+
+    }
 
 }

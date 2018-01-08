@@ -163,6 +163,14 @@ class Page extends Model
         return $this->db->query($sql);
     }
 
+    //--- Работа с базой orders ----- Ячейки каталока заявок
+    public function getOrders()//по умолчанию все страницы
+    {
+        $sql = "select * from orders where 1";// запрос к базе данных
+
+        return $this->db->query($sql);
+    }
+
     //--- Работа с базой catalog по id ----- Для Товаров id
     public function getByCatalogId($category_id)
     {

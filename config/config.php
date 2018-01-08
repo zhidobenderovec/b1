@@ -8,7 +8,7 @@ Config::set('languages', array('en','ru'));//-----Было Config::set('language
 //Routes. Route name => method prefix--Определение вывода страниц:обычнае или для администратора
 Config::set('routes', array(
     'default' => '',
-    'manager' => 'manager',
+    'manager' => 'manager_',
     'admin' => 'admin_',
 ));
 //----Мой, начало------------

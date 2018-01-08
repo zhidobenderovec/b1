@@ -1,0 +1,147 @@
+<!-- Списание товаров по заказу -->
+<style>
+    .row {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+    .btn-group:hover > .dropdown-menu/*равкрывающиеся меню */
+    {
+        display: block;
+    }
+    .thumbnail img
+    {
+        height: auto !important;
+        /*height: 250px !important;
+        /* width: 272px; */
+    }
+
+
+</style>
+<!------------------------------------------------------------->
+
+</br>
+<h3>Редактирование списания товаров:</h3>
+<?php
+       $table = $data['write'];
+
+?>
+<h4 style="color: royalblue">Списание № <?=$table['id_write']?> от <?=$table['write_date']?>  на сумму <?=$table['amount']?> грн.</h4>
+<h4 style="color: crimson">Менеджер: <?=$table['manager']?> .</h4>
+<h4 style="color: green">Заказ № <?=$table['id_order']?> Заказчик: <?=$table['costomer']?> .</h4>
+
+<div class="container">
+
+    <!--- Отображение Товаров  в заявка --------------------------------------------->
+    <table class="table table-bordered table-striped" style="width: 100%">
+        <thead>
+        <tr >
+            <th bgcolor="orange" scope="col" style="width: 15%; text-align: center" >ID продукта</th>
+            <th bgcolor="orange" scope="col" style="width: 30%; text-align: center">Наименование</th>
+            <th bgcolor="orange" scope="col" style="width: 15%; text-align: center">Код товара</th>
+            <th bgcolor="orange" scope="col" style="width: 15%; text-align: center">Количество</th>
+            <th bgcolor="orange" scope="col" style="width: 10%; text-align: center">Цена, грн</th>
+            <th bgcolor="orange" scope="col" style="width: 10%; text-align: center">Всего, грн</th>
+            <th bgcolor="orange" scope="col" style="width: 5%; text-align: center">Удалить</th>
+        </tr>
+        </thead>
+        </br>
+
+        <tbody>
+        <?php
+                $total_quantity = 0;//количество
+                $total_cost = 0;//сумма
+                $cost = 0;
+                foreach ($data['product'] as $thing)
+                {
+                    $id_pieces = $thing['id_product'];
+                    if (isset($_COOKIE[$id_pieces]))
+                    {
+                        $quantity =  htmlspecialchars($_COOKIE[$id_pieces]);//Количество товара на позицию
+                        $total_quantity = $total_quantity + $quantity;//Общее количество товара
+                        $cost = $quantity * $thing['price'];//Сумма денег
+                        $total_cost = $total_cost + $cost;//Общая стоимость
+                        ?>
+        <tr>
+            <td style="text-align: center">
+                <a href="/pages/product/<?=$thing['id_product']?>">
+                    <div class="thumbnail">
+                        <?=$thing['id_product']?>
+                    </div>
+                </a>
+            </td>
+            <td><?=$thing['name_product']?></td>
+            <td><?=$thing['code']?></td>
+            <td style="text-align: center">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1"><a href="/baskets/reduce/<?=$thing['id_product']?>"> < </a></span>
+                    <output type="text" class="form-control"><?=$quantity?></output>
+                    <span class="input-group-addon" id="basic-addon2"><a href="/baskets/enlarge/<?=$thing['id_product']?>"> > </a></span>
+                </div>
+            </td>
+            <td style="text-align: center"><?=$thing['price']?></td>
+            <td style="text-align: center"><?=$cost?></td>
+            <td style="text-align: center"><a href="/baskets/delete/<?=$thing['id_product']?>"><button class="btn btn-sm btn-warning"> X </button></a>
+            </td>
+        </tr>
+
+        <?php
+                    }
+                }
+            ?>
+        </tbody>
+    </table>
+    <div>
+        <?php
+            if (!$total_quantity)
+            {
+            ?>
+        <h2 style="text-align: center">В корзине нет товаров.</h2>
+        <?php
+            }
+            ?>
+    </div>
+
+    <div class="col-sm-6">
+
+    </div>
+    <div class="col-sm-6" >
+        <h4  style="text-align: right;"> Всего <?=$total_quantity?> товар(ов) на сумму <?=$total_cost?> грн.</h4>
+    </div>
+
+
+
+
+</div>
+
+
+
+<!--///////////////////////////////////////////////////-->
+
+<div class="container">
+    <form method="post"  action="">
+        <input type="hidden" name="buy" id="buy" value="1" />
+        <!--Данные заказа берутся из сессии, базы и COOKIE-->
+
+        <input type="hidden" id="id" name="id" value="<?=$table['id_write']?>" />
+        <input type="hidden" id="id_order" name="id_order" value="<?=$table['id_order']?>" />
+        <input type="hidden" id="manager" name="manager" value="<?=$table['manager']?>" />
+        <input type="hidden" id="costomer" name="costomer" value="<?=$table['costomer']?>" />
+
+        <!--- Кнопки  --------------------------------------------->
+        <div class="col-sm-6 ">
+            <p><a onclick="javascript:history.back(); return false;"><button class="btn btn-primary btn-block">Вернуться назад</button></a></p>
+            <hr>
+        </div>
+        <div class="col-sm-6" >
+            <p><input  type="submit" class="btn btn btn-success btn-block" role="button" value="Перезаписать списание"/></p>
+            <hr>
+        </div>
+        <hr>
+    </form>
+</div>
+
+<!--///////////////////////////////////////////////////-->
+
+<!------------------------------------------------------------->
+
+

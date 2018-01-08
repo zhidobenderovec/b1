@@ -3,6 +3,7 @@
 //Получает логин и пароль
 class User extends Model
 {
+    //--- Ввод из БД данных usera ---
     public function getByLogin($login)
     {
         $email = $this->db->escape($login);//email в качестве логина
@@ -15,7 +16,7 @@ class User extends Model
         return false;
     }
 
-    //--- Работа с базой products ----- Товары Получение всей базы
+    //--- Работа с базой users ----- Пользователи Получение всей базы
     public function getUsers()//по умолчанию все страницы +
     {
         $sql = "select * from users where 1";// запрос к базе данных
@@ -91,6 +92,8 @@ class User extends Model
         $result = $this->db->query($sql);
         return isset($result[0]) ? $result[0] : null;
     }
+
+
 }
 
 ?>

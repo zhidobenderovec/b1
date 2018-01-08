@@ -31,6 +31,10 @@ class BasketsController extends Controller
                         $quantity = htmlspecialchars($_COOKIE[$id_pieces]);
                         $application[$id_pieces] = $quantity;//в массив
                         $total_cost = $total_cost + $quantity * $thing['price'];
+
+                        //Очистка COOKIE
+                        $pieces = 0;// количество товара er
+                        setcookie($id_pieces, $pieces, 10, '/');
                     }
                 }
 
@@ -65,7 +69,7 @@ class BasketsController extends Controller
         $this->data['product'] = $this->model->getProduct();
     }
 
-    //Функция удаления товара из корзины
+    //Функция удаления позиции товара из корзины
     public function delete()
     {
 
@@ -81,7 +85,8 @@ class BasketsController extends Controller
 
                 Session::setFlash('Product was deleted of in the basket.');
                 //Возврат на предыдущую страницу, с которой был запрос в корзину
-                Router::redirect('/baskets/');//Было Router::redirect('/users/pages/');
+                //Router::redirect('/baskets/');//Было Router::redirect('/users/pages/');
+                header("Location: {$_SERVER['HTTP_REFERER']}");
 
             }
 
@@ -107,7 +112,8 @@ class BasketsController extends Controller
         }
         Session::setFlash('Products was deleted of in the basket.');
         //Возврат на предыдущую страницу, с которой был запрос в корзину
-       Router::redirect('/baskets/');//Было Router::redirect('/users/pages/');
+       //Router::redirect('/baskets/');//Было Router::redirect('/users/pages/');
+        header("Location: {$_SERVER['HTTP_REFERER']}");
     }
 
 
@@ -160,7 +166,7 @@ class BasketsController extends Controller
 
                 Session::setFlash('Product in the basket reduce.');
                 //Возврат на предыдущую страницу, с которой был запрос в корзину
-                header("Location: {$_SERVER['HTTP_REFERER']}");
+                header("Location: {$_SERVER['HTTP_REFERER']}");//возврат назад
                 exit;
             }
         }
@@ -178,203 +184,443 @@ class BasketsController extends Controller
 
         $this->data['product'] = $this->model->getProduct();
         $this->data['directory'] = $this->model->getCatalog();
+        $this->data['orders'] = $this->model->getOrders();
 
         $id_costomer = Session::get('id');
         $this->data['users_order'] = $this->model->getUsersOrder($id_costomer);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /*
-    //*Функция обслуживания просмотров страницы ???
-        public function view()
-        {
-            $params = App::getRouter()->getParams();
-
-            if (isset($params[0]))
-            {
-                $alias = strtolower($params[0]);
-                //echo "Here will be a page with '{$alias}' alias.";
-                $this->data['page'] = $this->model->getByAlias($alias);
-            }
-
-        }
-
-      //Функция обслуживания страницы таблицы списка товаров admin_index.html
+    //Функция работы с заявками
     public function admin_index()
     {
-        //Возврат номера страницы пагинации по id  из URL
-        $params_products = App::getRouter()->getParams();
-        if (isset($params_products[1]))
-        {
 
-            $this->data['catalog_num'] = strtolower($params_products[1]);
-        }
-
-        //Возврат name_directory (каталога товаров) по id  из URL
-        if (isset($params_products[2]))
-        {
-
-            $this->data['directory_num'] = strtolower($params_products[2]);
-
-            $category_id = strtolower($params_products[2]);
-            $this->data['dir_name'] = $this->model->getByCatalogIdName($category_id);
-        }
-
-        //Возврат суб name_directory (подкаталога товаров) по id  из URL
-        if (isset($params_products[3]))
-        {
-            $this->data['subdirectory_num'] = strtolower($params_products[3]);
-
-            $category_id = strtolower($params_products[3]);
-            $this->data['subdir_name'] = $this->model->getByCatalogIdName($category_id);
-        }
-
-        if (isset($params_products[4]))
-            //Возврат названия производителя по id  из URL
-        {
-            $this->data['brend_num'] = strtolower($params_products[4]);
-
-            $brend_id = strtolower($params_products[4]);
-            $this->data['brend_name'] = $this->model->getByBrendIdName($brend_id);
-        }
-
-        //Возврат названия поставщика по id  из URL
-        if (isset($params_products[5]))
-        {
-            $this->data['provider_num'] = strtolower($params_products[5]);
-
-            $provider_id = strtolower($params_products[5]);
-            $this->data['provider_name'] = $this->model->getByProviderIdName($provider_id);
-        }
-
-        if (isset($params_products[6]))
-        {
-
-            $this->data['direction_num'] = strtolower($params_products[6]);
-        }
-
-        $this->data['pages'] = $this->model->getList();
-        $this->data['directory'] = $this->model->getCatalog();
-        $this->data['brend'] = $this->model->getBrend();
-        $this->data['provider'] = $this->model->getProvider();
-        $this->data['product'] = $this->model->getProduct();
-        $this->data['increase'] = $this->model->getProductIncrease();
-        $this->data['reduction'] = $this->model->getProductReduction();
+        $this->data['orders'] = $this->model->getOrders();
     }
 
-//Функция редактирования и записи товара
-    public function admin_edit()
-    {
 
+    //Функция работы с заявками
+    public function admin_applications()
+    {
+        $params_applications = App::getRouter()->getParams();
+        if (isset($params_applications[0]))
+        {
+
+            $this->data['applications_num'] = strtolower($params_applications[0]);
+        }
+
+        $this->data['orders'] = $this->model->getOrders();
+        $this->data['writes'] = $this->model->getWrites();
+        $this->data['users'] = $this->model->getUsers();
+        $this->data['writes'] = $this->model->getWrites();
+
+        //Очистка COOKIE
+        $this->data['product'] = $this->model->getProduct();
+        foreach (($this->data['product']) as $thing)
+        {
+            $id_pieces1 = $thing['id_product'];
+            $pieces1 = 0;// количество товара er
+            setcookie($id_pieces1, $pieces1, 10, '/');
+        }
+    }
+
+    //Функция работы со списаниями
+    public function admin_writes()
+    {
+        $params_writes = App::getRouter()->getParams();
+        if (isset($params_writes[0]))
+        {
+            $this->data['writes_num'] = strtolower($params_writes[0]);
+        }
+
+        $this->data['orders'] = $this->model->getOrders();
+        $this->data['writes'] = $this->model->getWrites();
+        $this->data['users'] = $this->model->getUsers();
+
+        //Очистка COOKIE
+        $this->data['product'] = $this->model->getProduct();
+        foreach (($this->data['product']) as $thing)
+        {
+            $id_pieces = $thing['id_product'];
+            if (isset($_COOKIE[$id_pieces]))
+            {
+                $pieces = 0;// количество товара "0"
+                setcookie($id_pieces, $pieces, 10, '/');//перезапись COOKIE в прошедшее время
+            }
+        }
+    }
+
+    //Функция редактирования списаний
+    public function admin_editwrites()
+    {
+        //Списание товара: создание Акта списания и удаление позиций из базы данных
         if ($_POST)
         {
-            $id = isset($_POST['id']) ? $_POST['id'] : null;
-            $result = $this->model->save($_POST, $id);
-            if($result)
+            $buy = isset($_POST['buy']) ? (int)($_POST['buy']) : null;
+            if(($buy) && (($_POST['id']) || ($_POST['manager'])))
             {
-                Session::setFlash('Pade was sawed.');
+                $this->data['product'] = $this->model->getProduct();
+
+                $total_cost = 0;//сумма
+                $array[0] = 0;
+                $application[0] = 0;//массив заказа
+                //$this->data['product'] = $this->model->getProduct();
+                foreach (($this->data['product']) as $thing)
+                {
+                    $id_pieces = $thing['id_product'];
+                    if (isset($_COOKIE[$id_pieces]))//Если есть в заказе продукт с таким id
+                    {
+//тут надо вставить проверку на разницу в существующем списании товара и новых кук
+                        $quantity = htmlspecialchars($_COOKIE[$id_pieces]);
+                        if ($quantity > $thing['quantity']) //Если товара списывается больше чем есть, то ошибка
+                        {
+                            Session::setFlash('Error');
+                            Router::redirect('/admin/transparencys/errorproductedit/');//Сообщение об ошибки количества товара
+                            exit();//при отсутствииэтой комманды программа выполняется дальше
+                        }
+                        else
+                        {
+                            //Запись нового колисества в базу товаров
+                            $id = $id_pieces;
+                            $newquantity =  $thing['quantity'] - $quantity;
+                            $result = $this->model->saveNewQuantity($newquantity, $id);
+                            if($result)
+                            {
+                                Session::setFlash('New Quantity was sawed.');
+                            }
+                            else
+                            {
+                                Session::setFlash('Error');
+                            }
+                            Router::redirect('/admin/transparencys/errorquantity/');//Сообщение об ошибки записи в БД количества товара
+
+                        }
+                        $application[$id_pieces] = $quantity;//в массив
+                        $total_cost = $total_cost + $quantity * $thing['price'];
+                    }
+                }
+
+                $array['writed'] = serialize( $application );//массив преобразовавается в строку
+                $id = isset($_POST['id']) ? (int)($_POST['id']) : 0;
+                $array['id_order'] = isset($_POST['id_order']) ? (int)($_POST['id_order']) : 0;
+                $array['costomer'] = isset($_POST['costomer']) ? ($_POST['costomer']) : 0;
+                $array['manager'] = isset($_POST['manager']) ? ($_POST['manager']) : 0;
+                $array['amount'] = $total_cost;
+
+                $result = $this->model->saveWrites($array, $id);
+
+                if ($result)
+                {
+                    Session::setFlash('Pade was sawed.');
+                    Router::redirect('/admin/transparencys/yesbasketedit/');//
+                }
+                else
+                {
+                    Session::setFlash('Error');
+                    Router::redirect('/transparencys/errorbasket/');//
+                }
             }
             else
             {
-                Session::setFlash('Error');
+                Router::redirect('/transparencys/errorbasket/');//
             }
-            Router::redirect('/admin/products//1/0/0/0/0/0');//Было Router::redirect('/users/pages/');
+
+        }
+        //-----------------------------------------------------------------------------------
+
+        //Запись данных из БД в COOKIE
+        $params_editwrites = App::getRouter()->getParams();
+        if (isset($params_editwrites[0]))
+        {
+            //Область действия COOCIE и URL перезагрузки страницы
+            $view = "/admin/baskets/editwrites/". $params_editwrites[0];
+
+           // $this->data['consumption_num'] = strtolower($params_editwrites[0]);
+
+            //Получение данных списания по его номеру
+            $this->data['write'] = $this->model->getByWritesId($this->params[0]);
+            $table = $this->data['write'];
+
+            //цикл прогона списания
+            $writed = unserialize($table['writed']);//Перевод строки списания в массив
+
+            //Цикл выделения id товара => его количества для записи в COOKIE
+            $cookie_beacon = 0;//установка маячка наличия кук
+            foreach ($writed as $key => $value)//
+            {
+                $id_pieces = $key;//id товара
+                //Была ли корекция количества,
+                //если "да", то "маячёк" = 1
+                if(isset($_COOKIE[$id_pieces]))//проверка на наличие кук с id товара
+                {
+                    if (($_COOKIE[$id_pieces]) != 0)//проверка на количество кук с id товара
+                    {
+                        $cookie_beacon = 1;//установка маячка если товар с id есть
+                    }
+                }
+            }
+
+            if ($cookie_beacon != 1)//если есть куки
+            {
+                //Цикл выделения id товара => его количества для записи в COOKIE
+                foreach ($writed as $key => $value)//
+                {
+                    $id_pieces = $key;//id товара
+                    $pieces = $value;//количество товара
+
+                    //Была ли корекция количества,
+                    //если "да", то данные из базы пропускаются
+                    if (($_COOKIE[$id_pieces]) == 0)
+                    {
+                        //Запись id товара => его колличество в COOKIE
+                        //setcookie($id_pieces,$pieces,0, $view);
+                        setcookie($id_pieces,$pieces,0, '/');
+                    }
+
+                    //Незаметная перезагрузка страницы для отображения COOKIE
+                    if(!isset($_COOKIE[$id_pieces]))
+                    {
+                        header('Location:'.$view);
+                    }
+                }
+            }
         }
 
+        $this->data['product'] = $this->model->getProduct();
+    }
+
+
+    //Функция списания товаров по заказу
+    public function admin_look()
+    {
+        if ($_POST)
+        {
+            $id = isset($_POST['id_orders']) ? (int)($_POST['id_orders']) : null;
+            if($id && ($_POST['manager']))
+            {
+                $result = $this->model->saveManager($_POST, $id);
+
+                if ($result)
+                {
+                    Session::setFlash('Manager was sawed.');
+                }
+                else
+                {
+                    Session::setFlash('Error');
+                }
+
+                Router::redirect('/admin/baskets/applications/1');//
+            }
+            else
+            {
+                Router::redirect('/admin/transparencys/errormanager/');//
+            }
+
+        }
+
+        //==================================================
+        $params_applications = App::getRouter()->getParams();
+        if (isset($params_applications[0]))
+        {
+            $this->data['applications_num'] = strtolower($params_applications[0]);
+
+            $this->data['order'] = $this->model->getByOrdersId($this->params[0]);
+            $order = $this->data['order'];
+            $manager = $order['manager_first'];
+            $this->data['manager_name'] =$this->model->getUsersId($manager);
+        }
+
+        //$this->data['orders'] = $this->model->getOrders();
+        //$this->data['writes'] = $this->model->getWrites();
+        $this->data['product'] = $this->model->getProduct();
+
+    }
+
+    //Функция скачивания заявки
+    public function admin_download()
+    {
+        $params_applications = App::getRouter()->getParams();
+        if (isset($params_applications[0]))
+        {
+            $this->data['applications_num'] = strtolower($params_applications[0]);
+
+            $this->data['order'] = $this->model->getByOrdersId($this->params[0]);
+            $order = $this->data['order'];
+            $manager = $order['manager_first'];
+            $this->data['manager_name'] =$this->model->getUsersId($manager);
+        }
+        $this->data['orders'] = $this->model->getOrders();
+        $this->data['writes'] = $this->model->getWrites();
+        $this->data['product'] = $this->model->getProduct();
+        $this->data['provider'] = $this->model->getProvider();
+
+    }
+
+    //Функция редактирования/списания  администратором/менеджером корзины
+    public function admin_consumption()
+    {
+        //Списание товара: создание Акта списания и удаление позиций из базы данных
+        if ($_POST)
+        {
+            $buy = isset($_POST['buy']) ? (int)($_POST['buy']) : null;
+            if(($buy) && (($_POST['id']) || ($_POST['manager'])))
+            {
+                $this->data['product'] = $this->model->getProduct();
+
+                $total_cost = 0;//сумма
+                $array[0] = 0;
+                $application[0] = 0;//массив заказа
+                //$this->data['product'] = $this->model->getProduct();
+                foreach (($this->data['product']) as $thing)
+                {
+                    $id_pieces = $thing['id_product'];
+                    if (isset($_COOKIE[$id_pieces]))//Если есть в заказе продукт с таким id
+                    {
+
+                        $quantity = htmlspecialchars($_COOKIE[$id_pieces]);
+                        if ($quantity > $thing['quantity']) //Если товара списывается больше чем есть, то ошибка
+                        {
+                            Session::setFlash('Error');
+                            Router::redirect('/admin/transparencys/errorproduct/');//Сообщение об ошибки количества товара
+                            exit();//при отсутствииэтой комманды программа выполняется дальше
+                        }
+                        else
+                        {
+                            $id = $id_pieces;
+                            $newquantity =  $thing['quantity'] - $quantity;
+                            $result = $this->model->saveNewQuantity($newquantity, $id);
+                            if($result)
+                            {
+                                Session::setFlash('New Quantity was sawed.');
+                            }
+                            else
+                            {
+                                Session::setFlash('Error');
+                            }
+                            Router::redirect('/admin/transparencys/errorquantity/');//Сообщение об ошибки записи в БД количества товара
+
+                        }
+                        $application[$id_pieces] = $quantity;//в массив
+                        $total_cost = $total_cost + $quantity * $thing['price'];
+/*
+                        //Очистка COOKIE
+                        $pieces = 0;// количество товара er
+                        setcookie($id_pieces, $pieces, 10, '/');
+*/
+                    }
+                }
+
+                //$this->data['product'] = $this->model->getProduct();
+
+                $array['writed'] = serialize( $application );//массив преобразовавается в строку
+                $array['id_order'] = isset($_POST['id']) ? (int)($_POST['id']) : 0;
+                $array['costomer'] = isset($_POST['costomer']) ? ($_POST['costomer']) : 0;
+                $array['manager'] = isset($_POST['manager']) ? ($_POST['manager']) : 0;
+                $array['amount'] = $total_cost;
+
+                $result = $this->model->saveWrites($array);
+
+                if ($result)
+                {
+                    Session::setFlash('Pade was sawed.');
+                    Router::redirect('/admin/transparencys/yesbasket/');//
+                }
+                else
+                {
+                    Session::setFlash('Error');
+                    Router::redirect('/transparencys/errorbasket/');//
+                }
+            }
+            else
+            {
+                Router::redirect('/transparencys/errorbasket/');//
+            }
+
+        }
+        //-----------------------------------------------------------------------------------
+
+
+
+        //Запись данных из БД в COOKIE
+        $params_consumption = App::getRouter()->getParams();
+        if (isset($params_consumption[0]))
+        {
+            //Область действия COOCIE и URL перезагрузки страницы
+            $view = "/admin/baskets/consumption/". $params_consumption[0];
+
+            //$this->data['consumption_num'] = strtolower($params_consumption[0]);
+
+            //Получение данных заказа по его номеру
+            $this->data['order'] = $this->model->getByOrdersId($this->params[0]);
+            $table = $this->data['order'];
+
+            //цикл прогона заявки
+            $ordered = unserialize($table['ordered']);//Перевод строки заказа в массив
+
+            //Цикл выделения id товара => его количества для записи в COOKIE
+            $cookie_beacon = 0;//установка маячка наличия кук
+            foreach ($ordered as $key => $value)//
+            {
+                $id_pieces = $key;//id товара
+                //Была ли корекция количества,
+                //если "да", то "маячёк" = 1
+                if(isset($_COOKIE[$id_pieces]))//проверка на наличие кук с id товара
+                {
+                    if (($_COOKIE[$id_pieces]) != 0)//проверка на количество кук с id товара
+                    {
+                        $cookie_beacon = 1;//установка маячка если товар с id есть
+                    }
+                }
+
+            }
+
+            if ($cookie_beacon != 1)//если есть куки
+            {
+                //Цикл выделения id товара => его количества для записи в COOKIE
+                foreach ($ordered as $key => $value)//
+                {
+                    $id_pieces = $key;//id товара
+                    $pieces = $value;//количество товара
+
+                    //Была ли корекция количества,
+                    //если "да", то данные из базы пропускаются
+                    if (($_COOKIE[$id_pieces]) == 0)
+                    {
+                        //Запись id товара => его колличество в COOKIE
+                        //setcookie($id_pieces,$pieces,0, $view);
+                        setcookie($id_pieces,$pieces,0, '/');
+                    }
+
+                    //Незаметная перезагрузка страницы для отображения COOKIE
+                    if(!isset($_COOKIE[$id_pieces]))
+                    {
+                        header('Location:'.$view);
+                    }
+                }
+            }
+        }
+
+        $this->data['product'] = $this->model->getProduct();
+    }
+
+    public function admin_deleteapplications()
+    {
         if (isset($this->params[0]))
         {
-            $this->data['product'] = $this->model->getByProductId($this->params[0]);
-        }
-        else
-        {
-            Session::setFlash('Wrong page id.');
-            Router::redirect('/users/pages/');
-        }
-        $this->data['directory'] = $this->model->getCatalog();
-        $this->data['brend'] = $this->model->getBrend();
-        $this->data['provider'] = $this->model->getProvider();
-    }
-
-
-
-//Функция добавление нового товара
-    public function admin_add()
-    {
-        if ($_POST)
-        {
-            $result = $this->model->save($_POST);
-            if($result)
+            $result = $this->model->deleteApplications($this->params[0]);
+            if ($result)
             {
-                Session::setFlash('Page was sawed.');
+                Session::setFlash('User was deleted.');
             }
             else
             {
-                Session::setFlash('Error');
+                Session::setFlash('Error_user_delete.');
             }
-            Router::redirect('/admin/products//1/0/0/0/0/0');//Было Router::redirect('/users/pages/');
         }
-        $this->data['directory'] = $this->model->getCatalog();
-        $this->data['brend'] = $this->model->getBrend();
-        $this->data['provider'] = $this->model->getProvider();
+        Router::redirect('/admin/baskets/applications/1');//Было Router::redirect('/users/pages/');
     }
-*/
+
+
 }
+
 
 ?>

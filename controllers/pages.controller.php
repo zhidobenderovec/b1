@@ -44,6 +44,7 @@ class PagesController extends Controller
         $this->data['pages'] = $this->model->getList();
         $this->data['messages'] = $this->model->getMessages();
         $this->data['users'] = $this->model->getUsers();
+        $this->data['orders'] = $this->model->getOrders();
     }
 
     public function admin_add()

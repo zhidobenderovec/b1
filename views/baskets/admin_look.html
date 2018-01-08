@@ -1,0 +1,94 @@
+<h3>Просмотр заказа:</h3>
+<!--- Отображение Заказов --------------------------------------------->
+<!--- Извлечение из базы заказов конкретного закозчика --------------------------------------------->
+
+<?php
+       $applications_number = $data['applications_num']; // Номер заказа
+
+       $table = $data['order'];
+
+?>
+<h4 style="color: royalblue">Заказ № <?=$table['id_orders']?> от  <?=$table['order_date']?>  на сумму <?=$table['amount']?> грн.</h4>
+<h4 style="color: crimson">Заказчик: <?=$table['costomer']?> из города:  <?=$table['city']?> .</h4>
+<h4>Телефон: <?=$table['phone']?> email:  <?=$table['email']?> .</h4>
+<table class="table table-bordered table-striped" style="width: 100%">
+    <thed>
+        <tr>
+            <th bgcolor="#f0e68c" scope="col" style="width: 30%; text-align: center">Наименование</th>
+            <th bgcolor="#f0e68c" scope="col" style="width: 25%; text-align: center">Код товара</th>
+            <th bgcolor="#f0e68c" scope="col" style="width: 15%; text-align: center">Количество</th>
+            <th bgcolor="#f0e68c" scope="col" style="width: 15%; text-align: center">Цена, грн</th>
+            <th bgcolor="#f0e68c" scope="col" style="width: 15%; text-align: center">Всего, грн</th>
+        </tr>
+    </thed>
+    <tbody>
+    <!--- Отображение Товара в сделаном заказе --------------------------------------------->
+    <?php
+        //цикл прогона заявки
+        $ordered = unserialize($table['ordered']);
+        foreach ($ordered as $key => $value)//
+        {
+            foreach ($data['product'] as $exemplar_product)
+            {
+                if($exemplar_product['id_product'] == $key)
+                {
+                    $total = $exemplar_product['price'] * $value;//расчет стоимости за позицию
+        ?>
+    <tr>
+        <td><b> <a href="/pages/product/<?=$exemplar_product['id_product']?>"><?=$exemplar_product['name_product']?></a> </b></td>
+        <td style="text-align: center"><b> <?=$exemplar_product['code']?> </b></td>
+        <td style="text-align: center"><b> <?=$value?> </b></td>
+        <td style="text-align: center"><b> <?=$exemplar_product['price']?> </b></td>
+        <td style="text-align: center"><b> <?=$total?> </b></td>
+    </tr>
+        <?php
+                }
+            }
+        }
+    ?>
+    </tbody>
+</table>
+<div class="container" style="margin-top: 15px">
+    <div class="col-sm-3">
+        <?php
+            if($table['manager_first'])
+            {
+            $manager = $data['manager_name'];
+            ?>
+                Менеджер этого заказа: <?=$manager['name']?>
+            <?php
+            }
+            else
+            {
+            $id_manager = Session::get('id')
+        ?>
+                <form method="post"  action="">
+
+                    <input type="hidden" id="id_orders" name="id_orders" value="<?=$table['id_orders']?>" />
+                    <input type="hidden" id="manager" name="manager" value="<?=$id_manager?>" />
+                    <input type="submit"  class="btn btn-sm btn-success" value="Принять в работу" title="Нажав эту клавишу, Вы становитесь ответствены за этот заказ!"/>
+
+                </form>
+        <?php
+            }
+        ?>
+    </div>
+    <div class="col-sm-3">
+        <p><a href="/admin/baskets/download/<?=$table['id_orders']?>"><button class="btn btn-sm btn-success" title="Скачать заявку файлом Excel">Скачать заявку</button></a></p>
+    </div>
+    <div class="col-sm-6">
+    </div>
+</div>
+
+    <div class="container" style="margin-top: 15px">
+    <div class="col-sm-4">
+    </div>
+    <div class="col-sm-4">
+        <div>
+            <p><a onclick="javascript:history.back(); return false;"><button class="btn btn-primary btn-block">Вернуться назад</button></a></p>
+        </div>
+    </div>
+    <div class="col-sm-4">
+    </div>
+    </br>
+</div>

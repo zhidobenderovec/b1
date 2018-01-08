@@ -12,6 +12,21 @@ class Basket extends Model
         return $this->db->query($sql);
     }
 
+    //--- Работа с базой orders ----- Ячейки каталока заявок
+    public function getOrders()//по умолчанию все страницы
+    {
+        $sql = "select * from orders where 1";// запрос к базе данных
+
+        return $this->db->query($sql);
+    }
+
+    //--- Работа с базой writes ----- Ячейки каталока списаний
+    public function getWrites()//по умолчанию все страницы
+    {
+        $sql = "select * from writes where 1";// запрос к базе данных
+
+        return $this->db->query($sql);
+    }
 
     //--- Работа с базой catalog ----- Ячейки каталока товаров
     public function getCatalog()//по умолчанию все страницы
@@ -30,10 +45,21 @@ class Basket extends Model
     }
 
     //--- Работа с базой products по id ----- Для страницы товара
+    //Получение строки продукта по его id
     public function getByProductId($product_id)
     {
         $id = (int)$product_id;
         $sql = "select * from product where id_product = '{$id}' limit 1";
+        $result = $this->db->query($sql);
+
+        return isset($result[0]) ? $result[0] : null;
+    }
+
+    //--- Работа с базой orders по id ----- Для страницы заявки
+    public function getByOrdersId($orders_id)
+    {
+        $id = (int)$orders_id;
+        $sql = "select * from orders where id_orders = '{$id}' limit 1";
         $result = $this->db->query($sql);
 
         return isset($result[0]) ? $result[0] : null;
@@ -88,6 +114,29 @@ class Basket extends Model
         return $this->db->query($sql);
     }
 
+    //Запись количества товара в БД после его списания заявкой
+    public function saveNewQuantity($newquantity, $id)
+    {
+        if (!isset($newquantity) || !isset($id) )
+        {
+            return false;
+        }
+
+        $id = (int)$id;
+        $quantity = $this->db->escape($newquantity);
+
+        // Update existing record
+        $sql = "
+          update product
+            set quantity = '{$quantity}'
+              
+            where id_product = ($id)
+        ";
+
+        return $this->db->query($sql);
+    }
+
+
     //--- Работа с базой orders  ----- Извлечение заказоа usera
     public function getUsersOrder($id_costomer)
     {
@@ -98,34 +147,58 @@ class Basket extends Model
         return $this->db->query($sql);
     }
 
+    //--- Работа с базой users -----  Получение name пользователя по id
+    public function getUsersId($id_user)//по умолчанию все страницы +
+    {
+        $id = (int)$id_user;
+        $sql = "select name from users where id_user = '{$id}'";// запрос к базе данных
+
+        $result = $this->db->query($sql);
+
+        return isset($result[0]) ? $result[0] : null;
+    }
+
+    //--- Работа с базой orders по id ----- Для записи менеджера в Заказы
+    public function saveManager($data, $id = null)
+    {
+        if (!isset($data['manager']))
+        {
+            return false;
+        }
+
+        $id = (int)$id;
+        $manager = $this->db->escape($data['manager']);
+        if (!$id)
+        {
+            // Add new record
+            $sql = "
+              insert into orders
+                set manager_first = '{$manager}'
+            ";
+        }
+        else
+        {
+            // Update existing record
+            $sql = "
+              update orders
+                set manager_first = '{$manager}'
+                where id_orders = ($id)
+            ";
+        }
+        return $this->db->query($sql);
+    }
 
 
+    //--- Работа с базой provider ----- Поставщики
+    public function getProvider()//по умолчанию все страницы
+    {
+        $sql = "select * from provider where 1";// запрос к базе данных
+
+        return $this->db->query($sql);
+    }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-
-    //--- Работа с базой products ----- Товары Получение всей базы
+    //--- Работа с базой users ----- Пользователи Получение всей базы
     public function getUsers()//по умолчанию все страницы +
     {
         $sql = "select * from users where 1";// запрос к базе данных
@@ -133,108 +206,72 @@ class Basket extends Model
         return $this->db->query($sql);
     }
 
-    public function getByAlias($alias)
+    public function saveWrites($data, $id = null)
     {
-        $alias = $this->db->escape($alias);
-        $sql = "select * from pages where alias = '{$alias}' limit 1";
-        $result = $this->db->query($sql);
-        return isset($result[0]) ? $result[0] : null;
-    }
-
-    public function getById($id)
-    {
-        $id = (int)$id;
-        $sql = "select * from pages where id = '{$id}' limit 1";
-        $result = $this->db->query($sql);
-        return isset($result[0]) ? $result[0] : null;
-    }
-
-    public function getByCategory($category)
-    {
-        $category = $this->db->escape($category);
-        $sql = "select * from categories where category = '{$category}' limit 1";
-        $result = $this->db->query($sql);
-        return isset($result[0]) ? $result[0] : null;
-    }
-
-//--- Работа с базой messades ----- Ячейки каталока сообщений
-    public function getMessages()
-    {
-        $sql = "select * from messages where 1";// запрос к базе данных
-        return $this->db->query($sql);
-    }
-
-
-
-    public function delete($id)
-    {
-        $id = (int)$id;
-        $sql = "delete from pages where id = {$id}";
-        return $this->db->query($sql);//команда
-    }
-
-    /*
- * Определение id последней новости
-
-    public function getMax_5id()// страницы с или без категории
-    {
-
-        if (isset($category))//если заданна категория
+        if (!isset($data['id_order']) || !isset($data['manager']) || !isset($data['costomer']))
         {
-            $sql = "select id from pages where category='{$category}' ORDER BY id DESC LIMIT 5";// запрос к базе данных
+            return false;
+        }
+
+        $id = (int)$id;
+        $costomer = isset($data['costomer']) ? ($data['costomer']) : null;
+        $manager = $this->db->escape($data['manager']);
+        $id_order = $this->db->escape($data['id_order']);
+        $writed = $this->db->escape($data['writed']);
+        $date = isset($data['date']) ? $data['date'] : date('Y-m-d');
+        $amount = $this->db->escape($data['amount']);
+
+        if (!$id) {
+            // Add new record
+            $sql = "
+              insert into writes
+                set costomer = '{$costomer}',
+                    
+                    id_order = '{$id_order}',
+                    amount = '{$amount}',
+                    manager = '{$manager}',
+                    writed = '{$writed}'
+            ";
         } else {
-            $sql = "select id from pages ORDER BY id DESC LIMIT 5";// запрос к базе данных
+            // Update existing record
+            $sql = "
+              update writes
+                set costomer = '{$costomer}',
+                    write_date = '{$date}',
+                    id_order = '{$id_order}',
+                    amount = '{$amount}',
+                    manager = '{$manager}',
+                    writed = '{$writed}'
+                where id_write = ($id)
+            ";
         }
         return $this->db->query($sql);
     }
 
-    //---Работа с базой visit
-    public function getListStat()//по умолчанию все страницы
+    //--- Работа с базой orders ----- Удаление заказа
+    public function deleteApplications($id)
     {
-        $sql = "select * from visit where 1";// запрос к базе данных
-
-        return $this->db->query($sql);
+        $id = (int)$id;
+        $sql = "delete from orders where id_orders = {$id}";
+        return $this->db->query($sql);//команда
     }
 
-    //--- Работа с базой locations ----- Контактные данные
-    public function getLocation()//по умолчанию все страницы
+    //--- Работа с базой writes ----- Удаление списания
+    public function deleteWrites($id)
     {
-        $sql = "select * from locations where 1";// запрос к базе данных
-
-        return $this->db->query($sql);
+        $id = (int)$id;
+        $sql = "delete from writes where id_write = {$id}";
+        return $this->db->query($sql);//команда
     }
 
-    //--- Работа с базой shares ----- Акции
-    public function getShares()//по умолчанию все страницы
+    //--- Работа с базой writes по id ----- Для страницы редактирования списания
+    public function getByWritesId($writes_id)
     {
-        $sql = "select * from shares where 1";// запрос к базе данных
-
-        return $this->db->query($sql);
-    }
-
-
-
-    //--- Работа с базой catalog по id ----- Для Товаров id
-    public function getByCatalogId($category_id)
-    {
-        $id = (int)$category_id;
-        $sql = "select * from catalog where id_catalog = '{$id}' limit 1";
+        $id = (int)$writes_id;
+        $sql = "select * from writes where id_write = '{$id}' limit 1";
         $result = $this->db->query($sql);
 
         return isset($result[0]) ? $result[0] : null;
     }
-
-
-
-    /*--- Работа с базой products по views ----- Для нижней карусели
-          10 самых посещаемых товаров
-
-    public function getProductTop()
-    {
-        $sql = "select * from product order by views desc limit 10";
-
-        return $this->db->query($sql);
-    }
-*/
 }
 ?>

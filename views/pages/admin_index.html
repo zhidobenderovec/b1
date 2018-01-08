@@ -55,9 +55,25 @@
     </tr>
     <tr>
         <td><b>6</b></td>
-        <td><b>Заказы</b></td>
+        <td><b>Заказы / списания</b></td>
         <td align="right">
-            <a href="/admin/pages/edit/<?=$page_data['id']?>"><button class="btn btn-sm btn-primary">Открыть страницу</button></a>
+            <a href="/admin/baskets/"><button class="btn btn-sm btn-primary">Открыть страницу</button></a>
+        </td>
+        <td>
+            <?php
+                $quantity = 0;
+                foreach ($data['orders'] as $exsemplar_orders)
+                {
+                    if($exsemplar_orders['id_orders'] && !$exsemplar_orders['manager_first'])//Если есть сообщение и нет просмотра
+                    {
+                        $quantity++;
+                    }
+                }
+                if($quantity != 0 )//Если есть сообщение и нет просмотра
+                {
+                    echo " <font color=\"red\">$quantity непринятых заявок</font>";
+                }
+            ?>
         </td>
     </tr>
     <tr>
@@ -107,6 +123,6 @@
     </tr>
 </table>
 <div>
-    <a href="/admin/users/logout"><button class="btn btn-sm btn-success">Выход</button></a>
+    <a href="/admin/users/logout"><button class="btn btn-sm btn-success">Выход из учётной записи</button></a>
 </div>
 

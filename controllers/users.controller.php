@@ -19,6 +19,7 @@ class UsersController extends Controller
         {
             $user = $this->model->getByLogin($_POST['login']);//login!!!!!
             $hash = md5(Config::get('salt').$_POST['password']);
+
             if ($user && $user['is_active'] && $hash == $user['password'])//Проверка на наличие юзера, его активности и правильного пароля
             {
                 Session::set('login', $user['email']);//Наличие логина в сессие означает, что пользователь выполнил вход
@@ -72,6 +73,7 @@ class UsersController extends Controller
                 if ($_POST) {
                     $user = $this->model->getByLogin($_POST['email']);//login!!!!!
                     $hash = md5(Config::get('salt') . $_POST['pass']);
+
                     if ($user && $user['is_active'] && $hash == $user['password'])//Проверка на наличие юзера, его активности и правильного пароля
                     {
                         Session::set('login', $user['email']);//Наличие логина в сессие означает, что пользователь выполнил вход
@@ -80,6 +82,7 @@ class UsersController extends Controller
                         Session::set('id', $user['id_user']);
                         Session::set('city', $user['city']);
                         Session::set('phone', $user['phone']);
+
                     }
 
                     Router::redirect('/pages');//Было Router::redirect('/users/pages/');

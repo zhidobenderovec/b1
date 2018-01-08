@@ -1,0 +1,36 @@
+<h3>Заказы / списания</h3><br/>
+
+<table class="table table-striped" style="width: 950px;">
+
+    <tr>
+        <td><b>1</b></td>
+        <td><b>Заказы</b></td>
+        <td align="right">
+            <a href="/admin/baskets/applications/1"><button class="btn btn-sm btn-primary">Открыть страницу</button></a>
+        </td>
+        <td>
+            <?php
+                    $quantity = 0;
+                    foreach ($data['orders'] as $exsemplar_orders)
+                    {
+                        if($exsemplar_orders['id_orders'] && !$exsemplar_orders['manager_first'])//Если есть сообщение и нет просмотра
+                        {
+                            $quantity++;
+                        }
+                    }
+                    if($quantity != 0 )//Если есть сообщение и нет просмотра
+                    {
+                        echo " <font color=\"red\">$quantity непринятых заявок</font>";
+            }
+            ?>
+        </td>
+    </tr>
+    <tr>
+        <td><b>2</b></td>
+        <td><b>Списания</b></td>
+        <td align="right">
+            <a href="/admin/baskets/writes/1"><button class="btn btn-sm btn-primary">Открыть страницу</button></a>
+        </td>
+    </tr>
+
+</table>

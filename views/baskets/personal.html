@@ -95,8 +95,8 @@
     <?php
             $number=0;//индекс цикла обнуляем,
             $max_number = 5;//5 циклов-сообщений на страницу
-
-        foreach ($data['users_order'] as $order)
+        $reversed_table = array_reverse($data['users_order']);
+        foreach ($reversed_table as $order)
         {
             if (($number < ($max_number * $page_number))&&($number >= ($max_number *($page_number-1))))//Проверка на диапазон страниц - пагинация
             {

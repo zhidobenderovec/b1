@@ -1,0 +1,125 @@
+
+Привет!
+<?php
+    //Создание excel-файла
+    $phpexcel = new PHPExcel(); // Создаём объект PHPExcel
+
+
+/* Каждый раз делаем активной 1-ю страницу и получаем её, потом записываем в неё данные */
+    $page = $phpexcel->setActiveSheetIndex(0); // Делаем активной первую страницу и получаем её
+
+       $table = $data['order'];
+        $namber = $table['id_orders'];
+        $date = $table['order_date'];
+        $amount = $table['amount'];
+        $costomer = $table['costomer'];
+        $city = $table['city'];
+        $phone = $table['phone'];
+        $email = $table['email'];
+    $page->setCellValue("B1", "Заказ № $namber от  $date  на сумму $amount грн."); // Добавляем в ячейку A1 данные заказа
+    $page->setCellValue("B2", "Заказчик: $costomer из города:  $city."); // Добавляем в ячейку A2 данные заказчика
+    $page->setCellValue("B3", "Телефон: $phone email:  $email ."); // Добавляем в ячейку A3 данные заказчика
+
+// Отображение Товара в сделаном заказе
+
+$string_product[0][0] = 0;//Объявление массива для записи в Excel
+$line = 5;//Установка начальной строки
+
+//Цикл перебора поставщиков
+$provider_product = $data['provider'];
+foreach ($provider_product  as $provider)//
+{
+    $name_provider = $provider['name_provider'];
+    $phone = $provider['phone_provider'];
+    $person = $provider['person'];
+
+    $line_provider = $line;//Определение строчки для объявления поставщика
+
+
+    //Цикл прогона заявки
+    $ordered = unserialize($table['ordered']);
+    foreach ($ordered as $key => $value)//
+    {
+        //Цикл пербора продуктов
+        $product = $data['product'];
+        foreach ($product as $exemplar_product)
+        {
+            //Если код товара есть в ключе и продукт текущего поставщика
+            if(($exemplar_product['id_product'] == $key) && ($exemplar_product['id_provider'] == $provider['id_provider']))
+            {
+                if ($line_provider == $line)
+                {
+                    $string_product['B'][$line] = "Поставщик: $name_provider, контакт: $person, тел.: $phone";
+
+                    $line = $line + 1;
+                    //Шапка таблицы
+                    $string_product['A'][$line] = "ID в БД";
+                    $string_product['B'][$line] = "Наименование";
+                    $string_product['C'][$line] = "Код товара";
+                    $string_product['D'][$line] = "Количество";
+                    $string_product['E'][$line] = "Цена, грн";
+                    $string_product['F'][$line] = "Всего, грн";
+
+                }
+                $line = $line + 1;//Переход к новой строчке
+                $total = $exemplar_product['price'] * $value;//расчет стоимости за позицию
+
+                $string_product['A'][$line] = $exemplar_product['id_product'];
+                $string_product['B'][$line] = $exemplar_product['name_product'];
+                $string_product['C'][$line] = $exemplar_product['code'];
+                $string_product['D'][$line] = $value;
+                $string_product['E'][$line] = $exemplar_product['price'];
+                $string_product['F'][$line] = $total;
+            }
+        }
+    }
+    //Переход к новой таблице поставщика
+    if ($line_provider != $line)
+    {
+        $line += 2;
+    }
+}
+
+//Цикл записи в таблицу Excel
+for ($line = 5; $line <= 100; $line++)
+{
+    $A = $string_product['A'][$line];
+    $B = $string_product['B'][$line];
+    $C = $string_product['C'][$line];
+    $D = $string_product['D'][$line];
+    $E = $string_product['E'][$line];
+    $F = $string_product['F'][$line];
+
+    $page->setCellValue("A$line", "$A");
+    $page->setCellValue("B$line", "$B");
+    $page->setCellValue("C$line", "$C");
+    $page->setCellValue("D$line", "$D");
+    $page->setCellValue("E$line", "$E");
+    $page->setCellValue("F$line", "$F");
+}
+
+    //$page->setCellValue("A1", "Hello, ВСЕ-ВСЕ!"); // Добавляем в ячейку A1 слово "Hello"
+    //$page->setCellValue("A2", "World! Это я!!!!"); // Добавляем в ячейку A2 слово "World!"
+    //$page->setCellValue("B1", "tradebenefit.ru"); // Добавляем в ячейку B1 слово "tradebenefit.ru"
+    //$page->setCellValue("B2", "MyFirstPage"); // А в ячейку B2 слова "MyFirstPage"
+    $page->setTitle("Заказ"); // Заголовок делаем "Заказ"
+/* Начинаем готовиться к записи информации в xlsx-файл */
+    $objWriter = PHPExcel_IOFactory::createWriter($phpexcel, 'Excel2007');
+/* Записываем в файл */
+    $objWriter->save("order.xlsx");
+?>
+
+<?php //Создание архива
+    $rar = new store_rar; // Создаём объект PHPrar
+    $rar->create("order.rar"); // создаём архив
+    $rar->addFile("order.xlsx");      // пишем в него файл order.xlsx
+?>
+
+<?php //Передача архива пользователю
+    $file = 'order.rar';
+    header('Content-Type: application/octet-stream; charset=utf-8');
+    header('Content-Disposition: attachment; filename="archive_order.rar"');
+    readfile($file);
+    exit;
+?>
+Ghbdtn

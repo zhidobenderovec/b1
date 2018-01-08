@@ -3,6 +3,10 @@
 
 require_once (ROOT.DS.'config'.DS.'config.php');
 
+//----Подключаем файл работы с Excel ----
+require_once (ROOT.DS.'Classes'.DS.'PHPExcel.php'); // Подключаем библиотеку PHPExcel
+//----Подключаем файл работы с Excel ----
+require_once (ROOT.DS.'Rembish'.DS.'PHPrar.php'); // Подключаем библиотеку PHPrar (создание rar-архива)
 //----Правила наименования файлов----
 function __autoload($class_name)
 {

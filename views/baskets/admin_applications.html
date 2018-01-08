@@ -1,0 +1,235 @@
+<h3>Заказы</h3>
+<?php
+    $page_number = $data['applications_num']; // Номер просматриваемой страницы
+
+    /*
+    $costomer_name = $data['costomer_name'];//для фильтра по заказчику
+    $sity_number = $data['sity_num'];//для фильтра по городу
+    $price_number = $data['price_num'];//для фильтра по направлению цен
+    $manager_number = $data['manager_num'];//для фильтра по менеджеру
+    $closed_number = $data['closed_num'];//для фильтра по статусу
+    */
+
+//--------------------------------------------------------------
+//Вывод параметров url запросов. После отладки - удалить!!
+    //echo (" page "). ($page_number);
+
+    //echo (" directory ").($directory_number);
+    //echo (" subdirectory ").($subdirectory_number);
+    //echo (" brend ").($brend_number);
+    //echo (" provider ").($provider_number);
+    //echo (" direction ").($direction_number);
+//-----------------------------------------------------------------
+
+
+
+?>
+<div>
+    <!--a href="/admin/deleteexcel/"><button class="btn btn-sm btn-success" title="Введите новую заявку вручную">Создать новую заявку</button></a>
+    <a href="/admin/deleteexcel/"><button class="btn btn-sm btn-success" title="Загрузить Excel-файл с новой заявкой">Загрузить сновую заявку</button></a-->
+</div>
+<br/>
+<!--  Для страниц Товаров!!! -->
+
+<table class="table table-bordered table-striped" style="width: 950px;">
+    <thed>
+        <th bgcolor="#6495ed" style="width: 5%; text-align: center">ID заказа</th>
+        <th bgcolor="#6495ed" style="width: 20%; text-align: center">Заказчик</th>
+        <th bgcolor="#6495ed" style="width: 15%; text-align: center">Город</th>
+        <th bgcolor="#6495ed" style="width: 15%; text-align: center">Дата</th>
+        <th bgcolor="#6495ed" style="width: 10%; text-align: center">Сумма, грн</th>
+        <th bgcolor="#6495ed" style="width: 5%; text-align: center">ID списания</th>
+        <th bgcolor="#6495ed" style="width: 15%; text-align: center">Менеджер</th>
+        <th bgcolor="#6495ed" style="width: 5%; text-align: center">Смотреть</th>
+        <th bgcolor="#6495ed" style="width: 5%; text-align: center">Списать</th>
+        <th bgcolor="#6495ed" style="width: 5%; text-align: center">Удалить</th>
+    </thed>
+
+    <tbody>
+    <tr>
+        <td bgcolor="orange"><b> </b></td>
+        <td bgcolor="orange"><b> </b></td>
+        <td bgcolor="orange"><b> </b></td>
+        <td bgcolor="orange"><b> </b></td>
+        <td bgcolor="orange"><b> </b></td>
+        <td bgcolor="orange"><b> </b></td>
+        <td bgcolor="orange"><b> </b></td>
+        <td bgcolor="orange"><b> </b></td>
+        <td bgcolor="orange"><b> </b></td>
+        <td bgcolor="orange"><b> </b></td>
+    </tr>
+
+        <!-- Заполнение полей таблицы -->
+<?php
+    $reversed_table = array_reverse($data['orders']);
+    $number=0;//индекс цикла обнуляем,
+    $max_number = 10;//20 циклов-заказов на страницу
+    foreach($reversed_table as $reversed_orders)
+    {
+        if (($number < ($max_number * $page_number))&&($number >= ($max_number *($page_number-1))))//Проверка на диапазон страниц - пагинация
+        {
+        ?>
+            <tr>
+                <td><b><?=$reversed_orders['id_orders']?></b></td>
+                <td><b><?=$reversed_orders['costomer']?></b></td>
+                <td><b><?=$reversed_orders['city']?></b></td>
+                <td><b><?=$reversed_orders['order_date']?></b></td>
+                <td style="text-align: center"><b><?=$reversed_orders['amount']?></b></td>
+
+                <td style="text-align: center"><b>
+                    <?php
+
+                        foreach ($data['writes'] as $writes)
+                        {
+                            if($reversed_orders['id_orders'] == $writes['id_order'])
+                            {
+                            ?>
+                                <?=$writes['id_write']?>
+                            <?php
+                            }
+                        }
+
+                    ?>
+                    </b>
+                </td>
+                <td style="text-align: center"><b>
+                    <?php
+                        if($reversed_orders['manager_first'])
+                        {
+                            foreach ($data['users'] as $manager)
+                            {
+                                if($reversed_orders['manager_first'] == $manager['id_user'])
+                                {
+                                ?>
+                                    <?=$manager['name']?>
+                                <?php
+                                }
+                            }
+                        }
+                    ?>
+                    </b>
+                </td>
+
+                <td align="center">
+                    <a href="/admin/baskets/look/<?=$reversed_orders['id_orders']?>"><button class="btn btn-sm btn-primary">Смот</button></a>
+                </td>
+                <td align="center">
+                    <!--Проверка наличия списания-->
+                    <?php
+                        //Объявления маячка номера списания
+                        $write_beacon = 0;
+                        foreach ($data['writes'] as $writes)
+                        {
+                            if($reversed_orders['id_orders'] == $writes['id_order'])
+                            {
+                                $write_beacon = 1;
+                            }
+                        }
+                        if($write_beacon == 0)
+                        {
+                        ?>
+                            <a href="/admin/baskets/consumption/<?=$reversed_orders['id_orders']?>"><button class="btn btn-sm btn-primary">Спис</button></a>
+                        <?php
+                        }
+                    ?>
+                </td>
+                <td align="center">
+                    <a href="/admin/baskets/deleteapplications/<?=$reversed_orders['id_orders']?>" onclick="return confirmDelete();"><button class="btn btn-sm btn-warning">Удал</button></a>
+                </td>
+            </tr>
+        <?php
+        }
+        $number++;
+    }
+?>
+    </tbody>
+</table>
+
+   <!-- Постраничная навигация!!!!!Пагинация!!------>
+<div align="center">
+    <ul class="pagination">
+        <?php
+            if ($page_number < $number)
+            {
+                $page_next = $page_number+1;
+            }
+            else
+            {
+                $page_next = $number;
+            }
+            //Отработка уменьшения страницы
+            if ($page_number > 1)
+            {
+                $page_previous = $page_number-1;
+            }
+            else
+            {
+                $page_previous = 1;
+            }
+            if ($page_number != 1)
+            {
+        ?>
+                <li><a href="/admin/baskets/applications/1/"><?=1?></a></li>
+                <li><a href="/admin/baskets/applications/<?=$page_previous?>/">&laquo;</a></li>
+        <?php
+            }
+            //Определения максимальноя страницы
+            if ( $number % $max_number)
+            {
+                $number = ($number-($number % $max_number)) / $max_number + 1;
+            }
+            else
+            {
+                $number = ($number / $max_number);
+            }
+        ?>
+        <!--Пагинация на текущей странице -->
+
+                <li class="dropdown dropup">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><u><?=$page_number?></u></a>
+            <ul class="dropdown-menu">
+                <?php //Цикл выпадающено списка
+                        for ( $j = 1 ; $j <= $number ; $j++)
+                        { ?>
+                <li><a href="/admin/baskets/applications/<?=$j?>/"><?=$j?></a></li>
+                <?php
+                        }
+                    ?>
+            </ul>
+        </li>
+        <?php
+            if ($page_number != $number)
+            {
+        ?>
+        <?php //Отработка увеличения страницы
+                if ($page_number < $number)
+                {
+                    $page_next = $page_number+1;
+                }
+                else
+                {
+                    $page_next = $number;
+                }
+        ?>
+        <li><a href="/admin/baskets/applications/<?=$page_next?>/">&raquo;</a></li>
+        <li><a href="/admin/baskets/applications/<?=$number?>/"><?=$number?></a></li>
+
+        <?php
+            }
+        ?>
+    </ul>
+</div>
+
+
+<div class="container" style="margin-top: 15px">
+    <div class="col-sm-4">
+    </div>
+    <div class="col-sm-4">
+        <div>
+            <p><a onclick="javascript:history.back(); return false;"><button class="btn btn-primary btn-block">Вернуться назад</button></a></p>
+        </div>
+    </div>
+    <div class="col-sm-4">
+    </div>
+    </br>
+</div>
